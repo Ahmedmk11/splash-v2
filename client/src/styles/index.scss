@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'Platypi-Medium';
+    src: url('./../assets/fonts/Platypi-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('./../assets/fonts/Lato-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: url('./../assets/fonts/Lato-Light.ttf');
+}
+
+$dark-font: rgba(0, 0, 0, 0.8);
+$light-font: rgba(255, 255, 255, 0.8);
+
+:root {
+    font-family: Lato-Bold, Inter, system-ui, Avenir, Helvetica, Arial,
+        sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    height: 100%;
+
+    color-scheme: light dark;
+    color: #e8ede7;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    // background-image: linear-gradient(
+    //     to left,
+    //     #8d00d1,
+    //     #8d03d3,
+    //     #8d06d5,
+    //     #8c0ad7,
+    //     #8c0dd9,
+    //     #8b0edd,
+    //     #8a0fe0,
+    //     #8910e4,
+    //     #8710eb,
+    //     #8410f1,
+    //     #8111f8,
+    //     #7d12ff
+    // );
+    background-color: #281f2f;
+
+    background-color: #a48e65;
+    background-color: #3b444b;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+h1,
+h2,
+h3 {
+    font-family: Platypi-Medium;
+    margin: 12px;
+}
+h1 {
+    font-size: 58px;
+}
+h3 {
+    font-size: 26px;
+}
+h4 {
+    font-size: 25px;
+}
+p {
+    font-size: 18px;
+    margin: 12px;
+}
+a {
+    text-decoration: none;
+    color: #fff;
+    &:hover {
+        color: #8ab7bb;
+        text-decoration: underline;
+    }
+}
