@@ -9,10 +9,6 @@ const customerSchema = new mongoose.Schema(
         last_name: {
             type: String,
         },
-        email: {
-            type: String,
-            unique: true,
-        },
         phone_number: {
             type: String,
             unique: true,
@@ -28,10 +24,6 @@ const customerSchema = new mongoose.Schema(
         },
         address: {
             type: String,
-        },
-        email_verified: {
-            type: Boolean,
-            default: false,
         },
         phone_verified: {
             type: Boolean,
