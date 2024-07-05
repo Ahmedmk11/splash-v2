@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
 
+import Layout from '../Layout.tsx'
+
 const Login = () => {
     return (
-        <div>
-            <h1>Login Page</h1>
-        </div>
+        <>
+            <Layout>
+                <div id="login-page">
+                    <h1>Login</h1>
+                </div>
+            </Layout>
+        </>
     )
 }
 

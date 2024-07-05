@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import RouteSwitch from './RouteSwitch'
 
 import './styles/index.scss'
+import './styles/pages.scss'
+import './styles/components.scss'
 
 const rootElement = document.getElementById('root')
 
