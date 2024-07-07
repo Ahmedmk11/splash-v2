@@ -26,20 +26,57 @@
     grid-area: interiordesign;
 }
 
-#home-categories {
-    width: 90%;
-    box-sizing: border-box;
+#home-page {
+    width: 100%;
     padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#home-carousel {
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+    }
+}
+
+#home-bottom {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+// #about {
+//     padding: 20px;
+//     width: 50%;
+//     height: fit-content;
+//     display: flex;
+//     flex-direction: column;
+//     background-color: #f0f0f0;
+// }
+
+#home-categories {
+    align-self: end;
+    width: 100%;
     display: grid;
-    grid-gap: 8px;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(5, 500px);
+    grid-gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 250px);
     grid-template-areas:
-        'livingrooms livingrooms'
-        'bedrooms diningrooms'
-        'bedrooms tvunits'
-        'dressings receptions'
-        'interiordesign interiordesign';
+        'bedrooms diningrooms livingrooms livingrooms'
+        'bedrooms tvunits interiordesign interiordesign'
+        'dressings receptions interiordesign interiordesign';
 }
 
 .home-category-item {

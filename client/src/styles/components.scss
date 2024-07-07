@@ -2,7 +2,6 @@
     box-sizing: border-box;
     width: 100%;
     height: 50px;
-    border-radius: 5px;
     border-bottom: 1px solid #e8ede7;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
@@ -32,4 +31,11 @@
             text-decoration: underline;
         }
     }
+}
+
+#footer-component {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 300px;
+    border-top: 1px solid #e8ede7;
 }

@@ -1,12 +1,12 @@
 import Header from './components/Header'
-// import Footer from "./components/Footer"
+import FooterComponent from './components/FooterComponent'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Header />
             {children}
-            {/* <Footer /> */}
+            <FooterComponent />
         </>
     )
 }
