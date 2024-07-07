@@ -46,19 +46,7 @@ const RouteSwitch = () => {
         <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/forbidden-access" element={<Forbidden />} />
-
-            {/* ---------------------------------------------------- */}
-            {/* Authenticated */}
-            {/* ---------------------------------------------------- */}
-
-            <Route
-                path="/"
-                element={
-                    <UserGuard isAuthenticated={isAuthenticated}>
-                        <Home />
-                    </UserGuard>
-                }
-            />
+            <Route path="/" element={<Home />} />
 
             {/* ---------------------------------------------------- */}
             {/* Not Authenticated */}
