@@ -142,7 +142,12 @@ const Header = () => {
                     </span>
                 </div>
                 <div className="header-item">
-                    <span className="underline-hover">
+                    <span
+                        className="underline-hover"
+                        onClick={() => {
+                            navigate('/login')
+                        }}
+                    >
                         <UserOutlined className="icon" />
                         <h4>Login</h4>
                     </span>

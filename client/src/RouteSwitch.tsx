@@ -24,6 +24,7 @@ import {
     AdminGuard,
     SuperAdminGuard,
 } from './Guards.tsx'
+import SignUp from './pages/SignUp.tsx'
 
 const RouteSwitch = () => {
     const location = useLocation()
@@ -73,6 +74,15 @@ const RouteSwitch = () => {
                 element={
                     <LoginGuard isAuthenticated={isAuthenticated}>
                         <Login />
+                    </LoginGuard>
+                }
+            />
+
+            <Route
+                path="/sign-up"
+                element={
+                    <LoginGuard isAuthenticated={isAuthenticated}>
+                        <SignUp />
                     </LoginGuard>
                 }
             />

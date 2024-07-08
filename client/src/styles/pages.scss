@@ -116,3 +116,31 @@
 .home-category-item:hover h2 {
     opacity: 1;
 }
+
+#login-page,
+#signup-page {
+    padding: 20px;
+    box-sizing: border-box;
+
+    a:hover {
+        color: rgba(42, 42, 42);
+    }
+}
+
+#login-page h1,
+#signup-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login-page .ant-form-item,
+#signup-page .ant-form-item {
+    margin-bottom: 20px;
+}
+
+#login-page .ant-form-item-control-input-content,
+#signup-page .ant-form-item-control-input-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -29,6 +29,10 @@ const customerSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        subscribed: {
+            type: Boolean,
+            default: false,
+        },
         cart: [
             {
                 product: {

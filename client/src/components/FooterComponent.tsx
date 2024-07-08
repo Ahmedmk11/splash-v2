@@ -44,6 +44,7 @@ const FooterComponent = () => {
                     backgroundColor: '#f0f0f0',
                     width: '100%',
                     padding: '50px',
+                    paddingBottom: '80px',
                     boxSizing: 'border-box',
                 }}
             >

@@ -4,7 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import cookieParser from 'cookie-parser'
 
-import userRoutes from './routes/userRoutes.js'
+import customerRoutes from './routes/customerRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 
 import { connectToDatabase } from './database.js'
@@ -25,7 +25,7 @@ app.use(
 )
 app.use(cookieParser())
 
-app.use('/user', userRoutes)
+app.use('/user', customerRoutes)
 app.use('/auth', authRoutes)
 
 app.listen(port, () => {

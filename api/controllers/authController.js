@@ -91,6 +91,7 @@ async function logout(req, res) {
 
 async function registerCustomer(req, res) {
     try {
+        console.log(req.body)
         const customer = await CustomerModel.findOne({
             phone_number: req.body.phone_number,
         })
