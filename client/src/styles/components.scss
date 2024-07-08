@@ -39,3 +39,99 @@
     min-height: 300px;
     border-top: 1px solid #e8ede7;
 }
+
+.footer-component {
+    padding: 20px;
+    height: 100%;
+}
+
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    a {
+        color: black;
+        &:hover {
+            text-decoration: underline;
+            color: rgba(42, 42, 42);
+        }
+    }
+}
+
+.footer-col {
+    flex: 1 1 25%;
+}
+
+.footer-col h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: rgba(42, 42, 42);
+}
+
+.footer-col h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.footer-col p {
+    margin: 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icon {
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0px 20px;
+}
+
+.language-switch {
+    border-radius: 0;
+    height: 50px;
+    min-width: 130px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.zoom-effect-container {
+    overflow: hidden; /* Ensure no overflow */
+    position: relative;
+    width: 100%; /* Ensure the container takes the full width */
+    height: 0;
+    padding-top: 75%; /* Maintain aspect ratio (4:3 in this case) */
+}
+
+.zoom-effect-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+    object-fit: cover;
+}
+
+.zoom-effect-container:hover .zoom-effect-image {
+    transform: scale(1.3);
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -o-transform: scale(1.3);
+}

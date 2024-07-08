@@ -31,6 +31,7 @@ const Home = () => {
                     <img src={tvunitImage} alt="TV Unit" />
                     <img src={dressingImage} alt="Dressing" />
                     <img src={receptionImage} alt="Reception" />
+                    <img src={interiorImage} alt="Interior" />
                 </Carousel>
                 <div id="home-bottom">
                     <div id="home-categories">

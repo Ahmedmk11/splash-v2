@@ -11,6 +11,7 @@ const { Footer } = Layout
 
 const FooterComponent = () => {
     const [language, setLanguage] = useState('English')
+    const currYear = new Date().getFullYear()
 
     const handleMenuClick = (e: any) => {
         setLanguage(e.key)
@@ -27,15 +28,29 @@ const FooterComponent = () => {
         </Menu>
     )
     return (
-        <Footer
+        <div
             id="footer-component"
-            style={{ padding: '40px', backgroundColor: '#f0f0f0' }}
+            style={{
+                color: 'rgba(42, 42, 42)',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'stretch',
+            }}
         >
-            <Row gutter={[32, 32]}>
-                <Col xs={24} md={6}>
+            <div
+                className="footer-top"
+                style={{
+                    backgroundColor: '#f0f0f0',
+                    width: '100%',
+                    padding: '50px',
+                    boxSizing: 'border-box',
+                }}
+            >
+                <div className="footer-col">
                     <h1>Splash</h1>
-                </Col>
-                <Col xs={24} md={6}>
+                </div>
+                <div className="footer-col">
                     <h2>Policies & Terms</h2>
                     <Divider />
                     <p>
@@ -45,8 +60,8 @@ const FooterComponent = () => {
                         <br />
                         <a href="/return-policy">Return Policy</a>
                     </p>
-                </Col>
-                <Col xs={24} md={6}>
+                </div>
+                <div className="footer-col">
                     <h2>Contact</h2>
                     <Divider />
                     <p>
@@ -54,23 +69,13 @@ const FooterComponent = () => {
                         <br />
                         <a href="/contact">Contact Us</a>
                     </p>
-                </Col>
-                <Col xs={24} md={6}>
+                </div>
+                <div className="footer-col">
                     <h2>Follow Us</h2>
                     <Divider />
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: '20px',
-                        }}
-                    >
+                    <div className="social-icons">
                         <FacebookOutlined
-                            style={{
-                                fontSize: '32px',
-                                cursor: 'pointer',
-                            }}
+                            className="social-icon"
                             onClick={() => {
                                 window.open(
                                     'https://www.facebook.com/profile.php?id=100086553070056',
@@ -79,10 +84,7 @@ const FooterComponent = () => {
                             }}
                         />
                         <InstagramOutlined
-                            style={{
-                                fontSize: '32px',
-                                cursor: 'pointer',
-                            }}
+                            className="social-icon"
                             onClick={() => {
                                 window.open(
                                     'https://www.instagram.com/a_splashfurniture/',
@@ -91,10 +93,7 @@ const FooterComponent = () => {
                             }}
                         />
                         <WhatsAppOutlined
-                            style={{
-                                fontSize: '32px',
-                                cursor: 'pointer',
-                            }}
+                            className="social-icon"
                             onClick={() => {
                                 window.open(
                                     'https://wa.me/+201221045135',
@@ -103,30 +102,33 @@ const FooterComponent = () => {
                             }}
                         />
                     </div>
-                </Col>
-            </Row>
-            <Row
-                justify="space-between"
-                align="middle"
-                style={{ marginTop: '100px' }}
+                </div>
+            </div>
+            <div
+                className="footer-bottom"
+                style={{
+                    backgroundColor: '#fff',
+                    width: '100%',
+                    padding: '8px 16px',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
             >
-                <Col>
-                    <p>&copy; 2024 Splash. All rights reserved.</p>
-                </Col>
-                <Col>
-                    <Dropdown
-                        overlay={menu}
-                        trigger={['click']}
-                        placement="bottomCenter"
-                    >
-                        <Button style={{ borderRadius: 0 }}>
-                            <GlobalOutlined />
-                            {language} <DownOutlined />
-                        </Button>
-                    </Dropdown>{' '}
-                </Col>
-            </Row>
-        </Footer>
+                <p>&copy; {currYear} Splash. All rights reserved.</p>
+                <Dropdown
+                    overlay={menu}
+                    trigger={['click']}
+                    placement="bottomCenter"
+                >
+                    <Button className="language-switch">
+                        <GlobalOutlined />
+                        {language} <DownOutlined />
+                    </Button>
+                </Dropdown>
+            </div>
+        </div>
     )
 }
 
