@@ -1,20 +1,94 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Input, Dropdown, Menu } from 'antd'
+import { Input, Dropdown, Menu, Space } from 'antd'
 import {
     AppstoreOutlined,
     HeartOutlined,
     SearchOutlined,
     ShoppingCartOutlined,
     UserOutlined,
+    LogoutOutlined,
+    SettingOutlined,
+    ControlOutlined,
 } from '@ant-design/icons'
 
 import CurrUserContext from '../CurrUserContext'
 
+import type { MenuProps } from 'antd'
+import axiosApi from '../utils/axiosApi'
+
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
+
+    const items: MenuProps['items'] = [
+        {
+            label: 'Account',
+            key: '0',
+            icon: <UserOutlined />,
+            onClick: () => {
+                navigate('/account')
+            },
+        },
+        (currUser?.user.type && currUser?.user.type === 'Admin') ||
+        currUser?.user.type === 'Super Admin'
+            ? {
+                  label: 'Admin Dashboard',
+                  key: '1',
+                  icon: <SettingOutlined />,
+                  onClick: () => {
+                      navigate('/admin-dashboard')
+                  },
+              }
+            : null,
+        currUser?.user.type && currUser?.user.type === 'Super Admin'
+            ? {
+                  label: 'Super Admin Dashboard',
+                  key: '2',
+                  icon: <ControlOutlined />,
+                  onClick: () => {
+                      navigate('/super-admin-dashboard')
+                  },
+              }
+            : null,
+        {
+            type: 'divider',
+        },
+        {
+            label: 'Logout',
+            icon: <LogoutOutlined />,
+            danger: true,
+            key: '10',
+            onClick: async () => {
+                await axiosApi.post('/auth/logout')
+                setCurrUser(null)
+                navigate('/')
+            },
+        },
+        {
+            label: `${currUser?.user.email_address}`,
+            key: '20',
+            disabled: true,
+            style: {
+                cursor: 'text',
+                color: 'rgba(0, 0, 0, 0.65)',
+                fontSize: 12,
+                paddingBottom: 0,
+            },
+        },
+        {
+            label: `${currUser?.user.type ? currUser?.user.type : 'Customer'}`,
+            key: '30',
+            disabled: true,
+            style: {
+                cursor: 'text',
+                color: 'rgba(0, 0, 0, 0.65)',
+                fontSize: 10,
+                paddingTop: 0,
+            },
+        },
+    ]
 
     const handleMenuClick = (e: any) => {
         navigate(`/${e.key.toLowerCase().replace(' ', '-')}`)
@@ -145,19 +219,34 @@ const Header = () => {
                     </span>
                 </div>
                 <div className="header-item">
-                    <span
-                        className="underline-hover"
-                        onClick={() => {
-                            if (currUser) {
-                                navigate('/account')
-                            } else {
+                    {currUser ? (
+                        <Dropdown
+                            menu={{ items }}
+                            trigger={['click']}
+                            overlayStyle={{
+                                width: 250,
+                            }}
+                        >
+                            <span className="underline-hover">
+                                <Space>
+                                    <UserOutlined className="icon" />
+                                </Space>
+                                <h4>{currUser.user.first_name}</h4>
+                            </span>
+                        </Dropdown>
+                    ) : (
+                        <span
+                            className="underline-hover"
+                            onClick={() => {
                                 navigate('/login')
-                            }
-                        }}
-                    >
-                        <UserOutlined className="icon" />
-                        <h4>{currUser ? currUser.user.first_name : 'Login'}</h4>
-                    </span>
+                            }}
+                        >
+                            <Space>
+                                <UserOutlined className="icon" />
+                            </Space>
+                            <h4>Login</h4>
+                        </span>
+                    )}
                 </div>
             </div>
         </>

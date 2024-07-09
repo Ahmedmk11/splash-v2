@@ -9,11 +9,11 @@ interface GuardInterface {
 
 const AdminGuard = ({ isAuthenticated, type, children }: GuardInterface) => {
     if (isAuthenticated != null || type != null) {
-        if (isAuthenticated && type === 'Admin') {
+        if ((isAuthenticated && type === 'Admin') || type === 'Super Admin') {
             return children
         } else if (!isAuthenticated) {
             return <Navigate to="/login" />
-        } else if (type !== 'Admin') {
+        } else if (type !== 'Admin' && type !== 'Super Admin') {
             return <Navigate to="/forbidden-access" />
         }
     }

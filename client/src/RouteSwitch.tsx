@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-
-import axiosApi from './utils/axiosApi'
+import React, { useContext } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
 import Login from './pages/Login.tsx'
 import NotFound from './pages/NotFound.tsx'
@@ -67,7 +65,7 @@ const RouteSwitch = () => {
             {/* ---------------------------------------------------- */}
 
             <Route
-                path="/admin"
+                path="/admin-dashboard"
                 element={
                     <AdminGuard
                         isAuthenticated={isAuthenticated}
@@ -83,7 +81,7 @@ const RouteSwitch = () => {
             {/* ---------------------------------------------------- */}
 
             <Route
-                path="/super-admin"
+                path="/super-admin-dashboard"
                 element={
                     <SuperAdminGuard
                         isAuthenticated={isAuthenticated}
