@@ -117,7 +117,13 @@ const FooterComponent = () => {
                     alignItems: 'center',
                 }}
             >
-                <p>&copy; {currYear} Splash. All rights reserved.</p>
+                <p
+                    style={{
+                        fontSize: 12,
+                    }}
+                >
+                    &copy; {currYear} Splash. All rights reserved.
+                </p>
                 <Dropdown
                     overlay={menu}
                     trigger={['click']}

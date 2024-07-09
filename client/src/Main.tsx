@@ -5,6 +5,8 @@ import RouteSwitch from './RouteSwitch'
 
 import { ConfigProvider } from 'antd'
 
+import { CurrUserProvider } from './CurrUserContext'
+
 import './styles/index.scss'
 import './styles/pages.scss'
 import './styles/components.scss'
@@ -15,16 +17,18 @@ if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
         <React.StrictMode>
             <BrowserRouter>
-                <ConfigProvider
-                    theme={{
-                        token: {
-                            colorPrimary: 'rgba(42, 42, 42, 0.1)',
-                            borderRadius: 0,
-                        },
-                    }}
-                >
-                    <RouteSwitch />
-                </ConfigProvider>
+                <CurrUserProvider>
+                    <ConfigProvider
+                        theme={{
+                            token: {
+                                colorPrimary: 'rgba(42, 42, 42, 0.1)',
+                                borderRadius: 0,
+                            },
+                        }}
+                    >
+                        <RouteSwitch />
+                    </ConfigProvider>
+                </CurrUserProvider>
             </BrowserRouter>
         </React.StrictMode>
     )

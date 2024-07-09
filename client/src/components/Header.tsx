@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Input, Dropdown, Menu } from 'antd'
@@ -10,8 +10,11 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 
+import CurrUserContext from '../CurrUserContext'
+
 const Header = () => {
     const navigate = useNavigate()
+    const { currUser, setCurrUser } = useContext(CurrUserContext)
 
     const handleMenuClick = (e: any) => {
         navigate(`/${e.key.toLowerCase().replace(' ', '-')}`)
@@ -145,11 +148,15 @@ const Header = () => {
                     <span
                         className="underline-hover"
                         onClick={() => {
-                            navigate('/login')
+                            if (currUser) {
+                                navigate('/account')
+                            } else {
+                                navigate('/login')
+                            }
                         }}
                     >
                         <UserOutlined className="icon" />
-                        <h4>Login</h4>
+                        <h4>{currUser ? currUser.user.first_name : 'Login'}</h4>
                     </span>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 
 import axiosApi from './utils/axiosApi'
@@ -18,38 +18,13 @@ import Dressings from './pages/categories/Dressings.tsx'
 import Receptions from './pages/categories/Receptions.tsx'
 import InteriorDesign from './pages/categories/InteriorDesign.tsx'
 
-import {
-    UserGuard,
-    LoginGuard,
-    AdminGuard,
-    SuperAdminGuard,
-} from './Guards.tsx'
+import { LoginGuard, AdminGuard, SuperAdminGuard } from './Guards.tsx'
 import SignUp from './pages/SignUp.tsx'
 
-const RouteSwitch = () => {
-    const location = useLocation()
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
-    const [adminType, setAdminType] = useState<string | null>(null)
+import CurrUserContext from './CurrUserContext.tsx'
 
-    useEffect(() => {
-        axiosApi
-            .get('/auth/get-curr-session')
-            .then((res: any) => {
-                if (res.data.tokenData) {
-                    setIsAuthenticated(true)
-                    if (res.data.tokenData.type) {
-                        setAdminType(res.data.tokenData.type)
-                    }
-                } else {
-                    setIsAuthenticated(false)
-                    setAdminType(null)
-                }
-            })
-            .catch(() => {
-                console.log('Not Authenticated')
-                setIsAuthenticated(false)
-            })
-    }, [location])
+const RouteSwitch = () => {
+    const { isAuthenticated, adminType } = useContext(CurrUserContext)
 
     return (
         <Routes>
