@@ -9,9 +9,12 @@ const customerSchema = new mongoose.Schema(
         last_name: {
             type: String,
         },
-        phone_number: {
+        email_address: {
             type: String,
             unique: true,
+        },
+        phone_number: {
+            type: String,
         },
         password: {
             type: String,
@@ -25,7 +28,7 @@ const customerSchema = new mongoose.Schema(
         address: {
             type: String,
         },
-        phone_verified: {
+        email_verified: {
             type: Boolean,
             default: false,
         },

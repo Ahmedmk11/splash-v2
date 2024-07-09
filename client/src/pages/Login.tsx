@@ -1,19 +1,32 @@
 import React, { useState } from 'react'
-import { Form, Input, Button } from 'antd'
-import { Link } from 'react-router-dom'
+import { Form, Input, Button, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 import Layout from '../Layout.tsx'
-import CountryPhoneInput from '../components/CountryPhoneInput.tsx'
+import axiosApi from '../utils/axiosApi.ts'
 
 const Login = () => {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
 
-    const handleLogin = (values: any) => {
-        console.log('Login values:', values)
-    }
-
-    const handlePhoneChange = (value: string) => {
-        form.setFieldsValue({ 'phone-number': value })
-        console.log('Phone Number:', value)
+    const handleLogin = async (values: any) => {
+        try {
+            await axiosApi.post('/auth/login', values)
+            console.log('Login values:', values)
+            message.success('Login Successful')
+            form.resetFields()
+            navigate('/')
+        } catch (error: any) {
+            let statusCode = error.response.status
+            if (statusCode === 404) {
+                message.error('User does not exist')
+            } else if (statusCode === 401) {
+                message.error('Incorrect password')
+            } else if (statusCode === 403) {
+                message.error('Please verify your email address first')
+            } else {
+                message.error('Something went wrong')
+            }
+        }
     }
 
     return (
@@ -35,17 +48,17 @@ const Login = () => {
                     layout="vertical"
                 >
                     <Form.Item
-                        name="phoneNumber"
-                        label="Phone Number"
+                        name="email_address"
+                        label="Email Address"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your phone number!',
+                                message: 'Please input your Email Address!',
                             },
                         ]}
                         style={{ width: '100%' }}
                     >
-                        <CountryPhoneInput onChange={handlePhoneChange} />
+                        <Input placeholder="Email Address" />
                     </Form.Item>
 
                     <Form.Item

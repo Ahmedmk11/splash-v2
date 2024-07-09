@@ -41,7 +41,7 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange }) => {
             style={{ width: '100%' }}
             placeholder="Phone Number"
             value={phoneNumber}
-            onChange={(e) => handleInputChange(e.target.value)} // Handle change to enforce numeric input
+            onChange={(e) => handleInputChange(e.target.value)}
             addonBefore={
                 <Select
                     style={{ minWidth: 75 }}

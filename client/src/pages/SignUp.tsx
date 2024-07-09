@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
-import { Link } from 'react-router-dom'
+import { Form, Input, Button, Checkbox, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Layout from '../Layout.tsx'
 import CountryPhoneInput from '../components/CountryPhoneInput.tsx'
@@ -8,11 +8,13 @@ import axiosApi from '../utils/axiosApi.ts'
 
 const SignUp = () => {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
 
     const handleSignUp = async (values: {
         first_name: string
         last_name: string
         phone_number: string
+        email_address: string
         password: string
         confirmPassword: string
         subscribed: boolean
@@ -24,11 +26,17 @@ const SignUp = () => {
 
         try {
             await axiosApi.post('/auth/register-customer', newValues)
-        } catch (error) {
-            console.error('Error:', error)
+            message.success('Sign Up Successful')
+            form.resetFields()
+            navigate('/')
+        } catch (error: any) {
+            let statusCode = error.response.status
+            if (statusCode === 400) {
+                message.error('User already exists')
+            } else {
+                message.error('Something went wrong')
+            }
         }
-
-        // form.resetFields()
     }
 
     const handlePhoneChange = (value: string) => {
@@ -90,7 +98,21 @@ const SignUp = () => {
                     </div>
 
                     <Form.Item
-                        name="phone-number"
+                        name="email_address"
+                        label="Email Address"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your Email Address!',
+                            },
+                        ]}
+                        style={{ width: '100%' }}
+                    >
+                        <Input placeholder="Email Address" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="phone_number"
                         label="Phone Number"
                         rules={[
                             {

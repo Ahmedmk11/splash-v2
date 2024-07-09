@@ -1,4 +1,4 @@
-// TODO: implement forgot password, verify phone number
+// TODO: implement forgot password, verify email address, uncomment email verification check
 
 import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
@@ -20,10 +20,10 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 async function login(req, res) {
     try {
         const customer = await CustomerModel.findOne({
-            phone_number: req.body.phone_number,
+            email_address: req.body.email_address,
         })
         const admin = await AdminModel.findOne({
-            phone_number: req.body.phone_number,
+            email_address: req.body.email_address,
         })
 
         if (!customer && !admin) {
@@ -32,7 +32,10 @@ async function login(req, res) {
 
         const user = customer || admin
 
-        const isMatch = await user.comparePassword(password, user.password)
+        const isMatch = await user.comparePassword(
+            req.body.password,
+            user.password
+        )
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' })
         }
@@ -46,6 +49,7 @@ async function login(req, res) {
                 _id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
+                email_address: user.email_address,
                 phone_number: user.phone_number,
                 type: user.type,
             }
@@ -56,15 +60,16 @@ async function login(req, res) {
                 _id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
+                email_address: user.email_address,
                 phone_number: user.phone_number,
-                phone_verified: user.phone_verified,
+                email_verified: user.email_verified,
             }
 
-            if (!user.phone_verified) {
-                return res.status(401).json({
-                    message: 'Please verify your phone number first',
-                })
-            }
+            // if (!user.email_verified) {
+            //     return res.status(403).json({
+            //         message: 'Please verify your email address first',
+            //     })
+            // }
         }
 
         const token = jwt.sign({ tokenData }, process.env.JWT_SECRET, {
@@ -80,6 +85,7 @@ async function login(req, res) {
 
         return res.status(200).json({ token, data: { user } })
     } catch (error) {
+        console.error('Error logging in: ', error)
         return res.status(500).json({ message: error.message })
     }
 }
@@ -93,13 +99,13 @@ async function registerCustomer(req, res) {
     try {
         console.log(req.body)
         const customer = await CustomerModel.findOne({
-            phone_number: req.body.phone_number,
+            email_address: req.body.email_address,
         })
 
         if (customer) {
             return res
                 .status(400)
-                .json({ message: 'Phone number is already used.' })
+                .json({ message: 'Email address is already used.' })
         }
 
         const newCustomer = new CustomerModel(req.body)
@@ -115,13 +121,13 @@ async function registerCustomer(req, res) {
 async function registerAdmin(req, res) {
     try {
         const admin = await AdminModel.findOne({
-            phone_number: req.body.phone_number,
+            email_address: req.body.email_address,
         })
 
         if (admin) {
             return res
                 .status(400)
-                .json({ message: 'Phone number is already used.' })
+                .json({ message: 'Email address is already used.' })
         }
 
         const newAdmin = new AdminModel(req.body)

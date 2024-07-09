@@ -45,8 +45,8 @@ const RouteSwitch = () => {
                     setAdminType(null)
                 }
             })
-            .catch((err: Error) => {
-                console.log(err)
+            .catch(() => {
+                console.log('Not Authenticated')
                 setIsAuthenticated(false)
             })
     }, [location])
