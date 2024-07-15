@@ -20,6 +20,7 @@ import { LoginGuard, AdminGuard, SuperAdminGuard } from './Guards.tsx'
 import SignUp from './pages/SignUp.tsx'
 
 import CurrUserContext from './CurrUserContext.tsx'
+import Category from './pages/Category.tsx'
 
 const RouteSwitch = () => {
     const { isAuthenticated, adminType } = useContext(CurrUserContext)
@@ -34,6 +35,7 @@ const RouteSwitch = () => {
             <Route path="/dressings" element={<Dressings />} />
             <Route path="/receptions" element={<Receptions />} />
             <Route path="/interior-design" element={<InteriorDesign />} />
+            <Route path="/category-:categoryId" element={<Category />} />
 
             <Route path="/forbidden-access" element={<Forbidden />} />
             <Route path="/" element={<Home />} />

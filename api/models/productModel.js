@@ -16,15 +16,7 @@ const productSchema = new mongoose.Schema(
             required: [true, 'Product description is required'],
         },
         category: {
-            type: String,
-            enum: [
-                'Bedroom',
-                'Living Room',
-                'Dining Room',
-                'Dressing',
-                'TV Unit',
-                'Reception',
-            ],
+            type: mongoose.Schema.Types.ObjectId,
             required: [true, 'Product category is required'],
         },
         price: {
