@@ -3,7 +3,6 @@ import { uploadProduct, uploadCategory } from '../middleware/upload.js'
 
 const router = express.Router()
 
-// Product image upload route
 router.post('/product', uploadProduct, (req, res) => {
     if (req.file) {
         res.status(200).json({
@@ -16,7 +15,6 @@ router.post('/product', uploadProduct, (req, res) => {
     }
 })
 
-// Category image upload route
 router.post('/category', uploadCategory, (req, res) => {
     if (req.file) {
         res.status(200).json({

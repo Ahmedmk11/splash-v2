@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Form,
     Input,
@@ -9,6 +9,7 @@ import {
     Upload,
     message,
     Card,
+    Select,
 } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import Layout from '../Layout'
@@ -19,6 +20,20 @@ const AdminDashboard: React.FC = () => {
     const [formProduct] = Form.useForm()
     const [categoryImage, setCategoryImage] = useState<File | null>(null)
     const [productImage, setProductImage] = useState<File | null>(null)
+    const [categories, setCategories] = useState<any[]>([])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await axiosApi.get('/user/get-categories')
+                setCategories(res.data.categories)
+            } catch (err) {
+                console.error('Error fetching categories', err)
+            }
+        }
+
+        fetchCategories()
+    }, [])
 
     const onFinishCategory = async (values: any) => {
         const { categoryName } = values
@@ -28,7 +43,6 @@ const AdminDashboard: React.FC = () => {
                 const formData = new FormData()
                 formData.append('image', categoryImage)
                 const res = await axiosApi.post('/upload/category', formData)
-                console.log('Category image uploaded', res)
                 const imageUrl = res.data.filePath
                 await axiosApi.post('/user/add-category', {
                     categoryName,
@@ -37,6 +51,7 @@ const AdminDashboard: React.FC = () => {
             }
 
             message.success('Category and image uploaded successfully')
+            onResetCategory()
         } catch (err) {
             console.error('Error saving category', err)
             message.error('Error saving category')
@@ -47,26 +62,23 @@ const AdminDashboard: React.FC = () => {
         const { pid, name, description, category, price, stock } = values
 
         try {
-            // Submit the product data
-            const { data: productData } = await axiosApi.post('/api/products', {
-                pid,
-                name,
-                description,
-                category,
-                price,
-                stock,
-            })
-            console.log('Product data submitted', productData)
-
-            // Upload the image after submitting the product data
             if (productImage) {
                 const formData = new FormData()
                 formData.append('image', productImage)
-                // No need to append 'pid' here since it's used in the filename function
-                await axiosApi.post('/upload/product', formData)
-                console.log('Product image uploaded')
+                const res = await axiosApi.post('/upload/product', formData)
+                const imageUrl = res.data.filePath
+                await axiosApi.post('/user/add-product', {
+                    pid,
+                    name,
+                    description,
+                    category,
+                    price,
+                    stock,
+                    imageUrl,
+                })
             }
             message.success('Product and image uploaded successfully')
+            onResetProduct()
         } catch (err) {
             console.error('Error saving product', err)
             message.error('Error saving product')
@@ -92,12 +104,10 @@ const AdminDashboard: React.FC = () => {
     }
 
     const customRequestCategory = async ({ file, onSuccess }: any) => {
-        // Do nothing here
         onSuccess(file)
     }
 
     const customRequestProduct = async ({ file, onSuccess }: any) => {
-        // Do nothing here
         onSuccess(file)
     }
 
@@ -243,11 +253,23 @@ const AdminDashboard: React.FC = () => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'Please input the product category!',
+                                                    'Please select the product category!',
                                             },
                                         ]}
                                     >
-                                        <Input placeholder="Enter product category" />
+                                        <Select
+                                            allowClear
+                                            placeholder="Select Category"
+                                        >
+                                            {categories.map((category) => (
+                                                <Select.Option
+                                                    key={category._id}
+                                                    value={category._id}
+                                                >
+                                                    {category.name}
+                                                </Select.Option>
+                                            ))}
+                                        </Select>
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
@@ -287,40 +309,34 @@ const AdminDashboard: React.FC = () => {
                                         <Input placeholder="Enter product stock" />
                                     </Form.Item>
                                 </Col>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="image"
-                                        label="Product Image"
-                                        valuePropName="fileList"
-                                        getValueFromEvent={(e: any) =>
-                                            e && e.fileList
-                                        }
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please upload the product image!',
-                                            },
-                                        ]}
-                                    >
-                                        <Upload
-                                            customRequest={customRequestProduct}
-                                            listType="picture"
-                                            maxCount={1}
-                                            onChange={({ file }) =>
-                                                handleFileChange(
-                                                    file,
-                                                    'product'
-                                                )
-                                            }
-                                        >
-                                            <Button icon={<UploadOutlined />}>
-                                                Click to upload
-                                            </Button>
-                                        </Upload>
-                                    </Form.Item>
-                                </Col>
                             </Row>
+                            <Form.Item
+                                name="image"
+                                label="Product Image"
+                                valuePropName="fileList"
+                                getValueFromEvent={(e: any) => e && e.fileList}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please upload the product image!',
+                                    },
+                                ]}
+                            >
+                                <Upload
+                                    customRequest={customRequestProduct}
+                                    listType="picture"
+                                    maxCount={1}
+                                    onChange={({ file }) =>
+                                        handleFileChange(file, 'product')
+                                    }
+                                >
+                                    <Button icon={<UploadOutlined />}>
+                                        Click to upload
+                                    </Button>
+                                </Upload>
+                            </Form.Item>
+
                             <Form.Item>
                                 <Button type="primary" htmlType="submit">
                                     Add Product

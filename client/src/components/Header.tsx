@@ -21,6 +21,15 @@ import axiosApi from '../utils/axiosApi'
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
+    const [categories, setCategories] = useState<any[]>([])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const res = await axiosApi.get('/user/get-categories')
+            setCategories(res.data.categories)
+        }
+        fetchCategories()
+    }, [])
 
     const items: MenuProps['items'] = [
         {
@@ -91,67 +100,21 @@ const Header = () => {
     ]
 
     const handleMenuClick = (e: any) => {
-        navigate(`/${e.key.toLowerCase().replace(' ', '-')}`)
+        navigate(`/category/${e.key.toLowerCase().replace(' ', '-')}`)
     }
 
     const menu = (
         <Menu onClick={handleMenuClick}>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Bedrooms"
-            >
-                Bedrooms
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Living Rooms"
-            >
-                Living Rooms
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Dining Rooms"
-            >
-                Dining Rooms
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="TV Units"
-            >
-                TV Units
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Dressings"
-            >
-                Dressings
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Receptions"
-            >
-                Receptions
-            </Menu.Item>
-            <Menu.Item
-                style={{
-                    fontSize: 16,
-                }}
-                key="Interior Design"
-            >
-                Interior Design
-            </Menu.Item>
+            {categories.map((category) => (
+                <Menu.Item
+                    style={{
+                        fontSize: 16,
+                    }}
+                    key={category.name}
+                >
+                    {category.name}
+                </Menu.Item>
+            ))}
         </Menu>
     )
     return (

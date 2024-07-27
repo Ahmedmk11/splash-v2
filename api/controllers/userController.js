@@ -51,7 +51,16 @@ async function addNewCategory(req, res) {
 
 async function addNewProduct(req, res) {
     try {
-        const product = new ProductModel(req.body)
+        console.log(req.body)
+        const product = new ProductModel({
+            pid: req.body.pid,
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            price: req.body.price,
+            stock: req.body.stock,
+            imageUrl: req.body.imageUrl,
+        })
         await product.save()
 
         res.status(201).json({ message: 'Product added successfully' })
@@ -106,12 +115,11 @@ async function getCategoryProducts(req, res) {
 
 async function getCarouselProducts(req, res) {
     try {
-        const products = ProductModel.find({ carousel: true })
-        console.log('hi')
+        const products = await ProductModel.find({ carousel: true })
+        console.log('p', products)
         if (!products) {
             return res.status(404).json({ message: 'Products not found' })
         }
-        console.log('bye')
         res.status(200).json({ products })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })

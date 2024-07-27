@@ -69,14 +69,11 @@
 #home-categories {
     align-self: end;
     width: 100%;
-    display: grid;
-    grid-gap: 6px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 250px);
-    grid-template-areas:
-        'bedrooms diningrooms livingrooms livingrooms'
-        'bedrooms tvunits interiordesign interiordesign'
-        'dressings receptions interiordesign interiordesign';
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .home-category-item {
@@ -84,8 +81,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    width: 300px;
+    height: 300px;
     background-color: #f0f0f0;
     cursor: pointer;
     position: relative;

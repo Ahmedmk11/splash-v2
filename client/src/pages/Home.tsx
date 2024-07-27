@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { Carousel } from 'antd'
 import axiosApi from '../utils/axiosApi'
+import config from '../../config'
+
+const baseURL = config.REACT_APP_API_URL
+
 const Home = () => {
     const navigate = useNavigate()
     const [categories, setCategories] = useState<any>([])
-    const [carouselImages, setCarouselImages] = useState<any>([])
+    const [carouselProducts, setCarouselProducts] = useState<any>([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,7 +27,7 @@ const Home = () => {
         const fetchCarouselData = async () => {
             try {
                 const res = await axiosApi.get('/user/get-carousel')
-                setCarouselImages(res.data?.products)
+                setCarouselProducts(res.data.products)
             } catch (err) {
                 console.error(err)
             }
@@ -41,12 +45,12 @@ const Home = () => {
                     infinite
                     id="home-carousel"
                 >
-                    {carouselImages.map((product: any) => (
+                    {carouselProducts.map((product: any) => (
                         <img
                             onClick={() => {
                                 navigate(`/product-${product.pid}`)
                             }}
-                            src={product.image}
+                            src={baseURL.slice(0, -1) + product.imageUrl}
                             alt={product.name}
                         />
                     ))}
@@ -61,7 +65,12 @@ const Home = () => {
                                     navigate(`/category-${category.id}`)
                                 }}
                             >
-                                <img src={category.image} alt={category.name} />
+                                <img
+                                    src={
+                                        baseURL.slice(0, -1) + category.imageUrl
+                                    }
+                                    alt={category.name}
+                                />
                                 <h2>{category.name}</h2>
                             </div>
                         ))}
