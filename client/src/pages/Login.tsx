@@ -16,7 +16,7 @@ const Login = () => {
             form.resetFields()
             navigate('/')
         } catch (error: any) {
-            let statusCode = error.response.status
+            let statusCode = error.response?.status
             if (statusCode === 404) {
                 message.error('User does not exist')
             } else if (statusCode === 401) {

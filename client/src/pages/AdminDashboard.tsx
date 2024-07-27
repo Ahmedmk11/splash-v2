@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
     Form,
     Input,
@@ -11,26 +11,94 @@ import {
     Card,
 } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-
 import Layout from '../Layout'
+import axiosApi from '../utils/axiosApi'
 
-const AdminDashboard = () => {
-    const [form] = Form.useForm()
+const AdminDashboard: React.FC = () => {
+    const [formCategory] = Form.useForm()
+    const [formProduct] = Form.useForm()
+    const [categoryImage, setCategoryImage] = useState<File | null>(null)
+    const [productImage, setProductImage] = useState<File | null>(null)
 
-    const onFinish = (values: any) => {
-        console.log(values)
-        // Add logic to handle form submission
-    }
+    const onFinishCategory = async (values: any) => {
+        const { categoryName } = values
 
-    const onReset = () => {
-        form.resetFields()
-    }
+        try {
+            if (categoryImage) {
+                const formData = new FormData()
+                formData.append('image', categoryImage)
+                const res = await axiosApi.post('/upload/category', formData)
+                console.log('Category image uploaded', res)
+                const imageUrl = res.data.filePath
+                await axiosApi.post('/user/add-category', {
+                    categoryName,
+                    imageUrl,
+                })
+            }
 
-    const normFile = (e: any) => {
-        if (Array.isArray(e)) {
-            return e
+            message.success('Category and image uploaded successfully')
+        } catch (err) {
+            console.error('Error saving category', err)
+            message.error('Error saving category')
         }
-        return e && e.fileList
+    }
+
+    const onFinishProduct = async (values: any) => {
+        const { pid, name, description, category, price, stock } = values
+
+        try {
+            // Submit the product data
+            const { data: productData } = await axiosApi.post('/api/products', {
+                pid,
+                name,
+                description,
+                category,
+                price,
+                stock,
+            })
+            console.log('Product data submitted', productData)
+
+            // Upload the image after submitting the product data
+            if (productImage) {
+                const formData = new FormData()
+                formData.append('image', productImage)
+                // No need to append 'pid' here since it's used in the filename function
+                await axiosApi.post('/upload/product', formData)
+                console.log('Product image uploaded')
+            }
+            message.success('Product and image uploaded successfully')
+        } catch (err) {
+            console.error('Error saving product', err)
+            message.error('Error saving product')
+        }
+    }
+
+    const onResetCategory = () => {
+        formCategory.resetFields()
+        setCategoryImage(null)
+    }
+
+    const onResetProduct = () => {
+        formProduct.resetFields()
+        setProductImage(null)
+    }
+
+    const handleFileChange = (file: any, type: 'category' | 'product') => {
+        if (type === 'category') {
+            setCategoryImage(file.originFileObj)
+        } else if (type === 'product') {
+            setProductImage(file.originFileObj)
+        }
+    }
+
+    const customRequestCategory = async ({ file, onSuccess }: any) => {
+        // Do nothing here
+        onSuccess(file)
+    }
+
+    const customRequestProduct = async ({ file, onSuccess }: any) => {
+        // Do nothing here
+        onSuccess(file)
     }
 
     return (
@@ -54,7 +122,11 @@ const AdminDashboard = () => {
                             marginTop: '20px',
                         }}
                     >
-                        <Form form={form} onFinish={onFinish} layout="vertical">
+                        <Form
+                            form={formCategory}
+                            onFinish={onFinishCategory}
+                            layout="vertical"
+                        >
                             <Form.Item
                                 name="categoryName"
                                 label="Category Name"
@@ -72,7 +144,7 @@ const AdminDashboard = () => {
                                 name="categoryImage"
                                 label="Category Image"
                                 valuePropName="fileList"
-                                getValueFromEvent={normFile}
+                                getValueFromEvent={(e: any) => e && e.fileList}
                                 rules={[
                                     {
                                         required: true,
@@ -82,10 +154,12 @@ const AdminDashboard = () => {
                                 ]}
                             >
                                 <Upload
-                                    name="logo"
-                                    action="/upload.do"
+                                    customRequest={customRequestCategory}
                                     listType="picture"
                                     maxCount={1}
+                                    onChange={({ file }) =>
+                                        handleFileChange(file, 'category')
+                                    }
                                 >
                                     <Button icon={<UploadOutlined />}>
                                         Click to upload
@@ -98,7 +172,7 @@ const AdminDashboard = () => {
                                 </Button>
                                 <Button
                                     htmlType="button"
-                                    onClick={onReset}
+                                    onClick={onResetCategory}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     Clear
@@ -110,7 +184,11 @@ const AdminDashboard = () => {
                         title="Add New Product"
                         style={{ maxWidth: '600px', margin: 'auto' }}
                     >
-                        <Form form={form} onFinish={onFinish} layout="vertical">
+                        <Form
+                            form={formProduct}
+                            onFinish={onFinishProduct}
+                            layout="vertical"
+                        >
                             <Row gutter={16}>
                                 <Col span={12}>
                                     <Form.Item
@@ -214,7 +292,9 @@ const AdminDashboard = () => {
                                         name="image"
                                         label="Product Image"
                                         valuePropName="fileList"
-                                        getValueFromEvent={normFile}
+                                        getValueFromEvent={(e: any) =>
+                                            e && e.fileList
+                                        }
                                         rules={[
                                             {
                                                 required: true,
@@ -224,10 +304,15 @@ const AdminDashboard = () => {
                                         ]}
                                     >
                                         <Upload
-                                            name="logo"
-                                            action="/upload.do"
+                                            customRequest={customRequestProduct}
                                             listType="picture"
                                             maxCount={1}
+                                            onChange={({ file }) =>
+                                                handleFileChange(
+                                                    file,
+                                                    'product'
+                                                )
+                                            }
                                         >
                                             <Button icon={<UploadOutlined />}>
                                                 Click to upload
@@ -242,7 +327,7 @@ const AdminDashboard = () => {
                                 </Button>
                                 <Button
                                     htmlType="button"
-                                    onClick={onReset}
+                                    onClick={onResetProduct}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     Clear

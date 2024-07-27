@@ -36,13 +36,25 @@ async function getCurrUser(req, res) {
 
 async function addNewCategory(req, res) {
     try {
+        console.log(req.body)
+        const category = new CategoryModel({
+            name: req.body.categoryName,
+            imageUrl: req.body.imageUrl,
+        })
+        await category.save()
+
+        res.status(201).json({ category })
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' })
+        res.status(500).json({ message: error.message })
     }
 }
 
 async function addNewProduct(req, res) {
     try {
+        const product = new ProductModel(req.body)
+        await product.save()
+
+        res.status(201).json({ message: 'Product added successfully' })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
     }
@@ -63,6 +75,20 @@ async function getCategory(req, res) {
     }
 }
 
+async function getCategories(req, res) {
+    try {
+        const categories = await CategoryModel.find()
+
+        if (!categories) {
+            return res.status(404).json({ message: 'No categories found' })
+        }
+
+        res.status(200).json({ categories })
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
 async function getCategoryProducts(req, res) {
     try {
         const { id } = req.params
@@ -78,10 +104,26 @@ async function getCategoryProducts(req, res) {
     }
 }
 
+async function getCarouselProducts(req, res) {
+    try {
+        const products = ProductModel.find({ carousel: true })
+        console.log('hi')
+        if (!products) {
+            return res.status(404).json({ message: 'Products not found' })
+        }
+        console.log('bye')
+        res.status(200).json({ products })
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
 export {
     getCurrUser,
     addNewCategory,
     addNewProduct,
     getCategory,
+    getCategories,
     getCategoryProducts,
+    getCarouselProducts,
 }

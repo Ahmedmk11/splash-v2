@@ -4,11 +4,13 @@ const categorySchema = new mongoose.Schema(
     {
         name: {
             type: String,
+            unique: true,
             required: [true, 'Category name is required'],
         },
-        image: {
+        imageUrl: {
             type: String,
-            required: [true, 'Product image is required'],
+            unique: true,
+            required: [true, 'Category image is required'],
         },
     },
     { timestamps: true },

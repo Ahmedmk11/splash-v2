@@ -8,14 +8,6 @@ import Forbidden from './pages/Forbidden.tsx'
 import AdminDashboard from './pages/AdminDashboard.tsx'
 import SuperAdminDashboard from './pages/SuperAdminDashboard.tsx'
 
-import Bedrooms from './pages/categories/Bedrooms.tsx'
-import LivingRooms from './pages/categories/LivingRooms.tsx'
-import DiningRooms from './pages/categories/DiningRooms.tsx'
-import TVUnits from './pages/categories/TVUnits.tsx'
-import Dressings from './pages/categories/Dressings.tsx'
-import Receptions from './pages/categories/Receptions.tsx'
-import InteriorDesign from './pages/categories/InteriorDesign.tsx'
-
 import { LoginGuard, AdminGuard, SuperAdminGuard } from './Guards.tsx'
 import SignUp from './pages/SignUp.tsx'
 
@@ -28,13 +20,6 @@ const RouteSwitch = () => {
     return (
         <Routes>
             <Route path="*" element={<NotFound />} />
-            <Route path="/bedrooms" element={<Bedrooms />} />
-            <Route path="/living-rooms" element={<LivingRooms />} />
-            <Route path="/dining-rooms" element={<DiningRooms />} />
-            <Route path="/tv-units" element={<TVUnits />} />
-            <Route path="/dressings" element={<Dressings />} />
-            <Route path="/receptions" element={<Receptions />} />
-            <Route path="/interior-design" element={<InteriorDesign />} />
             <Route path="/category-:categoryId" element={<Category />} />
 
             <Route path="/forbidden-access" element={<Forbidden />} />

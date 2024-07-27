@@ -31,6 +31,11 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Product image is required'],
         },
+        carousel: {
+            type: Boolean,
+            required: [true, 'Product carousel images are required'],
+            default: false,
+        },
     },
     { timestamps: true },
     {

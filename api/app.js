@@ -3,9 +3,10 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import cookieParser from 'cookie-parser'
-
+import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import uploadRoutes from './routes/imageRoutes.js'
 
 import { connectToDatabase } from './database.js'
 
@@ -25,6 +26,10 @@ app.use(
 )
 app.use(cookieParser())
 
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use('/images', express.static('images'))
+app.use('/upload', uploadRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
 
