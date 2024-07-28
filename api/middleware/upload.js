@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Create storage engine with dynamic folder and filename function
 const createStorage = (folder, filenameFunction) =>
     multer.diskStorage({
         destination: function (req, file, cb) {
@@ -19,7 +18,6 @@ const createStorage = (folder, filenameFunction) =>
         filename: filenameFunction,
     })
 
-// Check file type
 const checkFileType = (file, cb) => {
     const filetypes = /jpeg|jpg|png|gif/
     const extname = filetypes.test(
@@ -34,7 +32,6 @@ const checkFileType = (file, cb) => {
     }
 }
 
-// Filename functions
 const productFilename = (req, file, cb) => {
     cb(null, file.originalname)
 }
@@ -43,7 +40,6 @@ const categoryFilename = (req, file, cb) => {
     cb(null, file.originalname)
 }
 
-// Multer instances
 const uploadProduct = multer({
     storage: createStorage('products', productFilename),
     limits: { fileSize: 10000000 },

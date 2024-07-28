@@ -29,6 +29,7 @@ const productSchema = new mongoose.Schema(
         },
         imageUrl: {
             type: String,
+            unique: true,
             required: [true, 'Product image is required'],
         },
         carousel: {

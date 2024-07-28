@@ -1,31 +1,3 @@
-#cat-living {
-    grid-area: livingrooms;
-}
-
-#cat-bedroom {
-    grid-area: bedrooms;
-}
-
-#cat-diningrooms {
-    grid-area: diningrooms;
-}
-
-#cat-tvunits {
-    grid-area: tvunits;
-}
-
-#cat-dressings {
-    grid-area: dressings;
-}
-
-#cat-reception {
-    grid-area: receptions;
-}
-
-#cat-interior {
-    grid-area: interiordesign;
-}
-
 #home-page {
     width: 100%;
     padding: 20px;
@@ -140,4 +112,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+#admin-dashboard-page {
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
 }
