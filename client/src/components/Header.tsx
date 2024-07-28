@@ -12,23 +12,39 @@ import {
     SettingOutlined,
     ControlOutlined,
 } from '@ant-design/icons'
-
+import { io } from 'socket.io-client'
 import CurrUserContext from '../CurrUserContext'
 
 import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
+import config from '../../config'
+
+const baseURL = config.REACT_APP_API_URL
 
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
     const [categories, setCategories] = useState<any[]>([])
 
+    const fetchCategories = async () => {
+        const res = await axiosApi.get('/user/get-categories')
+        setCategories(res.data.categories)
+    }
+
     useEffect(() => {
-        const fetchCategories = async () => {
-            const res = await axiosApi.get('/user/get-categories')
-            setCategories(res.data.categories)
-        }
         fetchCategories()
+    }, [])
+
+    useEffect(() => {
+        const socket = io(config.REACT_APP_API_URL)
+
+        socket.on('categoryCollectionChange', () => {
+            fetchCategories()
+        })
+
+        return () => {
+            socket.disconnect()
+        }
     }, [])
 
     const items: MenuProps['items'] = [

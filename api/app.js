@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { Server as IOServer } from 'socket.io'
+
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes.js'
@@ -9,6 +11,7 @@ import authRoutes from './routes/authRoutes.js'
 import uploadRoutes from './routes/imageRoutes.js'
 
 import { connectToDatabase } from './database.js'
+import CategoryModel from './models/categoryModel.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -33,8 +36,22 @@ app.use('/upload', uploadRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
+})
+
+const io = new IOServer(server, {
+    cors: {
+        origin: [process.env.CLIENT_URL],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true,
+    },
+})
+
+const categoryChangeStream = CategoryModel.watch()
+
+categoryChangeStream.on('change', (change) => {
+    io.emit('categoryCollectionChange', change)
 })
 
 connectToDatabase().then(() => {

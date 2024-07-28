@@ -1,6 +1,3 @@
-// Make uploading a new image optional
-// Update header
-
 import React, { useState, useEffect } from 'react'
 import {
     Form,
@@ -20,6 +17,7 @@ import {
 } from 'antd'
 import type { TabsProps } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
+
 import Layout from '../Layout'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
