@@ -30,11 +30,11 @@ async function testGet(req, res) {
 async function testPost(req, res) {
     try {
         const newCustomer = new CustomerModel({
-            email_address: 'ah@t.com',
+            email_address: 'ajh@t.com',
             password: 'password',
             first_name: 'Ahmed',
             last_name: 'Taha',
-            phone_number: '1234567890',
+            phone_number: '1234557890',
             address: '123, Street, City',
             city: 'City',
             area: 'Area',
@@ -423,6 +423,42 @@ async function deleteProduct(req, res) {
     }
 }
 
+async function promoteAdmin(req, res) {
+    try {
+        const { id } = req.params
+        const admin = await AdminModel.findById(id)
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' })
+        }
+
+        admin.type = 'Super Admin'
+        await admin.save()
+
+        res.status(200).json({ admin })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function demoteAdmin(req, res) {
+    try {
+        const { id } = req.params
+        const admin = await AdminModel.findById(id)
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' })
+        }
+
+        admin.type = 'Admin'
+        await admin.save()
+
+        res.status(200).json({ admin })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -445,4 +481,6 @@ export {
     deleteSuperAdmin,
     deleteCategory,
     deleteProduct,
+    promoteAdmin,
+    demoteAdmin,
 }

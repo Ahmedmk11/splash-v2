@@ -41,7 +41,6 @@ const SignUp = () => {
 
     const handlePhoneChange = (value: string) => {
         form.setFieldsValue({ phone_number: value })
-        console.log('Phone Number:', value)
     }
 
     return (
