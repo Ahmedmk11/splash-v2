@@ -28,3 +28,4 @@ dist-ssr
 .env
 client/config.ts
 client/config.d.ts
+.DS_Store
