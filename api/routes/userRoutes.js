@@ -20,6 +20,8 @@ import {
     deleteCustomer,
     deleteAdmin,
     deleteSuperAdmin,
+    deleteCategory,
+    deleteProduct,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -41,8 +43,8 @@ router.post('/add-category', addNewCategory)
 router.post('/add-product', addNewProduct)
 router.put('/update-category/:id', updateCategory)
 router.put('/update-product/:id', updateProduct)
-// router.delete('/delete-category/:id', deleteCategory)
-// router.delete('/delete-product/:id', deleteProduct)
+router.delete('/delete-category/:id', deleteCategory)
+router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)
 router.delete('/delete-admin/:id', deleteAdmin)
 router.delete('/delete-super-admin/:id', deleteSuperAdmin)

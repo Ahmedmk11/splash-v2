@@ -150,13 +150,6 @@ const SuperAdminDashboard = () => {
                         title={item.first_name + ' ' + item.last_name}
                         description={item._id}
                     />
-                    {/* <Switch
-                            onChange={(checked) =>
-                                handleToggleActive(item._id, role, checked)
-                            }
-                            checkedChildren="Active"
-                            unCheckedChildren="Inactive"
-                        />, */}
                 </List.Item>
             )}
         />

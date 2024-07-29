@@ -362,6 +362,67 @@ async function deleteSuperAdmin(req, res) {
     }
 }
 
+async function deleteCategory(req, res) {
+    try {
+        const { id } = req.params
+        const category = await CategoryModel.findByIdAndDelete(id)
+
+        const baseDir = path.resolve(__dirname, '..')
+        const fullPath = path.join(baseDir, category.imageUrl)
+
+        fs.unlink(fullPath, (err) => {
+            if (err) {
+                console.error('Error deleting image:', err)
+            } else {
+                console.log('Image deleted successfully:', fullPath)
+            }
+        })
+
+        const products = await ProductModel.find({ category: id })
+
+        if (products.length) {
+            products.forEach(async (product) => {
+                product.category = null
+                await product.save()
+            })
+        }
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' })
+        }
+
+        res.status(200).json({ message: 'Category deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function deleteProduct(req, res) {
+    try {
+        const { id } = req.params
+        const product = await ProductModel.findByIdAndDelete(id)
+
+        const baseDir = path.resolve(__dirname, '..')
+        const fullPath = path.join(baseDir, product.imageUrl)
+
+        fs.unlink(fullPath, (err) => {
+            if (err) {
+                console.error('Error deleting image:', err)
+            } else {
+                console.log('Image deleted successfully:', fullPath)
+            }
+        })
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' })
+        }
+
+        res.status(200).json({ message: 'Product deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -382,4 +443,6 @@ export {
     deleteCustomer,
     deleteAdmin,
     deleteSuperAdmin,
+    deleteCategory,
+    deleteProduct,
 }

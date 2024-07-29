@@ -14,6 +14,7 @@ import {
     Space,
     Divider,
     Switch,
+    Modal,
 } from 'antd'
 import type { TabsProps } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
@@ -53,7 +54,9 @@ const AdminDashboard: React.FC = () => {
     const [editProductPID, setEditProductPID] = useState<string>('')
     const [editProductDescription, setEditProductDescription] =
         useState<string>('')
-    const [editProductCategory, setEditProductCategory] = useState<string>('')
+    const [editProductCategory, setEditProductCategory] = useState<
+        string | null
+    >('')
     const [editProductPrice, setEditProductPrice] = useState<number>(0)
     const [editProductStock, setEditProductStock] = useState<number>(0)
     const [editProductCarousel, setEditProductCarousel] =
@@ -128,6 +131,30 @@ const AdminDashboard: React.FC = () => {
             fetchProducts()
         }
     }, [selectedProduct, formEditProduct])
+
+    const deleteCategory = async () => {
+        try {
+            await axiosApi.delete(`/user/delete-category/${selectedCategory}`)
+            message.success('Category deleted successfully')
+            onResetEditCategory()
+            fetchCategories()
+        } catch (err) {
+            console.error('Error deleting category', err)
+            message.error('Error deleting category')
+        }
+    }
+
+    const deleteProduct = async () => {
+        try {
+            await axiosApi.delete(`/user/delete-product/${selectedProduct}`)
+            message.success('Product deleted successfully')
+            onResetEditProduct()
+            fetchProducts()
+        } catch (err) {
+            console.error('Error deleting product', err)
+            message.error('Error deleting product')
+        }
+    }
 
     const onFinishEditCategory = async (values: any) => {
         const { editCategoryName } = values
@@ -533,10 +560,10 @@ const AdminDashboard: React.FC = () => {
         },
         {
             key: '3',
-            label: 'Edit Category',
+            label: 'Manage Category',
             children: (
                 <Card
-                    title="Edit Category"
+                    title="Manage Category"
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -668,7 +695,11 @@ const AdminDashboard: React.FC = () => {
                             )}
                         </Space>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                disabled={!selectedCategory}
+                            >
                                 Update Category
                             </Button>
                             <Button
@@ -678,6 +709,34 @@ const AdminDashboard: React.FC = () => {
                             >
                                 Clear
                             </Button>
+                            <Button
+                                disabled={!selectedCategory}
+                                htmlType="button"
+                                danger
+                                style={{ marginLeft: '10px' }}
+                                onClick={() => {
+                                    Modal.confirm({
+                                        title: 'Confirm',
+                                        content: `Are you sure you want to delete this category?`,
+                                        footer: (_, { OkBtn, CancelBtn }) => (
+                                            <>
+                                                <CancelBtn />
+                                                <Button
+                                                    danger
+                                                    onClick={() => {
+                                                        deleteCategory()
+                                                        Modal.destroyAll()
+                                                    }}
+                                                >
+                                                    Confirm Delete
+                                                </Button>
+                                            </>
+                                        ),
+                                    })
+                                }}
+                            >
+                                Delete Category
+                            </Button>
                         </Form.Item>
                     </Form>
                 </Card>
@@ -685,10 +744,10 @@ const AdminDashboard: React.FC = () => {
         },
         {
             key: '4',
-            label: 'Edit Product',
+            label: 'Manage Product',
             children: (
                 <Card
-                    title="Edit Product"
+                    title="Manage Product"
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -977,7 +1036,11 @@ const AdminDashboard: React.FC = () => {
                             )}
                         </Space>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                disabled={!selectedProduct}
+                            >
                                 Update Product
                             </Button>
                             <Button
@@ -986,6 +1049,34 @@ const AdminDashboard: React.FC = () => {
                                 style={{ marginLeft: '10px' }}
                             >
                                 Clear
+                            </Button>
+                            <Button
+                                disabled={!selectedProduct}
+                                htmlType="button"
+                                danger
+                                style={{ marginLeft: '10px' }}
+                                onClick={() => {
+                                    Modal.confirm({
+                                        title: 'Confirm',
+                                        content: `Are you sure you want to delete this product?`,
+                                        footer: (_, { OkBtn, CancelBtn }) => (
+                                            <>
+                                                <CancelBtn />
+                                                <Button
+                                                    danger
+                                                    onClick={() => {
+                                                        deleteProduct()
+                                                        Modal.destroyAll()
+                                                    }}
+                                                >
+                                                    Confirm Delete
+                                                </Button>
+                                            </>
+                                        ),
+                                    })
+                                }}
+                            >
+                                Delete Product
                             </Button>
                         </Form.Item>
                     </Form>
@@ -997,7 +1088,16 @@ const AdminDashboard: React.FC = () => {
     return (
         <Layout>
             <div id="admin-dashboard-page">
-                <Tabs defaultActiveKey="1" items={items} />
+                <Tabs
+                    onChange={() => {
+                        onResetProduct()
+                        onResetCategory()
+                        onResetEditCategory()
+                        onResetEditProduct()
+                    }}
+                    defaultActiveKey="1"
+                    items={items}
+                />
             </div>
         </Layout>
     )

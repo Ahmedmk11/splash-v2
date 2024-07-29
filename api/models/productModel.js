@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
         },
         category: {
             type: mongoose.Schema.Types.ObjectId,
-            required: [true, 'Product category is required'],
+            required: [false, 'Product category is required'],
         },
         price: {
             type: Number,
