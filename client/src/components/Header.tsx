@@ -49,6 +49,13 @@ const Header = () => {
 
     const items: MenuProps['items'] = [
         {
+            label: 'Test',
+            key: '9',
+            onClick: async () => {
+                await axiosApi.post('/user/test-post')
+            },
+        },
+        {
             label: 'Account',
             key: '0',
             icon: <UserOutlined />,

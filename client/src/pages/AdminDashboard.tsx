@@ -294,10 +294,6 @@ const AdminDashboard: React.FC = () => {
         onSuccess(file)
     }
 
-    const onChangeTab = (key: string) => {
-        console.log(key)
-    }
-
     const items: TabsProps['items'] = [
         {
             key: '1',
@@ -1001,11 +997,7 @@ const AdminDashboard: React.FC = () => {
     return (
         <Layout>
             <div id="admin-dashboard-page">
-                <Tabs
-                    defaultActiveKey="1"
-                    items={items}
-                    onChange={onChangeTab}
-                />
+                <Tabs defaultActiveKey="1" items={items} />
             </div>
         </Layout>
     )

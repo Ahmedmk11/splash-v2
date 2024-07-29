@@ -7,6 +7,7 @@ import CustomerModel from '../models/customerModel.js'
 import AdminModel from '../models/adminModel.js'
 import CategoryModel from '../models/categoryModel.js'
 import ProductModel from '../models/productModel.js'
+import OrderModel from '../models/orderModel.js'
 
 const currentFileUrl = import.meta.url
 const currentFilePath = fileURLToPath(currentFileUrl)
@@ -16,6 +17,35 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 // --------------------------------------------------
 // API Endpoints
 // --------------------------------------------------
+
+async function testGet(req, res) {
+    try {
+        const order = await OrderModel.find()
+        res.status(200).json({ order })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function testPost(req, res) {
+    try {
+        const newCustomer = new CustomerModel({
+            email_address: 'ah@t.com',
+            password: 'password',
+            first_name: 'Ahmed',
+            last_name: 'Taha',
+            phone_number: '1234567890',
+            address: '123, Street, City',
+            city: 'City',
+            area: 'Area',
+        })
+        await newCustomer.save()
+
+        res.status(201).json({ message: 'Customer added successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 
 async function getCurrUser(req, res) {
     try {
@@ -236,7 +266,105 @@ async function updateProduct(req, res) {
     }
 }
 
+async function getCustomers(req, res) {
+    try {
+        const customers = await CustomerModel.find()
+
+        if (!customers) {
+            return res.status(404).json({ message: 'No customers found' })
+        }
+
+        res.status(200).json({ customers })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getAdmins(req, res) {
+    try {
+        const admins = await AdminModel.find({ type: 'Admin' })
+
+        if (!admins) {
+            return res.status(404).json({ message: 'No admins found' })
+        }
+
+        res.status(200).json({ admins })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getSuperAdmins(req, res) {
+    try {
+        const superAdmins = await AdminModel.find({ type: 'Super Admin' })
+
+        if (!superAdmins) {
+            return res.status(404).json({ message: 'No super admins found' })
+        }
+
+        res.status(200).json({ superAdmins })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function deleteCustomer(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findByIdAndDelete(id).populate(
+            'orders'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const orders = customer.orders
+        if (orders.length) {
+            orders.forEach(async (order) => {
+                await order.remove()
+            })
+        }
+
+        res.status(200).json({ message: 'Customer deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function deleteAdmin(req, res) {
+    try {
+        const { id } = req.params
+        const admin = await AdminModel.findByIdAndDelete(id)
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' })
+        }
+
+        res.status(200).json({ message: 'Admin deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function deleteSuperAdmin(req, res) {
+    try {
+        const { id } = req.params
+        const superAdmin = await AdminModel.findByIdAndDelete(id)
+
+        if (!superAdmin) {
+            return res.status(404).json({ message: 'Super Admin not found' })
+        }
+
+        res.status(200).json({ message: 'Super Admin deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
+    testGet,
+    testPost,
     getCurrUser,
     addNewCategory,
     addNewProduct,
@@ -248,4 +376,10 @@ export {
     getCarouselProducts,
     updateCategory,
     updateProduct,
+    getCustomers,
+    getAdmins,
+    getSuperAdmins,
+    deleteCustomer,
+    deleteAdmin,
+    deleteSuperAdmin,
 }

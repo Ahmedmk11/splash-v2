@@ -60,6 +60,11 @@ const customerSchema = new mongoose.Schema(
                 ref: 'Order',
             },
         ],
+        status: {
+            type: String,
+            enum: ['Active', 'Inactive'],
+            default: 'Active',
+        },
     },
     { timestamps: true },
     {
