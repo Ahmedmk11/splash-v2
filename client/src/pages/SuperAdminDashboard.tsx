@@ -18,11 +18,13 @@ import type { TabsProps } from 'antd'
 import Layout from '../Layout'
 import axiosApi from '../utils/axiosApi'
 import CountryPhoneInput from '../components/CountryPhoneInput.tsx'
+import { useNavigate } from 'react-router-dom'
 
 const { Option } = Select
 const { Panel } = Collapse
 
 const SuperAdminDashboard = () => {
+    const navigate = useNavigate()
     const [customers, setCustomers] = useState([])
     const [admins, setAdmins] = useState([])
     const [superAdmins, setSuperAdmins] = useState([])
@@ -103,11 +105,60 @@ const SuperAdminDashboard = () => {
         formEditCustomer.setFieldsValue(item)
     }
 
+    const handleSaveCustomer = async (values: any) => {
+        try {
+            await axiosApi.put(`/user/update-customer/${expandedItem}`, values)
+            fetchCustomers()
+            setExpandedItem(null)
+            message.success({
+                content: 'Customer updated successfully',
+            })
+        } catch (error) {
+            console.error(error)
+            message.error({
+                content: 'Error updating customer',
+            })
+        }
+    }
+
+    const handleSaveAdmin = async (values: any) => {
+        try {
+            await axiosApi.put(`/user/update-admin/${expandedItem}`, values)
+            fetchAdmins()
+            setExpandedItem(null)
+            message.success({
+                content: 'Admin updated successfully',
+            })
+        } catch (error) {
+            console.error(error)
+            message.error({
+                content: 'Error updating admin',
+            })
+        }
+    }
+
+    const handleSaveSuperAdmin = async (values: any) => {
+        try {
+            await axiosApi.put(`/user/update-admin/${expandedItem}`, values)
+            fetchSuperAdmins()
+            setExpandedItem(null)
+            message.success({
+                content: 'Super admin updated successfully',
+            })
+        } catch (error) {
+            console.error(error)
+            message.error({
+                content: 'Error updating super admin',
+            })
+        }
+    }
+
     const handlePromote = async (item: any) => {
         try {
             await axiosApi.put(`/user/promote-admin/${item._id}`)
             fetchAdmins()
             fetchSuperAdmins()
+            setExpandedItem(null)
             message.success({
                 content: 'Admin promoted successfully',
             })
@@ -124,6 +175,7 @@ const SuperAdminDashboard = () => {
             await axiosApi.put(`/user/demote-admin/${item._id}`)
             fetchAdmins()
             fetchSuperAdmins()
+            setExpandedItem(null)
             message.success({
                 content: 'Admin demoted successfully',
             })
@@ -151,6 +203,13 @@ const SuperAdminDashboard = () => {
                         header={
                             <List.Item
                                 actions={[
+                                    <Button
+                                        onClick={() => {
+                                            navigate(`/activtiy/${item._id}`)
+                                        }}
+                                    >
+                                        Activity
+                                    </Button>,
                                     <Button
                                         onClick={() => handleStartEdit(item)}
                                     >
@@ -188,13 +247,24 @@ const SuperAdminDashboard = () => {
                         key={item._id}
                     >
                         {role === 'customer' ? (
-                            <Form form={formEditCustomer} layout="vertical">
+                            <Form
+                                onFinish={handleSaveCustomer}
+                                form={formEditCustomer}
+                                layout="vertical"
+                            >
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
                                             label="First Name"
                                             name="first_name"
                                             initialValue={item.first_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter first name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -204,6 +274,13 @@ const SuperAdminDashboard = () => {
                                             label="Last Name"
                                             name="last_name"
                                             initialValue={item.last_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter last name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -215,6 +292,18 @@ const SuperAdminDashboard = () => {
                                             label="Email Address"
                                             name="email_address"
                                             initialValue={item.email_address}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter email address',
+                                                },
+                                                {
+                                                    type: 'email',
+                                                    message:
+                                                        'Please enter a valid email address',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -224,6 +313,13 @@ const SuperAdminDashboard = () => {
                                             label="Phone Number"
                                             name="phone_number"
                                             initialValue={item.phone_number}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter phone number',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -234,6 +330,13 @@ const SuperAdminDashboard = () => {
                                         <Form.Item
                                             label="Password"
                                             name="password"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter password',
+                                                },
+                                            ]}
                                         >
                                             <Input.Password placeholder="Password" />
                                         </Form.Item>
@@ -243,6 +346,13 @@ const SuperAdminDashboard = () => {
                                             label="Address"
                                             name="address"
                                             initialValue={item.address}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter address',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -254,6 +364,13 @@ const SuperAdminDashboard = () => {
                                             label="City"
                                             name="city"
                                             initialValue={item.city}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter city',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -263,6 +380,13 @@ const SuperAdminDashboard = () => {
                                             label="Area"
                                             name="area"
                                             initialValue={item.area}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter area',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -308,7 +432,9 @@ const SuperAdminDashboard = () => {
                                             <Button
                                                 htmlType="button"
                                                 onClick={onResetManageCustomer}
-                                                style={{ marginLeft: '10px' }}
+                                                style={{
+                                                    marginLeft: '10px',
+                                                }}
                                             >
                                                 Clear
                                             </Button>
@@ -317,13 +443,24 @@ const SuperAdminDashboard = () => {
                                 </Row>
                             </Form>
                         ) : role === 'admin' ? (
-                            <Form form={formEditAdmin} layout="vertical">
+                            <Form
+                                onFinish={handleSaveAdmin}
+                                form={formEditAdmin}
+                                layout="vertical"
+                            >
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
                                             label="First Name"
                                             name="first_name"
                                             initialValue={item.first_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter first name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -333,6 +470,13 @@ const SuperAdminDashboard = () => {
                                             label="Last Name"
                                             name="last_name"
                                             initialValue={item.last_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter last name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -344,6 +488,18 @@ const SuperAdminDashboard = () => {
                                             label="Email Address"
                                             name="email_address"
                                             initialValue={item.email_address}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter email address',
+                                                },
+                                                {
+                                                    type: 'email',
+                                                    message:
+                                                        'Please enter a valid email address',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -353,6 +509,13 @@ const SuperAdminDashboard = () => {
                                             label="Phone Number"
                                             name="phone_number"
                                             initialValue={item.phone_number}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter phone number',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -364,6 +527,13 @@ const SuperAdminDashboard = () => {
                                             label="Password"
                                             name="password"
                                             initialValue={item.password}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter password',
+                                                },
+                                            ]}
                                         >
                                             <Input.Password />
                                         </Form.Item>
@@ -401,18 +571,38 @@ const SuperAdminDashboard = () => {
                                             >
                                                 Save
                                             </Button>
+                                            <Button
+                                                htmlType="button"
+                                                onClick={onResetManageAdmin}
+                                                style={{
+                                                    marginLeft: '10px',
+                                                }}
+                                            >
+                                                Clear
+                                            </Button>
                                         </Form.Item>
                                     </Col>
                                 </Row>
                             </Form>
                         ) : role === 'super-admin' ? (
-                            <Form form={formEditSuperAdmin} layout="vertical">
+                            <Form
+                                onFinish={handleSaveSuperAdmin}
+                                form={formEditSuperAdmin}
+                                layout="vertical"
+                            >
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
                                             label="First Name"
                                             name="first_name"
                                             initialValue={item.first_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter first name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -422,6 +612,13 @@ const SuperAdminDashboard = () => {
                                             label="Last Name"
                                             name="last_name"
                                             initialValue={item.last_name}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter last name',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -433,6 +630,18 @@ const SuperAdminDashboard = () => {
                                             label="Email Address"
                                             name="email_address"
                                             initialValue={item.email_address}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter email address',
+                                                },
+                                                {
+                                                    type: 'email',
+                                                    message:
+                                                        'Please enter a valid email address',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -442,6 +651,13 @@ const SuperAdminDashboard = () => {
                                             label="Phone Number"
                                             name="phone_number"
                                             initialValue={item.phone_number}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter phone number',
+                                                },
+                                            ]}
                                         >
                                             <Input />
                                         </Form.Item>
@@ -453,6 +669,13 @@ const SuperAdminDashboard = () => {
                                             label="Password"
                                             name="password"
                                             initialValue={item.password}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message:
+                                                        'Please enter password',
+                                                },
+                                            ]}
                                         >
                                             <Input.Password />
                                         </Form.Item>
@@ -490,6 +713,17 @@ const SuperAdminDashboard = () => {
                                             >
                                                 Save
                                             </Button>
+                                            <Button
+                                                htmlType="button"
+                                                onClick={
+                                                    onResetManageSuperAdmin
+                                                }
+                                                style={{
+                                                    marginLeft: '10px',
+                                                }}
+                                            >
+                                                Clear
+                                            </Button>
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -506,6 +740,7 @@ const SuperAdminDashboard = () => {
             console.log('Admin: ', values)
             await axiosApi.post('/auth/register-admin', values)
             fetchAdmins()
+            fetchSuperAdmins()
             message.success({
                 content: 'Admin added successfully',
             })

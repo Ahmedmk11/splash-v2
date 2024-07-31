@@ -22,6 +22,8 @@ import {
     deleteSuperAdmin,
     deleteCategory,
     deleteProduct,
+    updateCustomer,
+    updateAdmin,
     promoteAdmin,
     demoteAdmin,
 } from '../controllers/userController.js'
@@ -41,12 +43,14 @@ router.get('/get-carousel', getCarouselProducts)
 router.get('/get-customers', getCustomers)
 router.get('/get-admins', getAdmins)
 router.get('/get-super-admins', getSuperAdmins)
-router.post('/add-category', addNewCategory)
-router.post('/add-product', addNewProduct)
 router.put('/update-category/:id', updateCategory)
 router.put('/update-product/:id', updateProduct)
+router.put('/update-customer/:id', updateCustomer)
+router.put('/update-admin/:id', updateAdmin)
 router.put('/promote-admin/:id', promoteAdmin)
 router.put('/demote-admin/:id', demoteAdmin)
+router.post('/add-category', addNewCategory)
+router.post('/add-product', addNewProduct)
 router.delete('/delete-category/:id', deleteCategory)
 router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)
