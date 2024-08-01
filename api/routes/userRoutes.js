@@ -8,6 +8,7 @@ import {
     addNewCategory,
     addNewProduct,
     getCategory,
+    getCategoryId,
     getCategories,
     getProducts,
     getProduct,
@@ -37,6 +38,7 @@ router.post('/test-post', testPost)
 router.get('/get-user/:id', getCurrUser)
 router.get('/get-customer/:id', getCustomer)
 router.get('/get-category/:id', getCategory)
+router.get('/get-category-id/:name', getCategoryId)
 router.get('/get-categories', getCategories)
 router.get('/get-products', getProducts)
 router.get('/get-product/:id', getProduct)

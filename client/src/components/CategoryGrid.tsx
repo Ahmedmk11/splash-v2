@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Card, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import axiosApi from '../utils/axiosApi'
+import axiosApi, { baseURL } from '../utils/axiosApi'
 
 const { Meta } = Card
 
@@ -10,13 +10,6 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
 
     const [category, setCategory] = useState<any>()
     const [products, setProducts] = useState<any>([])
-
-    const items = products.map((product: any) => ({
-        title: product.name,
-        description: product.description,
-        image: 'https://via.placeholder.com/200',
-        id: product.id,
-    }))
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +28,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
         }
 
         fetchData()
-    }, [])
+    }, [categoryId])
 
     return (
         <div
@@ -66,21 +59,24 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                     }}
                 >
                     <Row gutter={[16, 16]}>
-                        {items.map((item: any, index: any) => (
+                        {products.map((product: any, index: any) => (
                             <Col key={index} xs={24} sm={12} md={8} lg={6}>
                                 <Card
                                     cover={
                                         <div className="zoom-effect-container">
                                             <img
-                                                alt={item.title}
-                                                src={item.image}
+                                                src={
+                                                    baseURL.slice(0, -1) +
+                                                    product.imageUrl
+                                                }
+                                                alt={product.name}
                                                 className="zoom-effect-image"
                                                 style={{
                                                     cursor: 'pointer',
                                                 }}
                                                 onClick={() => {
                                                     navigate(
-                                                        `/product/${item.id.toLowerCase()}`
+                                                        `/product/${product._id}`
                                                     )
                                                 }}
                                             />
@@ -88,8 +84,8 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                     }
                                 >
                                     <Meta
-                                        title={item.title}
-                                        description={item.description}
+                                        title={product.name}
+                                        description={product.description}
                                     />
                                 </Card>
                             </Col>

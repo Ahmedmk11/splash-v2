@@ -64,14 +64,15 @@ const Activity = () => {
                                                         Order ID: {item._id}
                                                     </div>
                                                     <div>
-                                                        <sub
+                                                        <span
                                                             style={{
                                                                 fontWeight:
                                                                     '600',
+                                                                fontSize: 10,
                                                             }}
                                                         >
                                                             EGP
-                                                        </sub>{' '}
+                                                        </span>{' '}
                                                         {item.total_price}
                                                     </div>
                                                 </div>
@@ -105,14 +106,15 @@ const Activity = () => {
                                                             }
                                                         </div>
                                                         <div>
-                                                            <sub
+                                                            <span
                                                                 style={{
                                                                     fontWeight:
                                                                         '600',
+                                                                    fontSize: 10,
                                                                 }}
                                                             >
                                                                 EGP
-                                                            </sub>{' '}
+                                                            </span>{' '}
                                                             {product.price}
                                                         </div>
                                                     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Input, Dropdown, Menu, Space } from 'antd'
+import { Input, Dropdown, Menu, Space, ConfigProvider } from 'antd'
 import {
     AppstoreOutlined,
     HeartOutlined,
@@ -153,18 +153,29 @@ const Header = () => {
                     Splash
                 </h1>
                 <div className="header-item" id="search-container">
-                    <Input
-                        placeholder="Search"
-                        prefix={<SearchOutlined className="icon" />}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: 0,
-                            border: 'none',
-                            fontSize: 16,
-                            cursor: 'text',
+                    <ConfigProvider
+                        theme={{
+                            components: {
+                                Input: {
+                                    activeShadow: 'none',
+                                },
+                            },
                         }}
-                    />
+                    >
+                        <Input
+                            placeholder="Search"
+                            prefix={<SearchOutlined className="icon" />}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: 0,
+                                border: 'none',
+                                fontSize: 16,
+                                cursor: 'text',
+                                outline: 'none',
+                            }}
+                        />
+                    </ConfigProvider>
                 </div>
                 <div className="header-item">
                     <Dropdown
