@@ -139,4 +139,7 @@
 
 .ant-collapse-header {
     cursor: default !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center !important;
 }

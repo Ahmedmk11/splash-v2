@@ -1,4 +1,11 @@
 import mongoose from 'mongoose'
+import moment from 'moment-timezone'
+
+const setEgyptianTimezone = function (next) {
+    const egyptTime = moment.tz(Date.now(), 'Africa/Cairo').valueOf()
+    this.createdAt = egyptTime
+    next()
+}
 
 const orderSchema = new mongoose.Schema(
     {
@@ -9,9 +16,17 @@ const orderSchema = new mongoose.Schema(
         },
         products: [
             {
-                product: {
+                pid: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Product',
+                },
+                product_name: {
+                    type: String,
+                    required: [true, 'Product name is required'],
+                },
+                price: {
+                    type: Number,
+                    required: [true, 'Product price is required'],
                 },
                 quantity: {
                     type: Number,
@@ -24,7 +39,20 @@ const orderSchema = new mongoose.Schema(
             required: [true, 'Total price is required'],
         },
         delivery_address: {
-            type: String,
+            type: {
+                city: {
+                    type: String,
+                    required: [true, 'City is required'],
+                },
+                area: {
+                    type: String,
+                    required: [true, 'Area is required'],
+                },
+                address: {
+                    type: String,
+                    required: [true, 'Address is required'],
+                },
+            },
             required: [true, 'Delivery address is required'],
         },
         status: {
@@ -37,6 +65,10 @@ const orderSchema = new mongoose.Schema(
             ],
             default: 'Pending Confirmation',
         },
+        date: {
+            type: Number,
+            default: Date.now,
+        },
     },
     { timestamps: true },
     {
@@ -44,6 +76,8 @@ const orderSchema = new mongoose.Schema(
         toObject: { virtuals: true },
     }
 )
+
+orderSchema.pre('save', setEgyptianTimezone)
 
 const OrderModel = mongoose.model('Order', orderSchema)
 

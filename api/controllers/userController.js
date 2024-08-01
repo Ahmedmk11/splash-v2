@@ -20,8 +20,6 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 async function testGet(req, res) {
     try {
-        const order = await OrderModel.find()
-        res.status(200).json({ order })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -29,17 +27,40 @@ async function testGet(req, res) {
 
 async function testPost(req, res) {
     try {
-        const newCustomer = new CustomerModel({
-            email_address: 'ajh@t.com',
-            password: 'password',
-            first_name: 'Ahmed',
-            last_name: 'Taha',
-            phone_number: '1234557890',
-            address: '123, Street, City',
-            city: 'City',
-            area: 'Area',
+        // const newCustomer = new CustomerModel({
+        //     email_address: 'ajh@t.com',
+        //     password: 'password',
+        //     first_name: 'Ahmed',
+        //     last_name: 'Taha',
+        //     phone_number: '1234557890',
+        //     address: '123, Street, City',
+        //     city: 'City',
+        //     area: 'Area',
+        // })
+        // await newCustomer.save()
+
+        const newOrder = new OrderModel({
+            customer: '66a7e7f7f43bc127a2b6b080',
+            products: [
+                {
+                    pid: '66a53ec7843ab0963cb6a3cc',
+                    quantity: 2,
+                    product_name: 'Testing Product 3',
+                },
+            ],
+            total_price: 12000,
+            delivery_address: {
+                city: 'City',
+                area: 'Area',
+                address: '123, Street, City',
+            },
         })
-        await newCustomer.save()
+
+        await CustomerModel.findByIdAndUpdate('66a7e7f7f43bc127a2b6b080', {
+            $push: { orders: newOrder._id },
+        })
+
+        await newOrder.save()
 
         res.status(201).json({ message: 'Customer added successfully' })
     } catch (error) {
@@ -50,7 +71,7 @@ async function testPost(req, res) {
 async function getCurrUser(req, res) {
     try {
         const { id } = req.params
-        const customer = await CustomerModel.findById(id)
+        const customer = await CustomerModel.findById(id).populate('orders')
         const admin = await AdminModel.findById(id)
 
         if (!customer && !admin) {
@@ -60,6 +81,21 @@ async function getCurrUser(req, res) {
         const user = customer || admin
         console.log(user)
         res.status(200).json({ user })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getCustomer(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate('orders')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        res.status(200).json({ customer })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -519,6 +555,7 @@ export {
     testGet,
     testPost,
     getCurrUser,
+    getCustomer,
     addNewCategory,
     addNewProduct,
     getCategory,

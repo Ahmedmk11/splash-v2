@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard.tsx'
 import SuperAdminDashboard from './pages/SuperAdminDashboard.tsx'
 import Cart from './pages/Cart.tsx'
 import Wishlist from './pages/Wishlist.tsx'
+import Activity from './pages/Activity.tsx'
 
 import {
     UserGuard,
@@ -28,7 +29,7 @@ const RouteSwitch = () => {
     return (
         <Routes>
             <Route path="*" element={<NotFound />} />
-            <Route path="/category-:categoryId" element={<Category />} />
+            <Route path="/category/:categoryId" element={<Category />} />
 
             <Route path="/forbidden-access" element={<Forbidden />} />
             <Route path="/" element={<Home />} />
@@ -60,6 +61,15 @@ const RouteSwitch = () => {
                 element={
                     <UserGuard isAuthenticated={isAuthenticated}>
                         <Wishlist />
+                    </UserGuard>
+                }
+            />
+
+            <Route
+                path="/activity/:cid"
+                element={
+                    <UserGuard isAuthenticated={isAuthenticated}>
+                        <Activity />
                     </UserGuard>
                 }
             />

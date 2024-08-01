@@ -62,7 +62,7 @@ const Home = () => {
                                 key={category.id}
                                 className="home-category-item"
                                 onClick={() => {
-                                    navigate(`/category-${category.id}`)
+                                    navigate(`/category/${category.id}`)
                                 }}
                             >
                                 <img

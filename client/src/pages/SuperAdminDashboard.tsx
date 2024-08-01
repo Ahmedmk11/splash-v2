@@ -205,7 +205,7 @@ const SuperAdminDashboard = () => {
                                 actions={[
                                     <Button
                                         onClick={() => {
-                                            navigate(`/activtiy/${item._id}`)
+                                            navigate(`/activity/${item._id}`)
                                         }}
                                     >
                                         Activity

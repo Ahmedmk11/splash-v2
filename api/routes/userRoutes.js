@@ -4,6 +4,7 @@ import {
     testGet,
     testPost,
     getCurrUser,
+    getCustomer,
     addNewCategory,
     addNewProduct,
     getCategory,
@@ -34,6 +35,7 @@ router.get('/test-get', testGet)
 router.post('/test-post', testPost)
 
 router.get('/get-user/:id', getCurrUser)
+router.get('/get-customer/:id', getCustomer)
 router.get('/get-category/:id', getCategory)
 router.get('/get-categories', getCategories)
 router.get('/get-products', getProducts)

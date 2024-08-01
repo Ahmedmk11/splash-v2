@@ -19,8 +19,6 @@ import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 
-const baseURL = config.REACT_APP_API_URL
-
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
