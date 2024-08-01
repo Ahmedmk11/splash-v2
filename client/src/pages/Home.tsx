@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
-
 import { useNavigate } from 'react-router-dom'
-
 import { Carousel } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
+import LazyLoad from 'react-lazyload'
 
 const baseURL = config.REACT_APP_API_URL
 
 const Home = () => {
     const navigate = useNavigate()
-    const [categories, setCategories] = useState<any>([])
-    const [carouselProducts, setCarouselProducts] = useState<any>([])
+    const [categories, setCategories] = useState<any[]>([])
+    const [carouselProducts, setCarouselProducts] = useState<any[]>([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,23 +37,26 @@ const Home = () => {
     return (
         <Layout>
             <div id="home-page">
-                <Carousel
-                    autoplaySpeed={2000}
-                    autoplay
-                    arrows
-                    infinite
-                    id="home-carousel"
-                >
-                    {carouselProducts.map((product: any) => (
-                        <img
-                            onClick={() => {
-                                navigate(`/product-${product.pid}`)
-                            }}
-                            src={baseURL.slice(0, -1) + product.imageUrl}
-                            alt={product.name}
-                        />
-                    ))}
-                </Carousel>
+                {carouselProducts.length > 0 && (
+                    <Carousel
+                        autoplaySpeed={2000}
+                        autoplay
+                        arrows
+                        infinite
+                        id="home-carousel"
+                    >
+                        {carouselProducts.map((product: any) => (
+                            <img
+                                key={product.pid}
+                                onClick={() => {
+                                    navigate(`/product-${product.pid}`)
+                                }}
+                                src={baseURL.slice(0, -1) + product.imageUrl}
+                                alt={product.name}
+                            />
+                        ))}
+                    </Carousel>
+                )}
                 <div id="home-bottom">
                     <div id="home-categories">
                         {categories.map((category: any) => (
@@ -62,15 +64,29 @@ const Home = () => {
                                 key={category.id}
                                 className="home-category-item"
                                 onClick={() => {
-                                    navigate(`/category/${category.id}`)
+                                    navigate(`/category/${category._id}`)
                                 }}
                             >
-                                <img
-                                    src={
-                                        baseURL.slice(0, -1) + category.imageUrl
-                                    }
-                                    alt={category.name}
-                                />
+                                <LazyLoad
+                                    style={{
+                                        height: 700,
+                                        width: '100%',
+                                    }}
+                                    offset={100}
+                                >
+                                    <img
+                                        src={
+                                            baseURL.slice(0, -1) +
+                                            category.imageUrl
+                                        }
+                                        alt={category.name}
+                                        style={{
+                                            objectFit: 'cover',
+                                            width: '100%',
+                                            height: 700,
+                                        }}
+                                    />
+                                </LazyLoad>
                                 <h2>{category.name}</h2>
                             </div>
                         ))}

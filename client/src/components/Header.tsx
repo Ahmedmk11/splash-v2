@@ -121,7 +121,7 @@ const Header = () => {
     ]
 
     const handleMenuClick = (e: any) => {
-        navigate(`/category/${e.key.toLowerCase().replace(' ', '-')}`)
+        navigate(`/category/${e.key}`)
     }
 
     const menu = (
@@ -131,7 +131,7 @@ const Header = () => {
                     style={{
                         fontSize: 16,
                     }}
-                    key={category.name}
+                    key={category._id}
                 >
                     {category.name}
                 </Menu.Item>

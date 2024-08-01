@@ -197,7 +197,7 @@ async function getProduct(req, res) {
 async function getCategoryProducts(req, res) {
     try {
         const { id } = req.params
-        const products = ProductModel.find({ category: id })
+        const products = await ProductModel.find({ category: id })
 
         if (!products) {
             return res.status(404).json({ message: 'Products not found' })

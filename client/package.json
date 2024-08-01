@@ -17,6 +17,7 @@
         "country-data": "^0.0.31",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-lazyload": "^3.2.1",
         "react-phone-input-2": "^2.15.1",
         "react-router-dom": "^6.24.0",
         "socket.io-client": "^4.7.5"
@@ -25,6 +26,7 @@
         "@types/country-data": "^0.0.5",
         "@types/react": "^18.2.66",
         "@types/react-dom": "^18.2.22",
+        "@types/react-lazyload": "^3.2.3",
         "@typescript-eslint/eslint-plugin": "^7.2.0",
         "@typescript-eslint/parser": "^7.2.0",
         "@vitejs/plugin-react": "^4.2.1",

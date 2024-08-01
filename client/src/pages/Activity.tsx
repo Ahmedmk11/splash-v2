@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../Layout'
-import { Collapse, List, Tabs, TabsProps } from 'antd'
+import { Collapse, List } from 'antd'
 import { useParams } from 'react-router-dom'
 
 import axiosApi from '../utils/axiosApi'
+
+import displayTime from '../utils/displayTime'
+
 const { Panel } = Collapse
 
 const Activity = () => {
     const { cid } = useParams<{ cid: string }>()
-    const [currUser, setCurrUser] = useState<any>(null)
-    const [expandedItem, setExpandedItem] = useState<any>(null)
     const [orders, setOrders] = useState<any[]>([])
-
-    function formatTimestamp(timestamp: number) {
-        const date = new Date(timestamp)
-
-        const day = date.getDate().toString().padStart(2, '0')
-        const month = date.toLocaleString('en-GB', { month: 'long' })
-        const year = date.getFullYear()
-        const hour = date.getHours() % 12 || 12
-        const minute = date.getMinutes().toString().padStart(2, '0')
-        const amPm = date.getHours() >= 12 ? 'PM' : 'AM'
-
-        return `${day} ${month} ${year}, ${hour}:${minute} ${amPm}`
-    }
 
     const fetchUser = async () => {
         try {
             const res = await axiosApi.get(`/user/get-customer/${cid}`)
             console.log(res.data.customer)
-            setCurrUser(res.data.customer)
             setOrders(res.data.customer.orders)
             console.log(res.data.customer.orders)
         } catch (error) {
@@ -41,11 +28,16 @@ const Activity = () => {
         fetchUser()
     }, [])
 
-    const items: TabsProps['items'] = [
-        {
-            key: '1',
-            label: 'Orders',
-            children: (
+    return (
+        <Layout>
+            <div id="activity-page">
+                <h2
+                    style={{
+                        marginBottom: '20px',
+                    }}
+                >
+                    Orders
+                </h2>
                 <List
                     itemLayout="horizontal"
                     dataSource={orders}
@@ -55,12 +47,7 @@ const Activity = () => {
                         align: 'end',
                     }}
                     renderItem={(item) => (
-                        <Collapse
-                            onChange={() => {
-                                setExpandedItem(item)
-                            }}
-                            collapsible="icon"
-                        >
+                        <Collapse collapsible="icon">
                             <Panel
                                 header={
                                     <List.Item>
@@ -91,7 +78,7 @@ const Activity = () => {
                                             }
                                             description={
                                                 'Order Date: ' +
-                                                formatTimestamp(item.date)
+                                                displayTime(item.date)
                                             }
                                         />
                                     </List.Item>
@@ -141,20 +128,6 @@ const Activity = () => {
                             </Panel>
                         </Collapse>
                     )}
-                />
-            ),
-        },
-    ]
-
-    return (
-        <Layout>
-            <div id="activity-page">
-                <Tabs
-                    onChange={() => {
-                        setExpandedItem(null)
-                    }}
-                    defaultActiveKey="1"
-                    items={items}
                 />
             </div>
         </Layout>
