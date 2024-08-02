@@ -28,6 +28,13 @@ import {
     updateAdmin,
     promoteAdmin,
     demoteAdmin,
+    addToCart,
+    removeFromCart,
+    updateProductQuantity,
+    addToWishlist,
+    removeFromWishlist,
+    createOrder,
+    getCart,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -47,14 +54,21 @@ router.get('/get-carousel', getCarouselProducts)
 router.get('/get-customers', getCustomers)
 router.get('/get-admins', getAdmins)
 router.get('/get-super-admins', getSuperAdmins)
+router.get('/get-cart/:id', getCart)
 router.put('/update-category/:id', updateCategory)
 router.put('/update-product/:id', updateProduct)
 router.put('/update-customer/:id', updateCustomer)
 router.put('/update-admin/:id', updateAdmin)
 router.put('/promote-admin/:id', promoteAdmin)
 router.put('/demote-admin/:id', demoteAdmin)
+router.put('/update-product-quantity/:id', updateProductQuantity)
 router.post('/add-category', addNewCategory)
 router.post('/add-product', addNewProduct)
+router.post('/add-to-cart/:id', addToCart)
+router.post('/remove-from-cart/:id', removeFromCart)
+router.post('/add-to-wishlist/:id', addToWishlist)
+// router.post('/remove-from-wishlist', removeFromWishlist)
+// router.post('/create-order', createOrder)
 router.delete('/delete-category/:id', deleteCategory)
 router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)

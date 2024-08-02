@@ -71,7 +71,19 @@ async function testPost(req, res) {
 async function getCurrUser(req, res) {
     try {
         const { id } = req.params
-        const customer = await CustomerModel.findById(id).populate('orders')
+        const customer = await CustomerModel.findById(id)
+            .populate({
+                path: 'cart.product',
+                model: 'Product',
+            })
+            .populate({
+                path: 'wishlist',
+                model: 'Product',
+            })
+            .populate({
+                path: 'orders',
+                model: 'Order',
+            })
         const admin = await AdminModel.findById(id)
 
         if (!customer && !admin) {
@@ -568,6 +580,232 @@ async function getCategoryId(req, res) {
     }
 }
 
+async function addToCart(req, res) {
+    try {
+        const { id } = req.params
+        const { productId, quantity } = req.body
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const product = await ProductModel.findById(productId)
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' })
+        }
+
+        const cartProduct = customer.cart.find(
+            (item) => item.product._id.toString() === productId
+        )
+
+        if (cartProduct) {
+            cartProduct.quantity += quantity
+        } else {
+            customer.cart.push({ product: productId, quantity })
+        }
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function removeFromCart(req, res) {
+    try {
+        const { id } = req.params
+        const { productId } = req.body
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const productIndex = customer.cart.findIndex(
+            (item) => item.product._id.toString() === productId
+        )
+
+        if (productIndex >= 0) {
+            customer.cart.splice(productIndex, 1)
+        }
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function updateProductQuantity(req, res) {
+    try {
+        const { id } = req.params
+        const { productId, mode } = req.body
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        if (mode === 'increase') {
+            const cartProduct = customer.cart.find(
+                (item) => item.product._id.toString() === productId
+            )
+            cartProduct.quantity += 1
+        } else if (mode === 'decrease') {
+            const cartProduct = customer.cart.find(
+                (item) => item.product._id.toString() === productId
+            )
+            cartProduct.quantity -= 1
+
+            if (cartProduct.quantity <= 0) {
+                const productIndex = customer.cart.findIndex(
+                    (item) => item.product._id.toString() === productId
+                )
+                customer.cart.splice(productIndex, 1)
+            }
+        }
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function addToWishlist(req, res) {
+    try {
+        const { id } = req.params
+        const { productId } = req.body
+
+        const customer = await CustomerModel.findById(id).populate('wishlist')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const product = await ProductModel.findById(productId)
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' })
+        }
+
+        const wishlistProduct = customer.wishlist.find(
+            (item) => item._id.toString() === productId
+        )
+
+        if (!wishlistProduct) {
+            customer.wishlist.push(productId)
+        }
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function removeFromWishlist(req, res) {
+    try {
+        const { id } = req.params
+        const { productId } = req.body
+
+        const customer = await CustomerModel.findById(id).populate('wishlist')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const productIndex = customer.wishlist.findIndex(
+            (item) => item._id.toString() === productId
+        )
+
+        if (productIndex >= 0) {
+            customer.wishlist.splice(productIndex, 1)
+        }
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function createOrder(req, res) {
+    try {
+        const { id } = req.params
+
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        const products = customer.cart.map((item) => {
+            return {
+                pid: item.product._id,
+                product_name: item.product.name,
+                price: item.product.price,
+                quantity: item.quantity,
+            }
+        })
+
+        const total_price = products.reduce((acc, item) => {
+            return acc + item.price * item.quantity
+        })
+
+        const order = new OrderModel({
+            customer: id,
+            products,
+            total_price,
+            delivery_address: {
+                city: customer.city,
+                area: customer.area,
+                address: customer.address,
+            },
+        })
+
+        await order.save()
+        customer.cart = []
+        await customer.save()
+
+        res.status(201).json({ order })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getCart(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        res.status(200).json({ cart: customer.cart })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -596,4 +834,11 @@ export {
     updateAdmin,
     promoteAdmin,
     demoteAdmin,
+    addToCart,
+    removeFromCart,
+    updateProductQuantity,
+    addToWishlist,
+    removeFromWishlist,
+    createOrder,
+    getCart,
 }

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Col, Typography, Button, Space } from 'antd'
+import { Row, Col, Typography, Button, Space, message } from 'antd'
 import Layout from '../Layout'
 import axiosApi, { baseURL } from '../utils/axiosApi'
+import CurrUserContext from '../CurrUserContext'
 
 const { Title, Text, Paragraph } = Typography
 
 const Product = () => {
     const { productId } = useParams<{ productId: string }>()
+    const { currUser } = useContext(CurrUserContext)
     const [product, setProduct] = useState<any>()
 
     const fetchProduct = async () => {
@@ -22,6 +24,20 @@ const Product = () => {
     useEffect(() => {
         fetchProduct()
     }, [productId])
+
+    const handleAddToCart = async () => {
+        try {
+            console.log(currUser.user._id)
+            await axiosApi.post(`/user/add-to-cart/${currUser.user._id}`, {
+                productId: productId,
+                quantity: 1,
+            })
+            message.success('Added to cart')
+        } catch (error) {
+            console.error(error)
+            message.error('Failed to add to cart')
+        }
+    }
 
     return (
         <Layout>
@@ -88,14 +104,23 @@ const Product = () => {
 
                             <Paragraph>{product?.description}</Paragraph>
                         </Space>
-                        <Button
-                            type="primary"
+                        <Space
+                            direction="vertical"
                             size="large"
-                            block
-                            style={{ marginTop: 'auto' }}
+                            style={{ width: '100%', gap: '10px' }}
                         >
-                            Add to Cart
-                        </Button>
+                            <Button size="large" block>
+                                Add to Wishlist
+                            </Button>
+                            <Button
+                                onClick={handleAddToCart}
+                                type="primary"
+                                size="large"
+                                block
+                            >
+                                Add to Cart
+                            </Button>
+                        </Space>
                     </Col>
                 </Row>
             </div>

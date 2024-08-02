@@ -49,7 +49,7 @@ const Home = () => {
                             <img
                                 key={product.pid}
                                 onClick={() => {
-                                    navigate(`/product-${product.pid}`)
+                                    navigate(`/product/${product._id}`)
                                 }}
                                 src={baseURL.slice(0, -1) + product.imageUrl}
                                 alt={product.name}
