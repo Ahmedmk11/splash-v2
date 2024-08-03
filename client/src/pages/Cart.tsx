@@ -33,7 +33,6 @@ const Cart = () => {
                 return { ...res.data.product, quantity: item.quantity }
             })
         )
-        console.log('cartItems', cartItems)
         setCart(cartItems)
     }
 
@@ -105,19 +104,21 @@ const Cart = () => {
                                             justifyContent: 'space-between',
                                         }}
                                     >
-                                        <Image
-                                            src={`${baseURL.slice(0, -1)}${
-                                                item?.imageUrl
-                                            }`}
-                                            alt={item.name}
-                                            style={{
-                                                width: '100px',
-                                                height: '100px',
-                                                objectFit: 'cover',
-                                                boxShadow:
-                                                    '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                            }}
-                                        />
+                                        <div>
+                                            <Image
+                                                src={`${baseURL.slice(0, -1)}${
+                                                    item?.imageUrl
+                                                }`}
+                                                alt={item.name}
+                                                style={{
+                                                    width: '100px',
+                                                    height: '100px',
+                                                    objectFit: 'cover',
+                                                    boxShadow:
+                                                        '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                                }}
+                                            />
+                                        </div>
                                         <div
                                             style={{
                                                 marginLeft: '20px',

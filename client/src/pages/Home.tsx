@@ -5,6 +5,7 @@ import { Carousel } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 import LazyLoad from 'react-lazyload'
+import LazyImage from '../components/LazyImage'
 
 const baseURL = config.REACT_APP_API_URL
 
@@ -67,26 +68,12 @@ const Home = () => {
                                     navigate(`/category/${category._id}`)
                                 }}
                             >
-                                <LazyLoad
-                                    style={{
-                                        height: 700,
-                                        width: '100%',
-                                    }}
-                                    offset={100}
-                                >
-                                    <img
-                                        src={
-                                            baseURL.slice(0, -1) +
-                                            category.imageUrl
-                                        }
-                                        alt={category.name}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: '100%',
-                                            height: 700,
-                                        }}
-                                    />
-                                </LazyLoad>
+                                <LazyImage
+                                    imageUrl={category.imageUrl}
+                                    alt={category.name}
+                                    width={'100%'}
+                                    height={'700px'}
+                                />
                                 <h2>{category.name}</h2>
                             </div>
                         ))}

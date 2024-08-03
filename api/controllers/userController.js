@@ -806,6 +806,21 @@ async function getCart(req, res) {
     }
 }
 
+async function getWishlist(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate('wishlist')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        res.status(200).json({ wishlist: customer.wishlist })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -841,4 +856,5 @@ export {
     removeFromWishlist,
     createOrder,
     getCart,
+    getWishlist,
 }
