@@ -36,6 +36,7 @@ import {
     createOrder,
     getCart,
     getWishlist,
+    emptyCart,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -70,7 +71,8 @@ router.post('/add-to-cart/:id', addToCart)
 router.post('/remove-from-cart/:id', removeFromCart)
 router.post('/add-to-wishlist/:id', addToWishlist)
 router.post('/remove-from-wishlist/:id', removeFromWishlist)
-// router.post('/create-order', createOrder)
+router.post('/create-order/:id', createOrder)
+router.post('/empty-cart/:id', emptyCart)
 router.delete('/delete-category/:id', deleteCategory)
 router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)

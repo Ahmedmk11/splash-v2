@@ -766,7 +766,7 @@ async function createOrder(req, res) {
 
         const total_price = products.reduce((acc, item) => {
             return acc + item.price * item.quantity
-        })
+        }, 0)
 
         const order = new OrderModel({
             customer: id,
@@ -821,6 +821,27 @@ async function getWishlist(req, res) {
     }
 }
 
+async function emptyCart(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate(
+            'cart.product'
+        )
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        customer.cart = []
+
+        await customer.save()
+
+        res.status(200).json({ message: 'Cart emptied successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -857,4 +878,5 @@ export {
     createOrder,
     getCart,
     getWishlist,
+    emptyCart,
 }
