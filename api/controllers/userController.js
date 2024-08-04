@@ -101,13 +101,34 @@ async function getCurrUser(req, res) {
 async function getCustomer(req, res) {
     try {
         const { id } = req.params
-        const customer = await CustomerModel.findById(id).populate('orders')
+        const customer = await CustomerModel.findById(id).populate({
+            path: 'orders',
+            model: 'Order',
+        })
 
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' })
         }
 
         res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getOrders(req, res) {
+    try {
+        const { id } = req.params
+        const orders = await OrderModel.find({ customer: id }).populate({
+            path: 'products',
+            model: 'Product',
+        })
+
+        if (!orders) {
+            return res.status(404).json({ message: 'Orders not found' })
+        }
+
+        res.status(200).json({ orders })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -480,8 +501,6 @@ async function updateCustomer(req, res) {
             return res.status(404).json({ message: 'Customer not found' })
         }
 
-        console.log('req.body', req.body)
-
         customer.first_name = req.body.first_name
         customer.last_name = req.body.last_name
         customer.email_address = req.body.email_address
@@ -491,9 +510,52 @@ async function updateCustomer(req, res) {
         customer.city = req.body.city
         customer.area = req.body.area
         customer.subscribed = req.body.subscribed
-        customer.status = req.body.status
+        customer.status = req.body.status || 'Active'
 
-        console.log('customer', customer)
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function updateProfile(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate('orders')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        customer.first_name = req.body.first_name
+        customer.last_name = req.body.last_name
+        customer.email_address = req.body.email_address
+        customer.phone_number = req.body.phone_number
+        customer.address = req.body.address
+        customer.city = req.body.city
+        customer.area = req.body.area
+        customer.subscribed = req.body.subscribed
+
+        await customer.save()
+
+        res.status(200).json({ customer })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function updatePassword(req, res) {
+    try {
+        const { id } = req.params
+        const customer = await CustomerModel.findById(id).populate('orders')
+
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' })
+        }
+
+        customer.password = req.body.password
 
         await customer.save()
 
@@ -783,6 +845,12 @@ async function createOrder(req, res) {
         customer.cart = []
         await customer.save()
 
+        products.forEach(async (item) => {
+            const product = await ProductModel.findById(item.pid)
+            product.stock -= item.quantity
+            await product.save()
+        })
+
         res.status(201).json({ order })
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -867,6 +935,8 @@ export {
     deleteCategory,
     deleteProduct,
     updateCustomer,
+    updateProfile,
+    updatePassword,
     updateAdmin,
     promoteAdmin,
     demoteAdmin,
@@ -879,4 +949,5 @@ export {
     getCart,
     getWishlist,
     emptyCart,
+    getOrders,
 }

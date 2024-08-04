@@ -25,6 +25,8 @@ import {
     deleteCategory,
     deleteProduct,
     updateCustomer,
+    updateProfile,
+    updatePassword,
     updateAdmin,
     promoteAdmin,
     demoteAdmin,
@@ -37,6 +39,7 @@ import {
     getCart,
     getWishlist,
     emptyCart,
+    getOrders,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -46,6 +49,7 @@ router.post('/test-post', testPost)
 
 router.get('/get-user/:id', getCurrUser)
 router.get('/get-customer/:id', getCustomer)
+router.get('/get-orders/:id', getOrders)
 router.get('/get-category/:id', getCategory)
 router.get('/get-category-id/:name', getCategoryId)
 router.get('/get-categories', getCategories)
@@ -61,6 +65,8 @@ router.get('/get-wishlist/:id', getWishlist)
 router.put('/update-category/:id', updateCategory)
 router.put('/update-product/:id', updateProduct)
 router.put('/update-customer/:id', updateCustomer)
+router.put('/update-profile/:id', updateProfile)
+router.put('/update-password/:id', updatePassword)
 router.put('/update-admin/:id', updateAdmin)
 router.put('/promote-admin/:id', promoteAdmin)
 router.put('/demote-admin/:id', demoteAdmin)

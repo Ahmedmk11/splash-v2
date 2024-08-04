@@ -36,7 +36,20 @@ const Product = () => {
             message.success('Added to cart')
         } catch (error) {
             console.error(error)
-            message.error('Failed to add to cart')
+            message.error('Login to add to cart')
+        }
+    }
+
+    const handleAddToWishlist = async () => {
+        try {
+            console.log(currUser.user._id)
+            await axiosApi.post(`/user/add-to-wishlist/${currUser.user._id}`, {
+                productId: productId,
+            })
+            message.success('Added to wishlist')
+        } catch (error) {
+            console.error(error)
+            message.error('Login to add to wishlist')
         }
     }
 
@@ -110,7 +123,12 @@ const Product = () => {
                             size="large"
                             style={{ width: '100%', gap: '10px' }}
                         >
-                            <Button icon={<HeartOutlined />} size="large" block>
+                            <Button
+                                icon={<HeartOutlined />}
+                                size="large"
+                                onClick={handleAddToWishlist}
+                                block
+                            >
                                 Add to Wishlist
                             </Button>
                             <Button

@@ -26,23 +26,28 @@ const Header = () => {
     const { categories, setCategories } = useContext(CategoriesContext)
 
     const items: MenuProps['items'] = [
-        {
-            label: 'Test',
-            key: '9',
-            onClick: async () => {
-                await axiosApi.post('/user/test-post')
-            },
-        },
-        {
-            label: 'Account',
-            key: '0',
-            icon: <UserOutlined />,
-            onClick: () => {
-                navigate('/account')
-            },
-        },
-        (currUser?.user.type && currUser?.user.type === 'Admin') ||
-        currUser?.user.type === 'Super Admin'
+        currUser?.user?.status && currUser?.user?.status === 'Active'
+            ? {
+                  label: 'Account',
+                  key: '0',
+                  icon: <UserOutlined />,
+                  onClick: () => {
+                      navigate('/account')
+                  },
+              }
+            : null,
+        (currUser?.user?.type && currUser?.user?.type === 'Admin') ||
+        currUser?.user?.type === 'Super Admin'
+            ? {
+                  label: 'Test',
+                  key: '9',
+                  onClick: async () => {
+                      await axiosApi.post('/user/test-post')
+                  },
+              }
+            : null,
+        (currUser?.user?.type && currUser?.user?.type === 'Admin') ||
+        currUser?.user?.type === 'Super Admin'
             ? {
                   label: 'Admin Dashboard',
                   key: '1',
@@ -52,7 +57,7 @@ const Header = () => {
                   },
               }
             : null,
-        currUser?.user.type && currUser?.user.type === 'Super Admin'
+        currUser?.user?.type && currUser?.user?.type === 'Super Admin'
             ? {
                   label: 'Super Admin Dashboard',
                   key: '2',
@@ -77,7 +82,7 @@ const Header = () => {
             },
         },
         {
-            label: `${currUser?.user.email_address}`,
+            label: `${currUser?.user?.email_address}`,
             key: '20',
             disabled: true,
             style: {
@@ -88,7 +93,9 @@ const Header = () => {
             },
         },
         {
-            label: `${currUser?.user.type ? currUser?.user.type : 'Customer'}`,
+            label: `${
+                currUser?.user?.type ? currUser?.user?.type : 'Customer'
+            }`,
             key: '30',
             disabled: true,
             style: {
@@ -206,7 +213,7 @@ const Header = () => {
                                 <Space>
                                     <UserOutlined className="icon" />
                                 </Space>
-                                <h4>{currUser.user.first_name}</h4>
+                                <h4>{currUser?.user?.first_name}</h4>
                             </span>
                         </Dropdown>
                     ) : (

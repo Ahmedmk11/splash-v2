@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout'
 import { useNavigate } from 'react-router-dom'
 import { Carousel } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 import LazyImage from '../components/LazyImage'
+import CategoriesContext from '../CategoriesContext'
 
 const baseURL = config.REACT_APP_API_URL
 
 const Home = () => {
     const navigate = useNavigate()
-    const [categories, setCategories] = useState<any[]>([])
+    const { categories, setCategories } = useContext(CategoriesContext)
     const [carouselProducts, setCarouselProducts] = useState<any[]>([])
 
     useEffect(() => {
