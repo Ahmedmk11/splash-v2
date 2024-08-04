@@ -1,3 +1,5 @@
+// need to update categories to be fetched from the server
+
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,38 +14,16 @@ import {
     SettingOutlined,
     ControlOutlined,
 } from '@ant-design/icons'
-import { io } from 'socket.io-client'
 import CurrUserContext from '../CurrUserContext'
+import CategoriesContext from '../CategoriesContext'
 
 import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
-import config from '../../config'
 
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
-    const [categories, setCategories] = useState<any[]>([])
-
-    const fetchCategories = async () => {
-        const res = await axiosApi.get('/user/get-categories')
-        setCategories(res.data.categories)
-    }
-
-    useEffect(() => {
-        fetchCategories()
-    }, [])
-
-    useEffect(() => {
-        const socket = io(config.REACT_APP_API_URL)
-
-        socket.on('categoryCollectionChange', () => {
-            fetchCategories()
-        })
-
-        return () => {
-            socket.disconnect()
-        }
-    }, [])
+    const { categories, setCategories } = useContext(CategoriesContext)
 
     const items: MenuProps['items'] = [
         {
@@ -126,7 +106,7 @@ const Header = () => {
 
     const menu = (
         <Menu onClick={handleMenuClick}>
-            {categories.map((category) => (
+            {categories.map((category: any) => (
                 <Menu.Item
                     style={{
                         fontSize: 16,

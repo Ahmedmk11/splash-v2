@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { Carousel } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
-import LazyLoad from 'react-lazyload'
 import LazyImage from '../components/LazyImage'
 
 const baseURL = config.REACT_APP_API_URL

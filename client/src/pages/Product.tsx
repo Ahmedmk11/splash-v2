@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Col, Typography, Button, Space, message } from 'antd'
+import { Row, Col, Typography, Button, Space, message, Image } from 'antd'
+import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import Layout from '../Layout'
 import axiosApi, { baseURL } from '../utils/axiosApi'
 import CurrUserContext from '../CurrUserContext'
@@ -54,7 +55,7 @@ const Product = () => {
                             justifyContent: 'center',
                         }}
                     >
-                        <img
+                        <Image
                             src={baseURL.slice(0, -1) + product?.imageUrl}
                             alt={product?.name}
                             style={{
@@ -109,7 +110,7 @@ const Product = () => {
                             size="large"
                             style={{ width: '100%', gap: '10px' }}
                         >
-                            <Button size="large" block>
+                            <Button icon={<HeartOutlined />} size="large" block>
                                 Add to Wishlist
                             </Button>
                             <Button
@@ -117,6 +118,7 @@ const Product = () => {
                                 type="primary"
                                 size="large"
                                 block
+                                icon={<ShoppingCartOutlined />}
                             >
                                 Add to Cart
                             </Button>

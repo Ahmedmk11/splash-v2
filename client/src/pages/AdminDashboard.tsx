@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     Form,
     Input,
@@ -23,9 +23,13 @@ import Layout from '../Layout'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 
+import CategoriesContext from '../CategoriesContext'
+
 const baseURL = config.REACT_APP_API_URL
 
 const AdminDashboard: React.FC = () => {
+    const { categories, setCategories } = useContext(CategoriesContext)
+
     const [formCategory] = Form.useForm()
     const [formProduct] = Form.useForm()
     const [formEditCategory] = Form.useForm()
@@ -38,7 +42,6 @@ const AdminDashboard: React.FC = () => {
     const [editProductUploadedImage, setEditProductUploadedImage] =
         useState<File | null>(null)
 
-    const [categories, setCategories] = useState<any[]>([])
     const [products, setProducts] = useState<any[]>([])
 
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -467,7 +470,7 @@ const AdminDashboard: React.FC = () => {
                                         allowClear
                                         placeholder="Select Category"
                                     >
-                                        {categories.map((category) => (
+                                        {categories.map((category: any) => (
                                             <Select.Option
                                                 key={category._id}
                                                 value={category._id}
@@ -591,7 +594,7 @@ const AdminDashboard: React.FC = () => {
                                 style={{ width: '100%' }}
                                 onChange={(value) => setSelectedCategory(value)}
                             >
-                                {categories.map((category) => (
+                                {categories.map((category: any) => (
                                     <Select.Option
                                         key={category._id}
                                         value={category._id}
@@ -874,7 +877,7 @@ const AdminDashboard: React.FC = () => {
                                             setEditProductCategory(value)
                                         }
                                     >
-                                        {categories.map((category) => (
+                                        {categories.map((category: any) => (
                                             <Select.Option
                                                 key={category._id}
                                                 value={category._id}
