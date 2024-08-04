@@ -13,6 +13,7 @@ import {
     LogoutOutlined,
     SettingOutlined,
     ControlOutlined,
+    CodeOutlined,
 } from '@ant-design/icons'
 import CurrUserContext from '../CurrUserContext'
 import CategoriesContext from '../CategoriesContext'
@@ -26,23 +27,13 @@ const Header = () => {
     const { categories, setCategories } = useContext(CategoriesContext)
 
     const items: MenuProps['items'] = [
-        currUser?.user?.status && currUser?.user?.status === 'Active'
+        !currUser?.user?.type
             ? {
                   label: 'Account',
                   key: '0',
                   icon: <UserOutlined />,
                   onClick: () => {
                       navigate('/account')
-                  },
-              }
-            : null,
-        (currUser?.user?.type && currUser?.user?.type === 'Admin') ||
-        currUser?.user?.type === 'Super Admin'
-            ? {
-                  label: 'Test',
-                  key: '9',
-                  onClick: async () => {
-                      await axiosApi.post('/user/test-post')
                   },
               }
             : null,
@@ -178,28 +169,62 @@ const Header = () => {
                         </span>
                     </Dropdown>
                 </div>
-                <div className="header-item">
-                    <span
-                        className="underline-hover"
-                        onClick={() => {
-                            navigate('/wishlist')
-                        }}
-                    >
-                        <HeartOutlined className="icon" />
-                        <h4>Wishlist</h4>
-                    </span>
-                </div>
-                <div className="header-item">
-                    <span
-                        className="underline-hover"
-                        onClick={() => {
-                            navigate('/cart')
-                        }}
-                    >
-                        <ShoppingCartOutlined className="icon" />
-                        <h4>Cart</h4>
-                    </span>
-                </div>
+                {!currUser?.user?.type ? (
+                    <>
+                        <div className="header-item">
+                            <span
+                                className="underline-hover"
+                                onClick={() => {
+                                    navigate('/wishlist')
+                                }}
+                            >
+                                <HeartOutlined className="icon" />
+                                <h4>Wishlist</h4>
+                            </span>
+                        </div>
+                        <div className="header-item">
+                            <span
+                                className="underline-hover"
+                                onClick={() => {
+                                    navigate('/cart')
+                                }}
+                            >
+                                <ShoppingCartOutlined className="icon" />
+                                <h4>Cart</h4>
+                            </span>
+                        </div>
+                    </>
+                ) : currUser?.user?.type === 'Super Admin' ? (
+                    <>
+                        <div className="header-item">
+                            <span
+                                className="underline-hover"
+                                onClick={async () => {
+                                    await axiosApi.post('/user/test-get')
+                                }}
+                            >
+                                <CodeOutlined className="icon" />
+                                <h4>Test GET</h4>
+                            </span>
+                        </div>
+                        <div className="header-item">
+                            <span
+                                className="underline-hover"
+                                onClick={async () => {
+                                    await axiosApi.post('/user/test-post')
+                                }}
+                            >
+                                <CodeOutlined className="icon" />
+                                <h4>Test POST</h4>
+                            </span>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="header-item"></div>
+                        <div className="header-item"></div>
+                    </>
+                )}
                 <div className="header-item">
                     {currUser ? (
                         <Dropdown

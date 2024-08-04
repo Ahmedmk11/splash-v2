@@ -117,6 +117,16 @@ const Product = () => {
                             </Title>
 
                             <Paragraph>{product?.description}</Paragraph>
+                            {product?.stock <= 0 ? (
+                                <Text
+                                    style={{
+                                        color: 'rgba(255, 0, 0, 1)',
+                                        fontSize: 16,
+                                    }}
+                                >
+                                    Out of stock.
+                                </Text>
+                            ) : null}
                         </Space>
                         <Space
                             direction="vertical"
@@ -128,6 +138,7 @@ const Product = () => {
                                 size="large"
                                 onClick={handleAddToWishlist}
                                 block
+                                disabled={product?.stock === 0}
                             >
                                 Add to Wishlist
                             </Button>
@@ -137,6 +148,7 @@ const Product = () => {
                                 size="large"
                                 block
                                 icon={<ShoppingCartOutlined />}
+                                disabled={product?.stock === 0}
                             >
                                 Add to Cart
                             </Button>
