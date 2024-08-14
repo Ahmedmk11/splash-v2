@@ -140,6 +140,7 @@ async function addNewCategory(req, res) {
         const category = new CategoryModel({
             name: req.body.categoryName,
             imageUrl: req.body.imageUrl,
+            type: req.body.type,
         })
         await category.save()
 
@@ -268,6 +269,7 @@ async function updateCategory(req, res) {
         const newImageUrl = req.body.imageUrl
 
         category.name = req.body.name
+        category.type = req.body.type
         if (newImageUrl) {
             category.imageUrl = newImageUrl
             if (oldImageUrl && oldImageUrl !== newImageUrl) {

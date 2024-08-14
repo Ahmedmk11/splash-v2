@@ -12,6 +12,11 @@ const categorySchema = new mongoose.Schema(
             unique: true,
             required: [true, 'Category image is required'],
         },
+        type: {
+            type: String,
+            enum: ['inquiry', 'main', 'display'],
+            default: 'main',
+        },
     },
     { timestamps: true },
     {

@@ -21,6 +21,8 @@ import CategoriesContext from '../CategoriesContext'
 import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
 
+import splashLogo from '../assets/logo.jpg'
+
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
@@ -102,20 +104,66 @@ const Header = () => {
         navigate(`/category/${e.key}`)
     }
 
+    const groupedCategories = {
+        main: categories.filter((category: any) => category.type === 'main'),
+        inquiry: categories.filter(
+            (category: any) => category.type === 'inquiry'
+        ),
+        display: categories.filter(
+            (category: any) => category.type === 'display'
+        ),
+    }
+
     const menu = (
-        <Menu onClick={handleMenuClick}>
-            {categories.map((category: any) => (
-                <Menu.Item
-                    style={{
-                        fontSize: 16,
-                    }}
-                    key={category._id}
-                >
-                    {category.name}
-                </Menu.Item>
-            ))}
+        <Menu
+            style={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: 600,
+            }}
+            onClick={handleMenuClick}
+        >
+            <Menu.ItemGroup
+                style={{
+                    width: 200,
+                }}
+                title="Main"
+            >
+                {groupedCategories.main.map((category: any) => (
+                    <Menu.Item style={{ fontSize: 16 }} key={category._id}>
+                        {category.name}
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
+
+            <Menu.ItemGroup
+                style={{
+                    width: 200,
+                }}
+                title="Inquiry"
+            >
+                {groupedCategories.inquiry.map((category: any) => (
+                    <Menu.Item style={{ fontSize: 16 }} key={category._id}>
+                        {category.name}
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
+
+            <Menu.ItemGroup
+                style={{
+                    width: 200,
+                }}
+                title="Display"
+            >
+                {groupedCategories.display.map((category: any) => (
+                    <Menu.Item style={{ fontSize: 16 }} key={category._id}>
+                        {category.name}
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
         </Menu>
     )
+
     return (
         <>
             <div id="header-component">
@@ -130,6 +178,7 @@ const Header = () => {
                 >
                     Splash
                 </h1>
+
                 <div className="header-item" id="search-container">
                     <ConfigProvider
                         theme={{

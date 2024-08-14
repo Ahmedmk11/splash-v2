@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
-import { Dropdown, Layout, Row, Col, Divider, Button, Menu } from 'antd'
+import {
+    Dropdown,
+    Layout,
+    Row,
+    Col,
+    Divider,
+    Button,
+    Menu,
+    FloatButton,
+} from 'antd'
 import {
     DownOutlined,
     GlobalOutlined,
@@ -7,7 +16,6 @@ import {
     InstagramOutlined,
     WhatsAppOutlined,
 } from '@ant-design/icons'
-const { Footer } = Layout
 
 const FooterComponent = () => {
     const [language, setLanguage] = useState('English')
@@ -38,6 +46,14 @@ const FooterComponent = () => {
                 alignItems: 'stretch',
             }}
         >
+            <FloatButton
+                icon={<WhatsAppOutlined />}
+                className="social-icon"
+                onClick={() => {
+                    window.open('https://wa.me/+201221045135', '_blank')
+                }}
+            />
+
             <div
                 className="footer-top"
                 style={{
@@ -55,11 +71,9 @@ const FooterComponent = () => {
                     <h2>Policies & Terms</h2>
                     <Divider />
                     <p>
-                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/privacy-policy">Privacy Policy</a>
                         <br />
-                        <a href="/terms">Terms & Conditions</a>
-                        <br />
-                        <a href="/return-policy">Return Policy</a>
+                        <a href="/terms-and-conditions">Terms & Conditions</a>
                     </p>
                 </div>
                 <div className="footer-col">
@@ -89,15 +103,6 @@ const FooterComponent = () => {
                             onClick={() => {
                                 window.open(
                                     'https://www.instagram.com/a_splashfurniture/',
-                                    '_blank'
-                                )
-                            }}
-                        />
-                        <WhatsAppOutlined
-                            className="social-icon"
-                            onClick={() => {
-                                window.open(
-                                    'https://wa.me/+201221045135',
                                     '_blank'
                                 )
                             }}

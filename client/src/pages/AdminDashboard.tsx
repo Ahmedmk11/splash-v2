@@ -65,6 +65,9 @@ const AdminDashboard: React.FC = () => {
     const [editProductCarousel, setEditProductCarousel] =
         useState<boolean>(false)
 
+    const [editCategoryType, setEditCategoryType] = useState<string>('')
+    const [categoryType, setCategoryType] = useState<string>('')
+
     const fetchCategories = async () => {
         try {
             const res = await axiosApi.get('/user/get-categories')
@@ -96,8 +99,10 @@ const AdminDashboard: React.FC = () => {
                 const categoryData = res.data.category
                 setEditCategoryName(categoryData.name)
                 setEditCategoryImage(categoryData.imageUrl)
+                setEditCategoryType(categoryData.type)
                 formEditCategory.setFieldsValue({
                     editCategoryName: categoryData.name,
+                    editCategoryType: categoryData.type,
                 })
             }
             fetchCategory()
@@ -175,6 +180,7 @@ const AdminDashboard: React.FC = () => {
             await axiosApi.put(`/user/update-category/${selectedCategory}`, {
                 name: editCategoryName,
                 imageUrl,
+                type: editCategoryType,
             })
 
             message.success('Category updated successfully')
@@ -239,6 +245,7 @@ const AdminDashboard: React.FC = () => {
                 await axiosApi.post('/user/add-category', {
                     categoryName,
                     imageUrl,
+                    categoryType,
                 })
             }
 
@@ -352,6 +359,30 @@ const AdminDashboard: React.FC = () => {
                             ]}
                         >
                             <Input placeholder="Enter category name" />
+                        </Form.Item>
+                        <Form.Item
+                            name="categoryType"
+                            label="Category Type"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input the category type!',
+                                },
+                            ]}
+                        >
+                            <Select
+                                allowClear
+                                placeholder="Select Category Type"
+                                onChange={(value) => setCategoryType(value)}
+                            >
+                                <Select.Option value="main">Main</Select.Option>
+                                <Select.Option value="display">
+                                    Display
+                                </Select.Option>
+                                <Select.Option value="inquiry">
+                                    Inquiry
+                                </Select.Option>
+                            </Select>
                         </Form.Item>
                         <Form.Item
                             name="categoryImage"
@@ -622,6 +653,32 @@ const AdminDashboard: React.FC = () => {
                                     setEditCategoryName(e.target.value)
                                 }
                             />
+                        </Form.Item>
+                        <Form.Item
+                            name="editCategoryType"
+                            label="Category Type"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input the category type!',
+                                },
+                            ]}
+                        >
+                            <Select
+                                allowClear
+                                placeholder="Select Category Type"
+                                disabled={!selectedCategory}
+                                value={editCategoryType}
+                                onChange={(value) => setEditCategoryType(value)}
+                            >
+                                <Select.Option value="main">Main</Select.Option>
+                                <Select.Option value="display">
+                                    Display
+                                </Select.Option>
+                                <Select.Option value="inquiry">
+                                    Inquiry
+                                </Select.Option>
+                            </Select>
                         </Form.Item>
                         <Space
                             style={{

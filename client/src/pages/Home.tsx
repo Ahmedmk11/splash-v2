@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout'
 import { useNavigate } from 'react-router-dom'
-import { Carousel } from 'antd'
+import { Carousel, Divider } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 import LazyImage from '../components/LazyImage'
@@ -60,10 +60,40 @@ const Home = () => {
                 )}
                 <div id="home-bottom">
                     <div id="home-categories">
-                        {categories.map((category: any) => (
+                        {categories
+                            .filter(
+                                (category: any) => category.type === 'inquiry'
+                            )
+                            .map((category: any) => (
+                                <div
+                                    key={category.id}
+                                    className="home-category-item"
+                                    onClick={() => {
+                                        navigate(`/category/${category._id}`)
+                                    }}
+                                >
+                                    <LazyImage
+                                        imageUrl={category.imageUrl}
+                                        alt={category.name}
+                                        width={'100%'}
+                                        height={'700px'}
+                                    />
+                                    <h2>{category.name}</h2>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+                <Divider
+                    orientation="center"
+                    style={{ color: '#333', fontWeight: 'normal' }}
+                />
+                <div id="home-categories-main">
+                    {categories
+                        .filter((category: any) => category.type === 'main')
+                        .map((category: any) => (
                             <div
                                 key={category.id}
-                                className="home-category-item"
+                                className="home-category-main-item"
                                 onClick={() => {
                                     navigate(`/category/${category._id}`)
                                 }}
@@ -77,7 +107,31 @@ const Home = () => {
                                 <h2>{category.name}</h2>
                             </div>
                         ))}
-                    </div>
+                </div>
+                <Divider
+                    orientation="center"
+                    style={{ color: '#333', fontWeight: 'normal' }}
+                />
+                <div id="home-categories-display">
+                    {categories
+                        .filter((category: any) => category.type === 'display')
+                        .map((category: any) => (
+                            <div
+                                key={category.id}
+                                className="home-category-display-item"
+                                onClick={() => {
+                                    navigate(`/category/${category._id}`)
+                                }}
+                            >
+                                <LazyImage
+                                    imageUrl={category.imageUrl}
+                                    alt={category.name}
+                                    width={'100%'}
+                                    height={'700px'}
+                                />
+                                <h2>{category.name}</h2>
+                            </div>
+                        ))}
                 </div>
             </div>
         </Layout>
