@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import { Collapse, List } from 'antd'
+import { Collapse, List, Skeleton } from 'antd'
 import displayTime from '../utils/displayTime'
 
 const { Panel } = Collapse
 
-const Orders = ({ orders }: { orders: any }) => {
-    return (
+const Orders = ({ orders, loading }: { orders: any; loading: boolean }) => {
+    return !loading ? (
         <List
             itemLayout="horizontal"
             dataSource={orders}
@@ -91,6 +91,8 @@ const Orders = ({ orders }: { orders: any }) => {
                 </Collapse>
             )}
         />
+    ) : (
+        <Skeleton active />
     )
 }
 

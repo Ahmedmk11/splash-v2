@@ -9,6 +9,7 @@ import {
     Input,
     ConfigProvider,
     message,
+    Skeleton,
 } from 'antd'
 import Layout from '../Layout.tsx'
 import CurrUserContext from '../CurrUserContext.tsx'
@@ -20,6 +21,7 @@ const { Title, Text } = Typography
 const Cart = () => {
     const { currUser } = useContext(CurrUserContext)
     const [cart, setCart] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
     const fetchCartProducts = async () => {
         const res = await axiosApi.get(`/user/get-cart/${currUser.user._id}`)
@@ -34,6 +36,7 @@ const Cart = () => {
             })
         )
         setCart(cartItems)
+        setLoading(false) // Stop loading once products are fetched
     }
 
     useEffect(() => {
@@ -105,7 +108,44 @@ const Cart = () => {
                 <Title level={2} style={{ marginBottom: '20px' }}>
                     Cart
                 </Title>
-                {cart.length === 0 ? (
+                {loading ? (
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '20px',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                                height: '100%',
+                                gap: '20px',
+                            }}
+                        >
+                            <Skeleton.Avatar size={150} shape="square" active />
+                            <Skeleton active />
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                                height: '100%',
+                                gap: '20px',
+                            }}
+                        >
+                            <Skeleton.Avatar size={150} shape="square" active />
+                            <Skeleton active />
+                        </div>
+                    </div>
+                ) : cart.length === 0 ? (
                     <Text>Your cart is empty</Text>
                 ) : (
                     <>

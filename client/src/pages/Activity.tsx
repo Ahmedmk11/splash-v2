@@ -6,8 +6,8 @@ import Orders from '../components/Orders'
 
 const Activity = () => {
     const { cid } = useParams<{ cid: string }>()
-
     const [orders, setOrders] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
     const fetchUserOrders = async () => {
         try {
@@ -20,6 +20,7 @@ const Activity = () => {
 
     useEffect(() => {
         fetchUserOrders()
+        setLoading(false)
     }, [])
 
     return (
@@ -33,7 +34,7 @@ const Activity = () => {
                     Orders
                 </h2>
 
-                <Orders orders={orders} />
+                <Orders orders={orders} loading={loading} />
             </div>
         </Layout>
     )

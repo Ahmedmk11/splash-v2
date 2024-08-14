@@ -11,6 +11,7 @@ interface ContextProps {
     setCurrUser: (user: any) => void
     isAuthenticated: boolean | null
     adminType: string | null
+    fetchUser: () => void
 }
 
 const CurrUserContext = createContext<ContextProps>({
@@ -18,6 +19,7 @@ const CurrUserContext = createContext<ContextProps>({
     setCurrUser: () => {},
     isAuthenticated: null,
     adminType: null,
+    fetchUser: () => Promise<void>,
 })
 
 const CurrUserProvider = ({ children }: ProviderProps) => {
@@ -50,21 +52,33 @@ const CurrUserProvider = ({ children }: ProviderProps) => {
             })
     }, [location])
 
+    const fetchUser = async () => {
+        const res = await axiosApi.get(`/user/get-user/${userID}`)
+        setCurrUser(res.data)
+        console.log('Curr User:', res.data)
+    }
+
     useEffect(() => {
         if (userID) {
-            axiosApi
-                .get(`/user/get-user/${userID}`)
-                .then((res: any) => {
-                    setCurrUser(res.data)
-                    console.log('Curr User:', res.data)
-                })
-                .catch((err: any) => console.log(err))
+            fetchUser()
+        }
+    }, [userID])
+
+    useEffect(() => {
+        if (userID) {
+            fetchUser()
         }
     }, [userID])
 
     return (
         <CurrUserContext.Provider
-            value={{ currUser, setCurrUser, isAuthenticated, adminType }}
+            value={{
+                currUser,
+                setCurrUser,
+                isAuthenticated,
+                adminType,
+                fetchUser,
+            }}
         >
             {children}
         </CurrUserContext.Provider>

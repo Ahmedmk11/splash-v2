@@ -6,20 +6,22 @@ import {
     Image,
     Space,
     Button,
-    Input,
-    ConfigProvider,
     message,
+    Skeleton,
 } from 'antd'
 import Layout from '../Layout.tsx'
 import CurrUserContext from '../CurrUserContext.tsx'
 import axiosApi, { baseURL } from '../utils/axiosApi.ts'
-import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 const { Title, Text } = Typography
 
 const Wishlist = () => {
     const { currUser } = useContext(CurrUserContext)
     const [wishlist, setWishlist] = useState<any[]>([])
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
 
     const fetchWishlistProducts = async () => {
         const res = await axiosApi.get(
@@ -39,6 +41,7 @@ const Wishlist = () => {
     useEffect(() => {
         if (currUser) {
             fetchWishlistProducts()
+            setLoading(false)
         }
     }, [currUser])
 
@@ -58,27 +61,50 @@ const Wishlist = () => {
         }
     }
 
-    const handleAddToCart = async (productId: string) => {
-        try {
-            await axiosApi.post(`/user/add-to-cart/${currUser.user._id}`, {
-                productId: productId,
-                quantity: 1,
-            })
-            await handleRemoveFromWishlist(productId)
-            message.success('Added to cart')
-        } catch (error) {
-            console.error(error)
-            message.error('Failed to add to cart')
-        }
-    }
-
     return (
         <Layout>
             <div id="wishlist-page">
                 <Title level={2} style={{ marginBottom: '20px' }}>
                     Wishlist
                 </Title>
-                {wishlist.length === 0 ? (
+                {loading ? (
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '20px',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                                height: '100%',
+                                gap: '20px',
+                            }}
+                        >
+                            <Skeleton.Avatar size={150} shape="square" active />
+                            <Skeleton active />
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                                height: '100%',
+                                gap: '20px',
+                            }}
+                        >
+                            <Skeleton.Avatar size={150} shape="square" active />
+                            <Skeleton active />
+                        </div>
+                    </div>
+                ) : wishlist.length === 0 ? (
                     <Text>Your wishlist is empty</Text>
                 ) : (
                     <List
@@ -160,15 +186,15 @@ const Wishlist = () => {
                                                         <Button
                                                             type="text"
                                                             icon={
-                                                                <ShoppingCartOutlined />
+                                                                <EyeOutlined />
                                                             }
                                                             onClick={() => {
-                                                                handleAddToCart(
-                                                                    item._id
+                                                                navigate(
+                                                                    `/product/${item?._id}`
                                                                 )
                                                             }}
                                                         >
-                                                            Add to Cart
+                                                            View
                                                         </Button>
                                                     </Space>
                                                 </Space>

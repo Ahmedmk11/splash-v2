@@ -23,6 +23,7 @@ const Account = () => {
     const [editAccountForm] = Form.useForm()
     const [editPasswordForm] = Form.useForm()
     const [orders, setOrders] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
     const onFinishEditAccount = async (values: any) => {
         try {
@@ -98,6 +99,7 @@ const Account = () => {
 
     useEffect(() => {
         fetchUserOrders()
+        setLoading(false)
     }, [currUser])
 
     const items: TabsProps['items'] = [
@@ -340,7 +342,7 @@ const Account = () => {
         {
             key: '3',
             label: 'Orders',
-            children: <Orders orders={orders} />,
+            children: <Orders orders={orders} loading={loading} />,
         },
     ]
     return (
