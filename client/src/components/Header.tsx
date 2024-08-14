@@ -127,7 +127,7 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Main"
+                title="Products"
             >
                 {groupedCategories.main.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
@@ -140,7 +140,7 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Inquiry"
+                title="Rooms"
             >
                 {groupedCategories.inquiry.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
@@ -153,7 +153,7 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Display"
+                title="Design"
             >
                 {groupedCategories.display.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
