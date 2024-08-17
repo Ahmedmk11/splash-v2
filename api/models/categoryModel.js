@@ -7,6 +7,11 @@ const categorySchema = new mongoose.Schema(
             unique: true,
             required: [true, 'Category name is required'],
         },
+        name_ar: {
+            type: String,
+            unique: true,
+            required: [true, 'Category name is required'],
+        },
         imageUrl: {
             type: String,
             unique: true,

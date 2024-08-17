@@ -139,6 +139,7 @@ async function addNewCategory(req, res) {
         console.log(req.body)
         const category = new CategoryModel({
             name: req.body.categoryName,
+            name_ar: req.body.categoryNameAr,
             imageUrl: req.body.imageUrl,
             type: req.body.type,
         })
@@ -156,7 +157,9 @@ async function addNewProduct(req, res) {
         const product = new ProductModel({
             pid: req.body.pid,
             name: req.body.name,
+            name_ar: req.body.nameAr,
             description: req.body.description,
+            description_ar: req.body.descriptionAr,
             category: req.body.category,
             price: req.body.price,
             stock: req.body.stock,
@@ -269,6 +272,7 @@ async function updateCategory(req, res) {
         const newImageUrl = req.body.imageUrl
 
         category.name = req.body.name
+        category.name_ar = req.body.nameAr
         category.type = req.body.type
         if (newImageUrl) {
             category.imageUrl = newImageUrl
@@ -308,7 +312,9 @@ async function updateProduct(req, res) {
 
         product.pid = req.body.pid
         product.name = req.body.name
+        product.name_ar = req.body.nameAr
         product.description = req.body.description
+        product.description_ar = req.body.descriptionAr
         product.category = req.body.category
         product.price = req.body.price
         product.stock = req.body.stock

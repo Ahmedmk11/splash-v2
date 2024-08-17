@@ -50,13 +50,20 @@ const AdminDashboard: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
 
     const [editCategoryName, setEditCategoryName] = useState<string>('')
+    const [editCategoryNameAr, setEditCategoryNameAr] = useState<string>('')
     const [editCategoryImage, setEditCategoryImage] = useState<string>('')
 
     const [editProductName, setEditProductName] = useState<string>('')
+    const [editProductNameAr, setEditProductNameAr] = useState<string>('')
+
     const [editProductImage, setEditProductImage] = useState<string>('')
     const [editProductPID, setEditProductPID] = useState<string>('')
+
     const [editProductDescription, setEditProductDescription] =
         useState<string>('')
+    const [editProductDescriptionAr, setEditProductDescriptionAr] =
+        useState<string>('')
+
     const [editProductCategory, setEditProductCategory] = useState<
         string | null
     >('')
@@ -98,10 +105,12 @@ const AdminDashboard: React.FC = () => {
                 )
                 const categoryData = res.data.category
                 setEditCategoryName(categoryData.name)
+                setEditCategoryNameAr(categoryData.name_ar)
                 setEditCategoryImage(categoryData.imageUrl)
                 setEditCategoryType(categoryData.type)
                 formEditCategory.setFieldsValue({
                     editCategoryName: categoryData.name,
+                    editCategoryNameAr: categoryData.name_ar,
                     editCategoryType: categoryData.type,
                 })
             }
@@ -119,7 +128,9 @@ const AdminDashboard: React.FC = () => {
                 const productData = res.data.product
                 setEditProductPID(productData.pid)
                 setEditProductName(productData.name)
+                setEditProductNameAr(productData.name_ar)
                 setEditProductDescription(productData.description)
+                setEditProductDescriptionAr(productData.description_ar)
                 setEditProductCategory(productData.category)
                 setEditProductStock(productData.stock)
                 setEditProductCarousel(productData.carousel)
@@ -128,7 +139,9 @@ const AdminDashboard: React.FC = () => {
                 formEditProduct.setFieldsValue({
                     editProductPID: productData.pid,
                     editProductName: productData.name,
+                    editProductNameAr: productData.name_ar,
                     editProductDescription: productData.description,
+                    editProductDescriptionAr: productData.description_ar,
                     editProductCategory: productData.category,
                     editProductStock: productData.stock,
                     editProductCarousel: productData.carousel,
@@ -165,7 +178,7 @@ const AdminDashboard: React.FC = () => {
     }
 
     const onFinishEditCategory = async (values: any) => {
-        const { editCategoryName } = values
+        const { editCategoryName, editCategoryNameAr } = values
 
         try {
             const formData = new FormData()
@@ -179,6 +192,7 @@ const AdminDashboard: React.FC = () => {
 
             await axiosApi.put(`/user/update-category/${selectedCategory}`, {
                 name: editCategoryName,
+                nameAr: editCategoryNameAr,
                 imageUrl,
                 type: editCategoryType,
             })
@@ -196,7 +210,9 @@ const AdminDashboard: React.FC = () => {
         const {
             editProductPID,
             editProductName,
+            editProductNameAr,
             editProductDescription,
+            editProductDescriptionAr,
             editProductCategory,
             editProductPrice,
             editProductStock,
@@ -216,7 +232,9 @@ const AdminDashboard: React.FC = () => {
             await axiosApi.put(`/user/update-product/${selectedProduct}`, {
                 pid: editProductPID,
                 name: editProductName,
+                nameAr: editProductNameAr,
                 description: editProductDescription,
+                descriptionAr: editProductDescriptionAr,
                 category: editProductCategory,
                 price: editProductPrice,
                 stock: editProductStock,
@@ -234,7 +252,7 @@ const AdminDashboard: React.FC = () => {
     }
 
     const onFinishCategory = async (values: any) => {
-        const { categoryName } = values
+        const { categoryName, categoryNameAr } = values
 
         try {
             if (categoryImage) {
@@ -244,6 +262,7 @@ const AdminDashboard: React.FC = () => {
                 const imageUrl = res.data.filePath
                 await axiosApi.post('/user/add-category', {
                     categoryName,
+                    categoryNameAr,
                     imageUrl,
                     categoryType,
                 })
@@ -259,7 +278,16 @@ const AdminDashboard: React.FC = () => {
     }
 
     const onFinishProduct = async (values: any) => {
-        const { pid, name, description, category, price, stock } = values
+        const {
+            pid,
+            name,
+            nameAr,
+            description,
+            descriptionAr,
+            category,
+            price,
+            stock,
+        } = values
 
         try {
             if (productImage) {
@@ -270,7 +298,9 @@ const AdminDashboard: React.FC = () => {
                 await axiosApi.post('/user/add-product', {
                     pid,
                     name,
+                    nameAr,
                     description,
+                    descriptionAr,
                     category,
                     price,
                     stock,
@@ -351,6 +381,18 @@ const AdminDashboard: React.FC = () => {
                         <Form.Item
                             name="categoryName"
                             label="Category Name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input the category name!',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Enter category name" />
+                        </Form.Item>
+                        <Form.Item
+                            name="categoryNameAr"
+                            label="Category Name (Ar)"
                             rules={[
                                 {
                                     required: true,
@@ -470,10 +512,38 @@ const AdminDashboard: React.FC = () => {
                                     <Input placeholder="Enter product name" />
                                 </Form.Item>
                             </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="nameAr"
+                                    label="Product Name (Ar)"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                'Please input the product name!',
+                                        },
+                                    ]}
+                                >
+                                    <Input placeholder="Enter product name" />
+                                </Form.Item>
+                            </Col>
                         </Row>
                         <Form.Item
                             name="description"
                             label="Product Description"
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input the product description!',
+                                },
+                            ]}
+                        >
+                            <Input.TextArea placeholder="Enter product description" />
+                        </Form.Item>
+                        <Form.Item
+                            name="descriptionAr"
+                            label="Product Description (Ar)"
                             rules={[
                                 {
                                     required: true,
@@ -651,6 +721,25 @@ const AdminDashboard: React.FC = () => {
                                 placeholder="Enter new category name"
                                 onChange={(e) =>
                                     setEditCategoryName(e.target.value)
+                                }
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="editCategoryNameAr"
+                            label="Category Name (Ar)"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input the category name!',
+                                },
+                            ]}
+                        >
+                            <Input
+                                disabled={!selectedCategory}
+                                value={editCategoryNameAr}
+                                placeholder="Enter new category name"
+                                onChange={(e) =>
+                                    setEditCategoryNameAr(e.target.value)
                                 }
                             />
                         </Form.Item>
@@ -889,6 +978,26 @@ const AdminDashboard: React.FC = () => {
                                         }
                                     />
                                 </Form.Item>
+                                <Form.Item
+                                    name="editProductNameAr"
+                                    label="Product Name (Ar)"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                'Please input the product name!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        disabled={!selectedProduct}
+                                        value={editProductNameAr}
+                                        placeholder="Enter new product name"
+                                        onChange={(e) =>
+                                            setEditProductNameAr(e.target.value)
+                                        }
+                                    />
+                                </Form.Item>
                             </Col>
                         </Row>
 
@@ -909,6 +1018,26 @@ const AdminDashboard: React.FC = () => {
                                 placeholder="Enter new product description"
                                 onChange={(e) =>
                                     setEditProductDescription(e.target.value)
+                                }
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="editProductDescriptionAr"
+                            label="Product Description (Ar)"
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        'Please input the product description!',
+                                },
+                            ]}
+                        >
+                            <Input.TextArea
+                                disabled={!selectedProduct}
+                                value={editProductDescriptionAr}
+                                placeholder="Enter new product description"
+                                onChange={(e) =>
+                                    setEditProductDescriptionAr(e.target.value)
                                 }
                             />
                         </Form.Item>
