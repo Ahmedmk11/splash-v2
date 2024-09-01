@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react'
-import axiosApi from './utils/axiosApi'
+import axiosApi from '../utils/axiosApi'
 import { useLocation } from 'react-router-dom'
 
 interface ProviderProps {

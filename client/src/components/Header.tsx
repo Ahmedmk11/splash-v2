@@ -15,13 +15,11 @@ import {
     ControlOutlined,
     CodeOutlined,
 } from '@ant-design/icons'
-import CurrUserContext from '../CurrUserContext'
-import CategoriesContext from '../CategoriesContext'
+import CurrUserContext from '../contexts/CurrUserContext'
+import CategoriesContext from '../contexts/CategoriesContext'
 
 import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
-
-import splashLogo from '../assets/logo.jpg'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -207,7 +205,7 @@ const Header = () => {
                 <div className="header-item">
                     <Dropdown
                         overlay={menu}
-                        placement="bottomCenter"
+                        placement="bottom"
                         overlayStyle={{
                             width: 300,
                         }}

@@ -12,7 +12,7 @@ import {
     Skeleton,
 } from 'antd'
 import Layout from '../Layout.tsx'
-import CurrUserContext from '../CurrUserContext.tsx'
+import CurrUserContext from '../contexts/CurrUserContext.tsx'
 import axiosApi, { baseURL } from '../utils/axiosApi.ts'
 import { DeleteOutlined, HeartOutlined } from '@ant-design/icons'
 

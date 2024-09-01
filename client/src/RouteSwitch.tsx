@@ -19,7 +19,7 @@ import {
 } from './Guards.tsx'
 import SignUp from './pages/SignUp.tsx'
 
-import CurrUserContext from './CurrUserContext.tsx'
+import CurrUserContext from './contexts/CurrUserContext.tsx'
 import Category from './pages/Category.tsx'
 import Account from './pages/Account.tsx'
 import Product from './pages/Product.tsx'
@@ -40,8 +40,8 @@ const RouteSwitch = () => {
             <Route path="/contact" element={<ContactUs />} />
 
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            {/* <Route path="/return-policy" element={<ContactUs />} /> */}
-            {/* <Route path="/terms-and-conditions" element={<ContactUs />} /> */}
+            {/* <Route path="/return-policy" element={<ReturnPolicy />} /> */}
+            {/* <Route path="/terms-and-conditions" element={<TermsAndConditions />} /> */}
 
             <Route path="/forbidden-access" element={<Forbidden />} />
             <Route path="/" element={<Home />} />

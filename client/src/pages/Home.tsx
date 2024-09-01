@@ -5,7 +5,7 @@ import { Carousel, Divider } from 'antd'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 import LazyImage from '../components/LazyImage'
-import CategoriesContext from '../CategoriesContext'
+import CategoriesContext from '../contexts/CategoriesContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Flex, Spin } from 'antd'
 
@@ -77,7 +77,7 @@ const Home = () => {
                                     )
                                     .map((category: any) => (
                                         <div
-                                            key={category.id}
+                                            key={category._id}
                                             className="home-category-item"
                                             onClick={() => {
                                                 navigate(
@@ -107,7 +107,7 @@ const Home = () => {
                                 )
                                 .map((category: any) => (
                                     <div
-                                        key={category.id}
+                                        key={category._id}
                                         className="home-category-main-item"
                                         onClick={() => {
                                             navigate(
@@ -137,7 +137,7 @@ const Home = () => {
                                 )
                                 .map((category: any) => (
                                     <div
-                                        key={category.id}
+                                        key={category._id}
                                         className="home-category-display-item"
                                         onClick={() => {
                                             navigate(

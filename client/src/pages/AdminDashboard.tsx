@@ -23,7 +23,7 @@ import Layout from '../Layout'
 import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 
-import CategoriesContext from '../CategoriesContext'
+import CategoriesContext from '../contexts/CategoriesContext'
 
 const baseURL = config.REACT_APP_API_URL
 

@@ -1,14 +1,5 @@
-import React, { useState } from 'react'
-import {
-    Dropdown,
-    Layout,
-    Row,
-    Col,
-    Divider,
-    Button,
-    Menu,
-    FloatButton,
-} from 'antd'
+import React, { useState, useContext } from 'react'
+import { Dropdown, Divider, Button, Menu, FloatButton } from 'antd'
 import {
     DownOutlined,
     GlobalOutlined,
@@ -17,9 +8,12 @@ import {
     WhatsAppOutlined,
 } from '@ant-design/icons'
 
+import LanguageContext from '../contexts/LanguageContext'
+
 const FooterComponent = () => {
-    const [language, setLanguage] = useState('English')
     const currYear = new Date().getFullYear()
+
+    const { language, setLanguage } = React.useContext(LanguageContext)
 
     const handleMenuClick = (e: any) => {
         setLanguage(e.key)
@@ -31,8 +25,8 @@ const FooterComponent = () => {
             defaultSelectedKeys={['English']}
             onClick={handleMenuClick}
         >
-            <Menu.Item key="English">English</Menu.Item>
-            <Menu.Item key="Arabic">Arabic</Menu.Item>
+            <Menu.Item key="en">English</Menu.Item>
+            <Menu.Item key="ar">Arabic</Menu.Item>
         </Menu>
     )
     return (
@@ -129,14 +123,11 @@ const FooterComponent = () => {
                 >
                     &copy; {currYear} Splash. All rights reserved.
                 </p>
-                <Dropdown
-                    overlay={menu}
-                    trigger={['click']}
-                    placement="bottomCenter"
-                >
+                <Dropdown overlay={menu} trigger={['click']} placement="bottom">
                     <Button className="language-switch">
                         <GlobalOutlined />
-                        {language} <DownOutlined />
+                        {language == 'en' ? 'English' : 'Arabic'}{' '}
+                        <DownOutlined />
                     </Button>
                 </Dropdown>
             </div>

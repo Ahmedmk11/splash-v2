@@ -15,7 +15,7 @@ import {
 import type { TabsProps } from 'antd'
 import axiosApi from '../utils/axiosApi.ts'
 
-import CurrUserContext from '../CurrUserContext.tsx'
+import CurrUserContext from '../contexts/CurrUserContext.tsx'
 import Orders from '../components/Orders.tsx'
 
 const Account = () => {

@@ -22,7 +22,7 @@ import {
 } from '@ant-design/icons'
 import Layout from '../Layout'
 import axiosApi, { baseURL } from '../utils/axiosApi'
-import CurrUserContext from '../CurrUserContext'
+import CurrUserContext from '../contexts/CurrUserContext'
 
 const { Title, Text, Link, Paragraph } = Typography
 
