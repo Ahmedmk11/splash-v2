@@ -24,11 +24,13 @@ import axiosApi from '../utils/axiosApi'
 import config from '../../config'
 
 import CategoriesContext from '../contexts/CategoriesContext'
+import LanguageContext from '../contexts/LanguageContext'
 
 const baseURL = config.REACT_APP_API_URL
 
 const AdminDashboard: React.FC = () => {
     const { categories, setCategories } = useContext(CategoriesContext)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const [formCategory] = Form.useForm()
     const [formProduct] = Form.useForm()
@@ -156,24 +158,36 @@ const AdminDashboard: React.FC = () => {
     const deleteCategory = async () => {
         try {
             await axiosApi.delete(`/user/delete-category/${selectedCategory}`)
-            message.success('Category deleted successfully')
+            message.success(
+                (langData as any).pages.admindashboard.delete_message[language]
+            )
             onResetEditCategory()
             fetchCategories()
         } catch (err) {
             console.error('Error deleting category', err)
-            message.error('Error deleting category')
+            message.error(
+                (langData as any).pages.admindashboard.delete_error[language]
+            )
         }
     }
 
     const deleteProduct = async () => {
         try {
             await axiosApi.delete(`/user/delete-product/${selectedProduct}`)
-            message.success('Product deleted successfully')
+            message.success(
+                (langData as any).pages.admindashboard.delete_product_message[
+                    language
+                ]
+            )
             onResetEditProduct()
             fetchProducts()
         } catch (err) {
             console.error('Error deleting product', err)
-            message.error('Error deleting product')
+            message.error(
+                (langData as any).pages.admindashboard.delete_product_error[
+                    language
+                ]
+            )
         }
     }
 
@@ -197,12 +211,18 @@ const AdminDashboard: React.FC = () => {
                 type: editCategoryType,
             })
 
-            message.success('Category updated successfully')
+            message.success(
+                (langData as any).pages.admindashboard.updating_message[
+                    language
+                ]
+            )
             onResetEditCategory()
             fetchCategories()
         } catch (err) {
             console.error('Error updating category', err)
-            message.error('Error updating category')
+            message.error(
+                (langData as any).pages.admindashboard.updating_error[language]
+            )
         }
     }
 
@@ -242,12 +262,20 @@ const AdminDashboard: React.FC = () => {
                 imageUrl,
             })
 
-            message.success('Product updated successfully')
+            message.success(
+                (langData as any).pages.admindashboard.updating_product_message[
+                    language
+                ]
+            )
             onResetEditProduct()
             fetchProducts()
         } catch (err) {
             console.error('Error updating product', err)
-            message.error('Error updating product')
+            message.error(
+                (langData as any).pages.admindashboard.updating_product_error[
+                    language
+                ]
+            )
         }
     }
 
@@ -268,12 +296,20 @@ const AdminDashboard: React.FC = () => {
                 })
             }
 
-            message.success('Category and image uploaded successfully')
+            message.success(
+                (langData as any).pages.admindashboard.category_uploaded[
+                    language
+                ]
+            )
             onResetCategory()
             fetchCategories()
         } catch (err) {
             console.error('Error saving category', err)
-            message.error('Error saving category')
+            message.error(
+                (langData as any).pages.admindashboard.category_upload_error[
+                    language
+                ]
+            )
         }
     }
 
@@ -307,12 +343,20 @@ const AdminDashboard: React.FC = () => {
                     imageUrl,
                 })
             }
-            message.success('Product and image uploaded successfully')
+            message.success(
+                (langData as any).pages.admindashboard.product_uploaded[
+                    language
+                ]
+            )
             onResetProduct()
             fetchProducts()
         } catch (err) {
             console.error('Error saving product', err)
-            message.error('Error saving product')
+            message.error(
+                (langData as any).pages.admindashboard.category_upload_error[
+                    language
+                ]
+            )
         }
     }
 
@@ -364,10 +408,14 @@ const AdminDashboard: React.FC = () => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'Add Category',
+            label: (langData as any).pages.admindashboard.addcategory[language],
             children: (
                 <Card
-                    title="Add New Category"
+                    title={
+                        (langData as any).pages.admindashboard.addnewcategory[
+                            language
+                        ]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -380,62 +428,108 @@ const AdminDashboard: React.FC = () => {
                     >
                         <Form.Item
                             name="categoryName"
-                            label="Category Name"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .categoryname[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category name!',
+                                    message: (langData as any).pages
+                                        .admindashboard.categoryname_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
-                            <Input placeholder="Enter category name" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .categoryname[language]
+                                }
+                            />
                         </Form.Item>
                         <Form.Item
                             name="categoryNameAr"
-                            label="Category Name (Ar)"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .categorynamearabic[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category name!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .categorynamearabic_message[language],
                                 },
                             ]}
                         >
-                            <Input placeholder="Enter category name" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .categorynamearabic[language]
+                                }
+                            />
                         </Form.Item>
                         <Form.Item
                             name="categoryType"
-                            label="Category Type"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .category_type[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category type!',
+                                    message: (langData as any).pages
+                                        .admindashboard.category_type_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Select
                                 allowClear
-                                placeholder="Select Category Type"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .category_type_options[language]
+                                }
                                 onChange={(value) => setCategoryType(value)}
                             >
-                                <Select.Option value="main">Main</Select.Option>
+                                <Select.Option value="main">
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_options_1[language]
+                                    }
+                                </Select.Option>
                                 <Select.Option value="display">
-                                    Display
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_display[language]
+                                    }
                                 </Select.Option>
                                 <Select.Option value="inquiry">
-                                    Inquiry
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_inquiry[language]
+                                    }
                                 </Select.Option>
                             </Select>
                         </Form.Item>
                         <Form.Item
                             name="categoryImage"
-                            label="Category Image"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .category_image[language]
+                            }
                             valuePropName="fileList"
                             getValueFromEvent={(e: any) => e && e.fileList}
                             rules={[
                                 {
                                     required: true,
-                                    message:
-                                        'Please upload the category image!',
+                                    message: (langData as any).pages
+                                        .admindashboard.category_image_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
@@ -448,20 +542,37 @@ const AdminDashboard: React.FC = () => {
                                 }
                             >
                                 <Button icon={<UploadOutlined />}>
-                                    Click to upload
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .click_upload[language]
+                                    }
                                 </Button>
                             </Upload>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Add Category
+                            <Button
+                                style={{
+                                    margin: 5,
+                                }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .addcategorybtn[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 htmlType="button"
                                 onClick={onResetCategory}
-                                style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .clear[language]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>
@@ -470,10 +581,14 @@ const AdminDashboard: React.FC = () => {
         },
         {
             key: '2',
-            label: 'Add Product',
+            label: (langData as any).pages.admindashboard.addproduct[language],
             children: (
                 <Card
-                    title="Add New Product"
+                    title={
+                        (langData as any).pages.admindashboard.addnewproduct[
+                            language
+                        ]
+                    }
                     style={{ maxWidth: '600px', margin: 'auto' }}
                 >
                     <Form
@@ -485,98 +600,166 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="pid"
-                                    label="Product ID"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productID[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product ID!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productID_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter product ID" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productID[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
                                 <Form.Item
                                     name="name"
-                                    label="Product Name"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productname[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product name!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productname_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter product name" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productname[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
                                 <Form.Item
                                     name="nameAr"
-                                    label="Product Name (Ar)"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productnamearabic[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product name!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productnamearabic_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter product name" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard
+                                                .productnamearabic[language]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
                         <Form.Item
                             name="description"
-                            label="Product Description"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .productdescription[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message:
-                                        'Please input the product description!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .productdescription_message[language],
                                 },
                             ]}
                         >
-                            <Input.TextArea placeholder="Enter product description" />
+                            <Input.TextArea
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .productdescription[language]
+                                }
+                            />
                         </Form.Item>
                         <Form.Item
                             name="descriptionAr"
-                            label="Product Description (Ar)"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .productdescriptionarabic[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message:
-                                        'Please input the product description!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .productdescriptionarabic_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
-                            <Input.TextArea placeholder="Enter product description" />
+                            <Input.TextArea
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .productdescriptionarabic[language]
+                                }
+                            />
                         </Form.Item>
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item
                                     name="category"
-                                    label="Product Category"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productcategory[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please select the product category!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productcategory_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
                                     <Select
                                         allowClear
-                                        placeholder="Select Category"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard
+                                                .productcategory_options[
+                                                language
+                                            ]
+                                        }
                                     >
                                         {categories.map((category: any) => (
                                             <Select.Option
                                                 key={category._id}
                                                 value={category._id}
                                             >
-                                                {category.name}
+                                                {language === 'en'
+                                                    ? category.name
+                                                    : category.name_ar}
                                             </Select.Option>
                                         ))}
                                     </Select>
@@ -585,19 +768,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="price"
-                                    label="Product Price"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productprice[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product price!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productprice_message[language],
                                         },
                                     ]}
                                 >
                                     <InputNumber
                                         formatter={(value) => `$ ${value}`}
                                         min={0}
-                                        placeholder="Enter product price"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productprice[
+                                                language
+                                            ]
+                                        }
                                         style={{ width: '100%' }}
                                     />
                                 </Form.Item>
@@ -607,28 +799,47 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="stock"
-                                    label="Product Stock"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productquantity[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product stock!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productquantity_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter product stock" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productquantity[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
                         <Form.Item
                             name="image"
-                            label="Product Image"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .product_image[language]
+                            }
                             valuePropName="fileList"
                             getValueFromEvent={(e: any) => e && e.fileList}
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please upload the product image!',
+                                    message: (langData as any).pages
+                                        .admindashboard.product_image_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
@@ -641,21 +852,38 @@ const AdminDashboard: React.FC = () => {
                                 }
                             >
                                 <Button icon={<UploadOutlined />}>
-                                    Click to upload
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .click_upload[language]
+                                    }
                                 </Button>
                             </Upload>
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Add Product
+                            <Button
+                                style={{
+                                    margin: 5,
+                                }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .addproductbtn[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 htmlType="button"
                                 onClick={onResetProduct}
-                                style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .clear[language]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>
@@ -664,10 +892,16 @@ const AdminDashboard: React.FC = () => {
         },
         {
             key: '3',
-            label: 'Manage Category',
+            label: (langData as any).pages.admindashboard.manage_category[
+                language
+            ],
             children: (
                 <Card
-                    title="Manage Category"
+                    title={
+                        (langData as any).pages.admindashboard.manage_category[
+                            language
+                        ]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -681,17 +915,27 @@ const AdminDashboard: React.FC = () => {
                     >
                         <Form.Item
                             name="selectEditCategory"
-                            label="Category"
+                            label={
+                                (langData as any).pages.admindashboard.category[
+                                    language
+                                ]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please select the category!',
+                                    message: (langData as any).pages
+                                        .admindashboard.category_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Select
                                 allowClear
-                                placeholder="Select Category"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .category_options[language]
+                                }
                                 style={{ width: '100%' }}
                                 onChange={(value) => setSelectedCategory(value)}
                             >
@@ -700,25 +944,36 @@ const AdminDashboard: React.FC = () => {
                                         key={category._id}
                                         value={category._id}
                                     >
-                                        {category.name}
+                                        {language === 'en'
+                                            ? category.name
+                                            : category.name_ar}
                                     </Select.Option>
                                 ))}
                             </Select>
                         </Form.Item>
                         <Form.Item
                             name="editCategoryName"
-                            label="Category Name"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .categoryname[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category name!',
+                                    message: (langData as any).pages
+                                        .admindashboard.categoryname_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Input
                                 disabled={!selectedCategory}
                                 value={editCategoryName}
-                                placeholder="Enter new category name"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .categoryname[language]
+                                }
                                 onChange={(e) =>
                                     setEditCategoryName(e.target.value)
                                 }
@@ -726,18 +981,26 @@ const AdminDashboard: React.FC = () => {
                         </Form.Item>
                         <Form.Item
                             name="editCategoryNameAr"
-                            label="Category Name (Ar)"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .categorynamearabic[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category name!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .categorynamearabic_message[language],
                                 },
                             ]}
                         >
                             <Input
                                 disabled={!selectedCategory}
                                 value={editCategoryNameAr}
-                                placeholder="Enter new category name"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .categorynamearabic[language]
+                                }
                                 onChange={(e) =>
                                     setEditCategoryNameAr(e.target.value)
                                 }
@@ -745,27 +1008,47 @@ const AdminDashboard: React.FC = () => {
                         </Form.Item>
                         <Form.Item
                             name="editCategoryType"
-                            label="Category Type"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .category_type[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input the category type!',
+                                    message: (langData as any).pages
+                                        .admindashboard.category_type_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Select
                                 allowClear
-                                placeholder="Select Category Type"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .category_type_options[language]
+                                }
                                 disabled={!selectedCategory}
                                 value={editCategoryType}
                                 onChange={(value) => setEditCategoryType(value)}
                             >
-                                <Select.Option value="main">Main</Select.Option>
+                                <Select.Option value="main">
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_options_1[language]
+                                    }
+                                </Select.Option>
                                 <Select.Option value="display">
-                                    Display
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_display[language]
+                                    }
                                 </Select.Option>
                                 <Select.Option value="inquiry">
-                                    Inquiry
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .category_type_inquiry[language]
+                                    }
                                 </Select.Option>
                             </Select>
                         </Form.Item>
@@ -780,14 +1063,18 @@ const AdminDashboard: React.FC = () => {
                         >
                             <Form.Item
                                 name="categoryImage"
-                                label="Category Image"
+                                label={
+                                    (langData as any).pages.admindashboard
+                                        .category_image[language]
+                                }
                                 valuePropName="fileList"
                                 getValueFromEvent={(e: any) => e && e.fileList}
                                 rules={[
                                     {
                                         required: false,
-                                        message:
-                                            'Please upload the category image!',
+                                        message: (langData as any).pages
+                                            .admindashboard
+                                            .category_image_message[language],
                                     },
                                 ]}
                             >
@@ -803,7 +1090,12 @@ const AdminDashboard: React.FC = () => {
                                         icon={<UploadOutlined />}
                                         disabled={!selectedCategory}
                                     >
-                                        Click to upload a new image
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.click_upload[
+                                                language
+                                            ]
+                                        }
                                     </Button>
                                 </Upload>
                             </Form.Item>
@@ -828,7 +1120,12 @@ const AdminDashboard: React.FC = () => {
                                             baseURL.slice(0, -1) +
                                             editCategoryImage
                                         }
-                                        alt="Current Image"
+                                        alt={
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
                                     />
 
                                     <Divider />
@@ -838,35 +1135,57 @@ const AdminDashboard: React.FC = () => {
                                             margin: 0,
                                         }}
                                     >
-                                        Current Image
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
                                     </h3>
                                 </div>
                             )}
                         </Space>
                         <Form.Item>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 type="primary"
                                 htmlType="submit"
                                 disabled={!selectedCategory}
                             >
-                                Update Category
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .update_category[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 htmlType="button"
                                 onClick={onResetEditCategory}
-                                style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .clear[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 disabled={!selectedCategory}
                                 htmlType="button"
                                 danger
-                                style={{ marginLeft: '10px' }}
                                 onClick={() => {
                                     Modal.confirm({
-                                        title: 'Confirm',
-                                        content: `Are you sure you want to delete this category?`,
+                                        title: (langData as any).pages
+                                            .admindashboard.confirm[language],
+                                        content: (langData as any).pages
+                                            .admindashboard.verify_delete[
+                                            language
+                                        ],
                                         footer: (_, { OkBtn, CancelBtn }) => (
                                             <>
                                                 <CancelBtn />
@@ -877,14 +1196,23 @@ const AdminDashboard: React.FC = () => {
                                                         Modal.destroyAll()
                                                     }}
                                                 >
-                                                    Confirm Delete
+                                                    {
+                                                        (langData as any).pages
+                                                            .admindashboard
+                                                            .confirm_delete[
+                                                            language
+                                                        ]
+                                                    }
                                                 </Button>
                                             </>
                                         ),
                                     })
                                 }}
                             >
-                                Delete Category
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .delete_category[language]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>
@@ -893,10 +1221,16 @@ const AdminDashboard: React.FC = () => {
         },
         {
             key: '4',
-            label: 'Manage Product',
+            label: (langData as any).pages.admindashboard.manage_product[
+                language
+            ],
             children: (
                 <Card
-                    title="Manage Product"
+                    title={
+                        (langData as any).pages.admindashboard.manage_product[
+                            language
+                        ]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -910,17 +1244,27 @@ const AdminDashboard: React.FC = () => {
                     >
                         <Form.Item
                             name="selectEditProduct"
-                            label="Product"
+                            label={
+                                (langData as any).pages.admindashboard.product[
+                                    language
+                                ]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please select the product!',
+                                    message: (langData as any).pages
+                                        .admindashboard.product_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Select
                                 allowClear
-                                placeholder="Select Product"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .select_product[language]
+                                }
                                 style={{ width: '100%' }}
                                 onChange={(value) => setSelectedProduct(value)}
                             >
@@ -938,19 +1282,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductPID"
-                                    label="Product ID"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productID[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product ID!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productID_message[language],
                                         },
                                     ]}
                                 >
                                     <Input
                                         disabled={!selectedProduct}
                                         value={editProductPID}
-                                        placeholder="Enter product ID"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productID[
+                                                language
+                                            ]
+                                        }
                                         onChange={(e) =>
                                             setEditProductPID(e.target.value)
                                         }
@@ -960,19 +1313,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductName"
-                                    label="Product Name"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productname[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product name!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productname_message[language],
                                         },
                                     ]}
                                 >
                                     <Input
                                         disabled={!selectedProduct}
                                         value={editProductName}
-                                        placeholder="Enter new product name"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productname[
+                                                language
+                                            ]
+                                        }
                                         onChange={(e) =>
                                             setEditProductName(e.target.value)
                                         }
@@ -980,19 +1342,29 @@ const AdminDashboard: React.FC = () => {
                                 </Form.Item>
                                 <Form.Item
                                     name="editProductNameAr"
-                                    label="Product Name (Ar)"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productnamearabic[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product name!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productnamearabic_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
                                     <Input
                                         disabled={!selectedProduct}
                                         value={editProductNameAr}
-                                        placeholder="Enter new product name"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard
+                                                .productnamearabic[language]
+                                        }
                                         onChange={(e) =>
                                             setEditProductNameAr(e.target.value)
                                         }
@@ -1003,19 +1375,26 @@ const AdminDashboard: React.FC = () => {
 
                         <Form.Item
                             name="editProductDescription"
-                            label="Product Description"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .productdescription[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message:
-                                        'Please input the product description!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .productdescription_message[language],
                                 },
                             ]}
                         >
                             <Input.TextArea
                                 disabled={!selectedProduct}
                                 value={editProductDescription}
-                                placeholder="Enter new product description"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .productdescription[language]
+                                }
                                 onChange={(e) =>
                                     setEditProductDescription(e.target.value)
                                 }
@@ -1023,19 +1402,28 @@ const AdminDashboard: React.FC = () => {
                         </Form.Item>
                         <Form.Item
                             name="editProductDescriptionAr"
-                            label="Product Description (Ar)"
+                            label={
+                                (langData as any).pages.admindashboard
+                                    .productdescriptionarabic[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message:
-                                        'Please input the product description!',
+                                    message: (langData as any).pages
+                                        .admindashboard
+                                        .productdescriptionarabic_message[
+                                        language
+                                    ],
                                 },
                             ]}
                         >
                             <Input.TextArea
                                 disabled={!selectedProduct}
                                 value={editProductDescriptionAr}
-                                placeholder="Enter new product description"
+                                placeholder={
+                                    (langData as any).pages.admindashboard
+                                        .productdescriptionarabic[language]
+                                }
                                 onChange={(e) =>
                                     setEditProductDescriptionAr(e.target.value)
                                 }
@@ -1045,18 +1433,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductCategory"
-                                    label="Product Category"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productcategory[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please select the product category!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productcategory_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
                                     <Select
                                         allowClear
-                                        placeholder="Select Category"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard
+                                                .category_options[language]
+                                        }
                                         disabled={!selectedProduct}
                                         value={editProductCategory}
                                         onChange={(value) =>
@@ -1068,7 +1466,9 @@ const AdminDashboard: React.FC = () => {
                                                 key={category._id}
                                                 value={category._id}
                                             >
-                                                {category.name}
+                                                {language === 'en'
+                                                    ? category.name
+                                                    : category.name_ar}
                                             </Select.Option>
                                         ))}
                                     </Select>
@@ -1077,19 +1477,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductPrice"
-                                    label="Product Price"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productprice[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product price!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productprice_message[language],
                                         },
                                     ]}
                                 >
                                     <InputNumber
                                         formatter={(value) => `$ ${value}`}
                                         min={0}
-                                        placeholder="Enter new product price"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productprice[
+                                                language
+                                            ]
+                                        }
                                         style={{ width: '100%' }}
                                         step="100"
                                         disabled={!selectedProduct}
@@ -1105,17 +1514,28 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductStock"
-                                    label="Product Stock"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .productquantity[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the product stock!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .productquantity_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
                                     <InputNumber
-                                        placeholder="Enter new product stock"
+                                        placeholder={
+                                            (langData as any).pages
+                                                .admindashboard.productquantity[
+                                                language
+                                            ]
+                                        }
                                         style={{ width: '100%' }}
                                         min="0"
                                         disabled={!selectedProduct}
@@ -1129,18 +1549,34 @@ const AdminDashboard: React.FC = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="editProductCarousel"
-                                    label="Carousel Status"
+                                    label={
+                                        (langData as any).pages.admindashboard
+                                            .carousel_status[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please select if the product should appear in the carousel!',
+                                            message: (langData as any).pages
+                                                .admindashboard
+                                                .carousel_status_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
                                     <Switch
-                                        checkedChildren="Appears"
-                                        unCheckedChildren="Doesn't appear"
+                                        checkedChildren={
+                                            (langData as any).pages
+                                                .admindashboard.appears[
+                                                language
+                                            ]
+                                        }
+                                        unCheckedChildren={
+                                            (langData as any).pages
+                                                .admindashboard.does_not_appear[
+                                                language
+                                            ]
+                                        }
                                         disabled={!selectedProduct}
                                         value={editProductCarousel}
                                         onChange={(value: any) =>
@@ -1161,14 +1597,18 @@ const AdminDashboard: React.FC = () => {
                         >
                             <Form.Item
                                 name="productImage"
-                                label="Product Image"
+                                label={
+                                    (langData as any).pages.admindashboard
+                                        .product_image[language]
+                                }
                                 valuePropName="fileList"
                                 getValueFromEvent={(e: any) => e && e.fileList}
                                 rules={[
                                     {
                                         required: false,
-                                        message:
-                                            'Please upload the product image!',
+                                        message: (langData as any).pages
+                                            .admindashboard
+                                            .product_image_message[language],
                                     },
                                 ]}
                             >
@@ -1184,7 +1624,12 @@ const AdminDashboard: React.FC = () => {
                                         icon={<UploadOutlined />}
                                         disabled={!selectedProduct}
                                     >
-                                        Click to upload a new image
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.click_upload[
+                                                language
+                                            ]
+                                        }
                                     </Button>
                                 </Upload>
                             </Form.Item>
@@ -1209,7 +1654,12 @@ const AdminDashboard: React.FC = () => {
                                             baseURL.slice(0, -1) +
                                             editProductImage
                                         }
-                                        alt="Current Image"
+                                        alt={
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
                                     />
 
                                     <Divider />
@@ -1219,35 +1669,56 @@ const AdminDashboard: React.FC = () => {
                                             margin: 0,
                                         }}
                                     >
-                                        Current Image
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
                                     </h3>
                                 </div>
                             )}
                         </Space>
                         <Form.Item>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 type="primary"
                                 htmlType="submit"
                                 disabled={!selectedProduct}
                             >
-                                Update Product
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .update_product[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 htmlType="button"
                                 onClick={onResetEditProduct}
-                                style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .clear[language]
+                                }
                             </Button>
                             <Button
+                                style={{
+                                    margin: 5,
+                                }}
                                 disabled={!selectedProduct}
                                 htmlType="button"
                                 danger
-                                style={{ marginLeft: '10px' }}
                                 onClick={() => {
                                     Modal.confirm({
-                                        title: 'Confirm',
-                                        content: `Are you sure you want to delete this product?`,
+                                        title: (langData as any).pages
+                                            .admindashboard.confirm[language],
+                                        content: (langData as any).pages
+                                            .admindashboard
+                                            .verify_delete_product[language],
                                         footer: (_, { OkBtn, CancelBtn }) => (
                                             <>
                                                 <CancelBtn />
@@ -1258,14 +1729,23 @@ const AdminDashboard: React.FC = () => {
                                                         Modal.destroyAll()
                                                     }}
                                                 >
-                                                    Confirm Delete
+                                                    {
+                                                        (langData as any).pages
+                                                            .admindashboard
+                                                            .confirm_delete[
+                                                            language
+                                                        ]
+                                                    }
                                                 </Button>
                                             </>
                                         ),
                                     })
                                 }}
                             >
-                                Delete Product
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .delete_product[language]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>

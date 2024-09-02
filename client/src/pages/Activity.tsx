@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Layout from '../Layout'
 import { useParams } from 'react-router-dom'
 import axiosApi from '../utils/axiosApi'
 import Orders from '../components/Orders'
+import LanguageContext from '../contexts/LanguageContext'
 
 const Activity = () => {
     const { cid } = useParams<{ cid: string }>()
     const [orders, setOrders] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const fetchUserOrders = async () => {
         try {
@@ -31,7 +33,7 @@ const Activity = () => {
                         marginBottom: '20px',
                     }}
                 >
-                    Orders
+                    {(langData as any).pages.activity.orders[language]}
                 </h2>
 
                 <Orders orders={orders} loading={loading} />

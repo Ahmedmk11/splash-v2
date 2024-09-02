@@ -17,9 +17,11 @@ import axiosApi from '../utils/axiosApi.ts'
 
 import CurrUserContext from '../contexts/CurrUserContext.tsx'
 import Orders from '../components/Orders.tsx'
+import LanguageContext from '../contexts/LanguageContext'
 
 const Account = () => {
     const { currUser, setCurrUser } = useContext(CurrUserContext)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
     const [editAccountForm] = Form.useForm()
     const [editPasswordForm] = Form.useForm()
     const [orders, setOrders] = useState<any[]>([])
@@ -35,11 +37,15 @@ const Account = () => {
                 ...currUser,
                 user: res.data.customer,
             })
-            message.success('Account updated successfully!')
+            message.success(
+                (langData as any).pages.account.message_success[language]
+            )
             onResetEditAccount()
         } catch (error) {
             console.error(error)
-            message.error('Account update failed!')
+            message.error(
+                (langData as any).pages.account.message_error[language]
+            )
         }
     }
 
@@ -70,11 +76,15 @@ const Account = () => {
                 ...currUser,
                 user: res.data.customer,
             })
-            message.success('Password updated successfully!')
+            message.success(
+                (langData as any).pages.account.password_success[language]
+            )
             onResetEditPassword()
         } catch (error) {
             console.error(error)
-            message.error('Password update failed!')
+            message.error(
+                (langData as any).pages.account.password_error[language]
+            )
         }
     }
 
@@ -105,10 +115,12 @@ const Account = () => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'Profile',
+            label: (langData as any).pages.account.profile[language],
             children: (
                 <Card
-                    title="Edit Profile"
+                    title={
+                        (langData as any).pages.account.editprofile[language]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -123,12 +135,17 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="first_name"
-                                    label="First Name"
+                                    label={
+                                        (langData as any).pages.account
+                                            .firstname[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please enter your first name!',
+                                            message: (langData as any).pages
+                                                .account.firstname_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
@@ -138,12 +155,17 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="last_name"
-                                    label="Last Name"
+                                    label={
+                                        (langData as any).pages.account
+                                            .lastname[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please enter your last name!',
+                                            message: (langData as any).pages
+                                                .account.lastname_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
@@ -156,16 +178,25 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="email_address"
-                                    label="Email"
+                                    label={
+                                        (langData as any).pages.account.email[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Please enter your email!',
+                                            message: (langData as any).pages
+                                                .account.email_message[
+                                                language
+                                            ],
                                         },
                                         {
                                             type: 'email',
-                                            message:
-                                                'Please enter a valid email!',
+                                            message: (langData as any).pages
+                                                .account.email_valid_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
@@ -175,12 +206,18 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="phone_number"
-                                    label="Phone"
+                                    label={
+                                        (langData as any).pages.account.phone[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please enter your phone number!',
+                                            message: (langData as any).pages
+                                                .account.phone_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
@@ -193,12 +230,18 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="address"
-                                    label="Address"
+                                    label={
+                                        (langData as any).pages.account.address[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please enter your address!',
+                                            message: (langData as any).pages
+                                                .account.address_message[
+                                                language
+                                            ],
                                         },
                                     ]}
                                 >
@@ -208,11 +251,16 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="city"
-                                    label="City"
+                                    label={
+                                        (langData as any).pages.account.city[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Please enter your city!',
+                                            message: (langData as any).pages
+                                                .account.city_message[language],
                                         },
                                     ]}
                                 >
@@ -225,11 +273,16 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="area"
-                                    label="Area"
+                                    label={
+                                        (langData as any).pages.account.area[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Please enter your area!',
+                                            message: (langData as any).pages
+                                                .account.area_message[language],
                                         },
                                     ]}
                                 >
@@ -239,12 +292,23 @@ const Account = () => {
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     name="subscribed"
-                                    label="Receive Promotions"
+                                    label={
+                                        (langData as any).pages.account
+                                            .promotion[language]
+                                    }
                                     valuePropName="checked"
                                 >
                                     <Switch
-                                        checkedChildren="Yes"
-                                        unCheckedChildren="No"
+                                        checkedChildren={
+                                            (langData as any).pages.account.yes[
+                                                language
+                                            ]
+                                        }
+                                        unCheckedChildren={
+                                            (langData as any).pages.account.no[
+                                                language
+                                            ]
+                                        }
                                     />
                                 </Form.Item>
                             </Col>
@@ -252,14 +316,18 @@ const Account = () => {
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Save
+                                {(langData as any).pages.account.save[language]}
                             </Button>
                             <Button
                                 htmlType="button"
                                 onClick={onResetEditAccount}
                                 style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.account.clear[
+                                        language
+                                    ]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>
@@ -268,10 +336,12 @@ const Account = () => {
         },
         {
             key: '2',
-            label: 'Security',
+            label: (langData as any).pages.account.security[language],
             children: (
                 <Card
-                    title="Edit Password"
+                    title={
+                        (langData as any).pages.account.edit_password[language]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -284,26 +354,42 @@ const Account = () => {
                     >
                         <Form.Item
                             name="password"
-                            label="Password"
+                            label={
+                                (langData as any).pages.account.password[
+                                    language
+                                ]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please enter your password!',
+                                    message: (langData as any).pages.account
+                                        .password_message[language],
                                 },
                             ]}
                         >
-                            <Input.Password placeholder="Password" />
+                            <Input.Password
+                                placeholder={
+                                    (langData as any).pages.account.password[
+                                        language
+                                    ]
+                                }
+                            />
                         </Form.Item>
 
                         <Form.Item
                             name="confirmPassword"
-                            label="Confirm Password"
+                            label={
+                                (langData as any).pages.account.confirmPassword[
+                                    language
+                                ]
+                            }
                             dependencies={['password']}
                             hasFeedback
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please confirm your password!',
+                                    message: (langData as any).pages.account
+                                        .confirmPassword_message[language],
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(rule, value) {
@@ -314,25 +400,35 @@ const Account = () => {
                                             return Promise.resolve()
                                         }
                                         return Promise.reject(
-                                            'The two passwords that you entered do not match!'
+                                            (langData as any).pages.account
+                                                .confirmPassword_match[language]
                                         )
                                     },
                                 }),
                             ]}
                         >
-                            <Input.Password placeholder="Confirm Password" />
+                            <Input.Password
+                                placeholder={
+                                    (langData as any).pages.account
+                                        .confirmPassword[language]
+                                }
+                            />
                         </Form.Item>
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Save
+                                {(langData as any).pages.account.save[language]}
                             </Button>
                             <Button
                                 htmlType="button"
                                 onClick={onResetEditPassword}
                                 style={{ marginLeft: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.account.clear[
+                                        language
+                                    ]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>
@@ -341,7 +437,7 @@ const Account = () => {
         },
         {
             key: '3',
-            label: 'Orders',
+            label: (langData as any).pages.account.orders[language],
             children: <Orders orders={orders} loading={loading} />,
         },
     ]

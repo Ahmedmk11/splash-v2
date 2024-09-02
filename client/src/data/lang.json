@@ -1,9 +1,457 @@
 {
     "pages": {
-        "aboutus": {},
-        "account": {},
-        "activity": {},
-        "admindashboard": {},
+        "aboutus": {
+            "title_about": {
+                "en": "About Us",
+                "ar": "من نحن"
+            },
+            "paragraph_about": {
+                "en": "We are a furniture and interior design company that has been providing high-quality furniture since 1990. Whether you are looking for a classic, timeless piece or something more contemporary, we have something for everyone. We take great pride in the craftsmanship and quality of our furniture. Each piece is designed and made with the utmost care, using only the finest materials. We offer a wide range of furniture options, including a custom-furniture option, allowing you to create a truly unique piece that fits your specific needs.",
+                "ar": "نحن شركة للأثاث والتصميم الداخلي نقدم أثاثًا عالي الجودة منذ عام ١٩٩٠. سواء كنت تبحث عن قطعة كلاسيكية خالدة أو شيئًا أكثر حداثة، فلدينا ما يناسب الجميع. نفخر كثيرًا بالحرفية وجودة أثاثنا. يتم تصميم وتصنيع كل قطعة بعناية فائقة، باستخدام أفضل المواد فقط. نقدم مجموعة واسعة من خيارات الأثاث، بما في ذلك خيار الأثاث المخصص، مما يتيح لك إنشاء قطعة فريدة تلبي احتياجاتك الخاصة."
+            },
+            "title_mission": {
+                "en": "Our Mission",
+                "ar": "مهمتنا"
+            },
+            "paragraph_mission": {
+                "en": "Our mission is to provide our customers with the highest quality furniture that combines comfort, style, and functionality. We are committed to sustainable practices and using eco-friendly materials in our products. Our goal is to make every space a beautiful, functional, and comfortable environment.",
+                "ar": "مهمتنا هي تقديم أثاث عالي الجودة يجمع بين الراحة والأناقة والوظائف لعملائنا. نحن ملتزمون بالممارسات المستدامة واستخدام المواد الصديقة للبيئة في منتجاتنا. هدفنا هو جعل كل مساحة بيئة جميلة وعملية ومريحة."
+            }
+        },
+        "account": {
+            "message_success": {
+                "en": "Account updated successfully!",
+                "ar": "تم تحديث الحساب بنجاح!"
+            },
+            "message_error": {
+                "en": "Account update failed!",
+                "ar": "فشل تحديث الحساب!"
+            },
+            "password_success": {
+                "en": "Password updated successfully!",
+                "ar": "تم تحديث كلمة المرور بنجاح!"
+            },
+            "password_error": {
+                "en": "Password update failed!",
+                "ar": "فشل تحديث كلمة المرور!"
+            },
+            "profile": {
+                "en": "Profile",
+                "ar": "الملف الشخصي"
+            },
+            "editprofile": {
+                "en": "Edit Profile",
+                "ar": "تعديل الملف الشخصي"
+            },
+            "firstname": {
+                "en": "First Name",
+                "ar": "الاسم الأول"
+            },
+            "firstname_message": {
+                "en": "First Name is required",
+                "ar": "الاسم الأول مطلوب"
+            },
+            "lastname": {
+                "en": "Last Name",
+                "ar": "الاسم الأخير"
+            },
+            "lastname_message": {
+                "en": "Last Name is required",
+                "ar": "الاسم الأخير مطلوب"
+            },
+            "email": {
+                "en": "Email",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required",
+                "ar": "البريد الإلكتروني مطلوب"
+            },
+            "email_valid_message": {
+                "en": "Email must be a valid email",
+                "ar": "يجب أن يكون البريد الإلكتروني صالح"
+            },
+            "phone": {
+                "en": "Phone",
+                "ar": "الهاتف"
+            },
+            "phone_message": {
+                "en": "Phone is required",
+                "ar": "الهاتف مطلوب"
+            },
+            "address": {
+                "en": "Address",
+                "ar": "العنوان"
+            },
+            "address_message": {
+                "en": "Address is required",
+                "ar": "العنوان مطلوب"
+            },
+            "city": {
+                "en": "City",
+                "ar": "المدينة"
+            },
+            "city_message": {
+                "en": "City is required",
+                "ar": "المدينة مطلوبة"
+            },
+            "area": {
+                "en": "Area",
+                "ar": "المنطقة"
+            },
+            "area_message": {
+                "en": "Area is required",
+                "ar": "المنطقة مطلوبة"
+            },
+            "promotion": {
+                "en": "Receive Promotions",
+                "ar": "استقبال العروض"
+            },
+            "save": {
+                "en": "Save",
+                "ar": "حفظ"
+            },
+            "clear": {
+                "en": "Clear",
+                "ar": "مسح"
+            },
+            "yes": {
+                "en": "Yes",
+                "ar": "نعم"
+            },
+            "no": {
+                "en": "No",
+                "ar": "لا"
+            },
+            "security": {
+                "en": "Security",
+                "ar": "الحماية"
+            },
+            "edit_password": {
+                "en": "Edit Password",
+                "ar": "تعديل كلمة المرور"
+            },
+            "password": {
+                "en": "Password",
+                "ar": "كلمة المرور"
+            },
+            "password_message": {
+                "en": "Password is required",
+                "ar": "كلمة المرور مطلوبة"
+            },
+            "confirmPassword": {
+                "en": "Confirm Password",
+                "ar": "تأكيد كلمة المرور"
+            },
+            "confirmPassword_message": {
+                "en": "Confirm Password is required",
+                "ar": "تأكيد كلمة المرور مطلوب"
+            },
+            "confirmPassword_match": {
+                "en": "The two passwords that you entered do not match!",
+                "ar": "كلمتا المرور التي أدخلتهما لا تتطابقان!"
+            },
+            "orders": {
+                "en": "Orders",
+                "ar": "الطلبات"
+            }
+        },
+        "activity": {
+            "orders": {
+                "en": "Orders",
+                "ar": "الطلبات"
+            }
+        },
+        "admindashboard": {
+            "delete_message": {
+                "en": "Category deleted successfully",
+                "ar": "تم حذف الفئة بنجاح"
+            },
+            "delete_error": {
+                "en": "Error deleting category",
+                "ar": "خطأ في حذف الفئة"
+            },
+            "delete_product_message": {
+                "en": "Product deleted successfully",
+                "ar": "تم حذف المنتج بنجاح"
+            },
+            "delete_product_error": {
+                "en": "Error deleting product",
+                "ar": "خطأ في حذف المنتج"
+            },
+            "updating_message": {
+                "en": "Category updated successfully",
+                "ar": "تم تحديث الفئة بنجاح"
+            },
+            "updating_error": {
+                "en": "Error updating category",
+                "ar": "خطأ في تحديث الفئة"
+            },
+            "updating_product_message": {
+                "en": "Product updated successfully",
+                "ar": "تم تحديث المنتج بنجاح"
+            },
+            "updating_product_error": {
+                "en": "Error updating product",
+                "ar": "خطأ في تحديث المنتج"
+            },
+            "category_uploaded": {
+                "en": "Category and image uploaded successfully",
+                "ar": "تم تحميل الفئة والصورة بنجاح"
+            },
+            "category_upload_error": {
+                "en": "Error uploading category",
+                "ar": "خطأ في تحميل الفئة"
+            },
+            "product_uploaded": {
+                "en": "Product and image uploaded successfully",
+                "ar": "تم تحميل المنتج والصورة بنجاح"
+            },
+            "product_upload_error": {
+                "en": "Error uploading product",
+                "ar": "خطأ في تحميل المنتج"
+            },
+            "addcategory": {
+                "en": "Add Category",
+                "ar": "إضافة فئة"
+            },
+            "addnewcategory": {
+                "en": "Add New Category",
+                "ar": "إضافة فئة جديدة"
+            },
+            "categoryname": {
+                "en": "Category Name",
+                "ar": "اسم الفئة"
+            },
+            "categoryname_message": {
+                "en": "Category Name is required",
+                "ar": "اسم الفئة مطلوب"
+            },
+            "categorynamearabic": {
+                "en": "Category Name (Arabic)",
+                "ar": "اسم الفئة (بالعربية)"
+            },
+            "categorynamearabic_message": {
+                "en": "Category Name (Arabic) is required",
+                "ar": "اسم الفئة (بالعربية) مطلوب"
+            },
+            "category_type": {
+                "en": "Category Type",
+                "ar": "نوع الفئة"
+            },
+            "category_type_message": {
+                "en": "Category Type is required",
+                "ar": "نوع الفئة مطلوب"
+            },
+            "category_type_options": {
+                "en": "Select Category Type",
+                "ar": "اختر نوع الفئة"
+            },
+            "category_type_options_1": {
+                "en": "Main",
+                "ar": "الفئة الرئيسية"
+            },
+            "category_type_display": {
+                "en": "Display",
+                "ar": "العرض"
+            },
+            "category_type_inquiry": {
+                "en": "Inquiry",
+                "ar": "الاستفسار"
+            },
+            "category_image": {
+                "en": "Category Image",
+                "ar": "صورة الفئة"
+            },
+            "category_image_message": {
+                "en": "Category Image is required",
+                "ar": "صورة الفئة مطلوبة"
+            },
+            "click_upload": {
+                "en": "Click to upload",
+                "ar": "انقر للتحميل"
+            },
+            "addcategorybtn": {
+                "en": "Add Category",
+                "ar": "إضافة فئة"
+            },
+            "clear": {
+                "en": "Clear",
+                "ar": "مسح"
+            },
+            "addproduct": {
+                "en": "Add Product",
+                "ar": "إضافة منتج"
+            },
+            "addnewproduct": {
+                "en": "Add New Product",
+                "ar": "إضافة منتج جديد"
+            },
+            "productID": {
+                "en": "Product ID",
+                "ar": "رقم المنتج"
+            },
+            "productID_message": {
+                "en": "Product ID is required",
+                "ar": "رقم المنتج مطلوب"
+            },
+            "productname": {
+                "en": "Product Name",
+                "ar": "اسم المنتج"
+            },
+            "productname_message": {
+                "en": "Product Name is required",
+                "ar": "اسم المنتج مطلوب"
+            },
+            "productnamearabic": {
+                "en": "Product Name (Arabic)",
+                "ar": "اسم المنتج (بالعربية)"
+            },
+            "productnamearabic_message": {
+                "en": "Product Name (Arabic) is required",
+                "ar": "اسم المنتج (بالعربية) مطلوب"
+            },
+            "productdescription": {
+                "en": "Product Description",
+                "ar": "وصف المنتج"
+            },
+            "productdescription_message": {
+                "en": "Product Description is required",
+                "ar": "وصف المنتج مطلوب"
+            },
+            "productdescriptionarabic": {
+                "en": "Product Description (Arabic)",
+                "ar": "وصف المنتج (بالعربية)"
+            },
+            "productdescriptionarabic_message": {
+                "en": "Product Description (Arabic) is required",
+                "ar": "وصف المنتج (بالعربية) مطلوب"
+            },
+            "productcategory": {
+                "en": "Product Category",
+                "ar": "فئة المنتج"
+            },
+            "productcategory_message": {
+                "en": "Product Category is required",
+                "ar": "فئة المنتج مطلوبة"
+            },
+            "productcategory_options": {
+                "en": "Select Product Category",
+                "ar": "اختر فئة المنتج"
+            },
+            "productprice": {
+                "en": "Product Price",
+                "ar": "سعر المنتج"
+            },
+            "productprice_message": {
+                "en": "Product Price is required",
+                "ar": "سعر المنتج مطلوب"
+            },
+            "productquantity": {
+                "en": "Product Stock",
+                "ar": "المخزون"
+            },
+            "productquantity_message": {
+                "en": "Product Stock is required",
+                "ar": "المخزون مطلوب"
+            },
+            "product_image": {
+                "en": "Product Image",
+                "ar": "صورة المنتج"
+            },
+            "product_image_message": {
+                "en": "Product Image is required",
+                "ar": "صورة المنتج مطلوبة"
+            },
+            "addproductbtn": {
+                "en": "Add Product",
+                "ar": "إضافة منتج"
+            },
+            "manage_category": {
+                "en": "Manage Category",
+                "ar": "إدارة الفئة"
+            },
+            "category": {
+                "en": "Category",
+                "ar": "الفئة"
+            },
+            "category_message": {
+                "en": "Category is required",
+                "ar": "الفئة مطلوبة"
+            },
+            "category_options": {
+                "en": "Select Category",
+                "ar": "اختر الفئة"
+            },
+            "current_image": {
+                "en": "Current Image",
+                "ar": "الصورة الحالية"
+            },
+            "update_category": {
+                "en": "Update Category",
+                "ar": "تحديث الفئة"
+            },
+            "verify_delete": {
+                "en": "Are you sure you want to delete this category?",
+                "ar": "هل أنت متأكد أنك تريد حذف هذه الفئة؟"
+            },
+            "confirm_delete": {
+                "en": "Confirm Delete",
+                "ar": "تأكيد الحذف"
+            },
+            "delete_category": {
+                "en": "Delete Category",
+                "ar": "حذف الفئة"
+            },
+            "manage_product": {
+                "en": "Manage Product",
+                "ar": "إدارة المنتج"
+            },
+            "product": {
+                "en": "Product",
+                "ar": "المنتج"
+            },
+            "product_message": {
+                "en": "Product is required",
+                "ar": "المنتج مطلوب"
+            },
+            "select_product": {
+                "en": "Select Product",
+                "ar": "اختر المنتج"
+            },
+            "carousel_status": {
+                "en": "Carousel Status",
+                "ar": "حالة الدائري"
+            },
+            "carousel_status_message": {
+                "en": "Carousel Status is required",
+                "ar": "حالة الدائري مطلوبة"
+            },
+            "appears": {
+                "en": "Appears",
+                "ar": "يظهر"
+            },
+            "does_not_appear": {
+                "en": "Does Not Appear",
+                "ar": "لا يظهر"
+            },
+            "update_product": {
+                "en": "Update Product",
+                "ar": "تحديث المنتج"
+            },
+            "verify_delete_product": {
+                "en": "Are you sure you want to delete this product?",
+                "ar": "هل أنت متأكد أنك تريد حذف هذا المنتج؟"
+            },
+            "confirm": {
+                "en": "Confirm",
+                "ar": "تأكيد"
+            },
+            "delete_product": {
+                "en": "Delete Product",
+                "ar": "حذف المنتج"
+            }
+        },
         "cart": {},
         "category": {},
         "contactus": {},
