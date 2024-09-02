@@ -1,0 +1,153 @@
+{
+    "pages": {
+        "aboutus": {},
+        "account": {},
+        "activity": {},
+        "admindashboard": {},
+        "cart": {},
+        "category": {},
+        "contactus": {},
+        "forbidden": {},
+        "home": {},
+        "login": {},
+        "notfound": {},
+        "privacypolicy": {},
+        "product": {},
+        "signup": {},
+        "superadmindashboard": {},
+        "wishlist": {}
+    },
+    "components": {
+        "categorygrid": {
+            "noproducts": {
+                "en": "No products found.",
+                "ar": "لم يتم العثور على منتجات."
+            },
+            "oneproduct": {
+                "en": "1 Product Found.",
+                "ar": "تم العثور على منتج واحد."
+            },
+            "manyproducts_1": {
+                "en": "Products Found.",
+                "ar": "تم العثور على"
+            },
+            "manyproducts_2": {
+                "ar": "منتجات."
+            }
+        },
+        "footercomponent": {
+            "policiescol": {
+                "en": "Policies & Terms",
+                "ar": "السياسات والشروط"
+            },
+            "contactcol": {
+                "en": "Contact",
+                "ar": "اتصل بنا"
+            },
+            "followuscol": {
+                "en": "Follow Us",
+                "ar": "تابعنا"
+            },
+            "privacypolicy": {
+                "en": "Privacy Policy",
+                "ar": "سياسة الخصوصية"
+            },
+            "termsandconditions": {
+                "en": "Terms & Conditions",
+                "ar": "الشروط والأحكام"
+            },
+            "contactus": {
+                "en": "Contact Us",
+                "ar": "اتصل بنا"
+            },
+            "aboutus": {
+                "en": "About Us",
+                "ar": "من نحن"
+            },
+            "allrightsreserved": {
+                "en": "© All Rights Reserved.",
+                "ar": "© جميع الحقوق محفوظة."
+            }
+        },
+        "headercomponent": {
+            "account": {
+                "en": "Account",
+                "ar": "الحساب"
+            },
+            "adminDashboard": {
+                "en": "Admin Dashboard",
+                "ar": "لوحة تحكم المسؤول"
+            },
+            "superAdminDashboard": {
+                "en": "Super Admin Dashboard",
+                "ar": "لوحة تحكم المشرف الأعلى"
+            },
+            "logout": {
+                "en": "Logout",
+                "ar": "تسجيل الخروج"
+            },
+            "login": {
+                "en": "Login",
+                "ar": "تسجيل الدخول"
+            },
+            "categories": {
+                "en": "Categories",
+                "ar": "الفئات"
+            },
+            "customer": {
+                "en": "Customer",
+                "ar": "عميل"
+            },
+            "products": {
+                "en": "Products",
+                "ar": "المنتجات"
+            },
+            "rooms": {
+                "en": "Rooms",
+                "ar": "الغرف"
+            },
+            "design": {
+                "en": "Interior Design",
+                "ar": "تصميم داخلي"
+            },
+            "search": {
+                "en": "Search",
+                "ar": "بحث"
+            },
+            "wishlist": {
+                "en": "Wishlist",
+                "ar": "قائمة الرغبات"
+            },
+            "cart": {
+                "en": "Cart",
+                "ar": "السلة"
+            },
+            "testget": {
+                "en": "Test Get",
+                "ar": "اختبار GET"
+            },
+            "testpost": {
+                "en": "Test Post",
+                "ar": "اختبار POST"
+            }
+        },
+        "orders": {
+            "orderid": {
+                "en": "Order ID: ",
+                "ar": "رقم الطلب: "
+            },
+            "orderdate": {
+                "en": "Order Date: ",
+                "ar": "تاريخ الطلب: "
+            },
+            "egp": {
+                "en": "EGP",
+                "ar": "ج.م"
+            },
+            "quantity": {
+                "en": "Quantity: ",
+                "ar": "الكمية: "
+            }
+        }
+    }
+}

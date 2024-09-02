@@ -41,6 +41,14 @@ body {
     height: 100%;
 }
 
+body.en {
+    direction: ltr;
+}
+
+body.ar {
+    direction: rtl;
+}
+
 #root {
     height: 100%;
     width: 100%;
@@ -66,11 +74,6 @@ a {
         text-decoration: underline;
         opacity: 0.8;
     }
-}
-
-.icon {
-    color: rgba(0, 0, 0, 0.75);
-    margin-right: 10px;
 }
 
 .ant-form-item-explain-error {

@@ -20,16 +20,21 @@ import CategoriesContext from '../contexts/CategoriesContext'
 
 import type { MenuProps } from 'antd'
 import axiosApi from '../utils/axiosApi'
+import LanguageContext from '../contexts/LanguageContext'
 
 const Header = () => {
     const navigate = useNavigate()
     const { currUser, setCurrUser } = useContext(CurrUserContext)
     const { categories, setCategories } = useContext(CategoriesContext)
 
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
+
     const items: MenuProps['items'] = [
         !currUser?.user?.type
             ? {
-                  label: 'Account',
+                  label: (langData as any).components.headercomponent.account[
+                      language
+                  ],
                   key: '0',
                   icon: <UserOutlined />,
                   onClick: () => {
@@ -40,7 +45,8 @@ const Header = () => {
         (currUser?.user?.type && currUser?.user?.type === 'Admin') ||
         currUser?.user?.type === 'Super Admin'
             ? {
-                  label: 'Admin Dashboard',
+                  label: (langData as any).components.headercomponent
+                      .adminDashboard[language],
                   key: '1',
                   icon: <SettingOutlined />,
                   onClick: () => {
@@ -50,7 +56,8 @@ const Header = () => {
             : null,
         currUser?.user?.type && currUser?.user?.type === 'Super Admin'
             ? {
-                  label: 'Super Admin Dashboard',
+                  label: (langData as any).components.headercomponent
+                      .superAdminDashboard[language],
                   key: '2',
                   icon: <ControlOutlined />,
                   onClick: () => {
@@ -62,7 +69,9 @@ const Header = () => {
             type: 'divider',
         },
         {
-            label: 'Logout',
+            label: (langData as any).components.headercomponent.logout[
+                language
+            ],
             icon: <LogoutOutlined />,
             danger: true,
             key: '10',
@@ -85,7 +94,11 @@ const Header = () => {
         },
         {
             label: `${
-                currUser?.user?.type ? currUser?.user?.type : 'Customer'
+                currUser?.user?.type
+                    ? currUser?.user?.type
+                    : (langData as any).components.headercomponent.customer[
+                          language
+                      ]
             }`,
             key: '30',
             disabled: true,
@@ -125,11 +138,15 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Products"
+                title={
+                    (langData as any).components.headercomponent.products[
+                        language
+                    ]
+                }
             >
                 {groupedCategories.main.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
-                        {category.name}
+                        {language === 'en' ? category.name : category.name_ar}
                     </Menu.Item>
                 ))}
             </Menu.ItemGroup>
@@ -138,11 +155,13 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Rooms"
+                title={
+                    (langData as any).components.headercomponent.rooms[language]
+                }
             >
                 {groupedCategories.inquiry.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
-                        {category.name}
+                        {language === 'en' ? category.name : category.name_ar}
                     </Menu.Item>
                 ))}
             </Menu.ItemGroup>
@@ -151,11 +170,15 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title="Design"
+                title-={
+                    (langData as any).components.headercomponent.design[
+                        language
+                    ]
+                }
             >
                 {groupedCategories.display.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
-                        {category.name}
+                        {language === 'en' ? category.name : category.name_ar}
                     </Menu.Item>
                 ))}
             </Menu.ItemGroup>
@@ -174,6 +197,9 @@ const Header = () => {
                         navigate('/')
                     }}
                 >
+                    {
+                        // change this
+                    }
                     Splash
                 </h1>
 
@@ -188,7 +214,10 @@ const Header = () => {
                         }}
                     >
                         <Input
-                            placeholder="Search"
+                            placeholder={
+                                (langData as any).components.headercomponent
+                                    .search[language]
+                            }
                             prefix={<SearchOutlined className="icon" />}
                             style={{
                                 width: '100%',
@@ -212,7 +241,12 @@ const Header = () => {
                     >
                         <span className="underline-hover">
                             <AppstoreOutlined className="icon" />
-                            <h4>Categories</h4>
+                            <h4>
+                                {
+                                    (langData as any).components.headercomponent
+                                        .categories[language]
+                                }
+                            </h4>
                         </span>
                     </Dropdown>
                 </div>
@@ -226,7 +260,12 @@ const Header = () => {
                                 }}
                             >
                                 <HeartOutlined className="icon" />
-                                <h4>Wishlist</h4>
+                                <h4>
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.wishlist[language]
+                                    }
+                                </h4>
                             </span>
                         </div>
                         <div className="header-item">
@@ -237,7 +276,12 @@ const Header = () => {
                                 }}
                             >
                                 <ShoppingCartOutlined className="icon" />
-                                <h4>Cart</h4>
+                                <h4>
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.cart[language]
+                                    }
+                                </h4>
                             </span>
                         </div>
                     </>
@@ -251,7 +295,12 @@ const Header = () => {
                                 }}
                             >
                                 <CodeOutlined className="icon" />
-                                <h4>Test GET</h4>
+                                <h4>
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.testget[language]
+                                    }
+                                </h4>
                             </span>
                         </div>
                         <div className="header-item">
@@ -262,7 +311,13 @@ const Header = () => {
                                 }}
                             >
                                 <CodeOutlined className="icon" />
-                                <h4>Test POST</h4>
+                                <h4>
+                                    {' '}
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.testpost[language]
+                                    }
+                                </h4>
                             </span>
                         </div>
                     </>
@@ -298,7 +353,12 @@ const Header = () => {
                             <Space>
                                 <UserOutlined className="icon" />
                             </Space>
-                            <h4>Login</h4>
+                            <h4>
+                                {
+                                    (langData as any).components.headercomponent
+                                        .login[language]
+                                }
+                            </h4>
                         </span>
                     )}
                 </div>

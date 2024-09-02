@@ -13,7 +13,8 @@ import LanguageContext from '../contexts/LanguageContext'
 const FooterComponent = () => {
     const currYear = new Date().getFullYear()
 
-    const { language, setLanguage } = React.useContext(LanguageContext)
+    const { language, setLanguage, langData, arabicNumerals } =
+        useContext(LanguageContext)
 
     const handleMenuClick = (e: any) => {
         setLanguage(e.key)
@@ -26,7 +27,7 @@ const FooterComponent = () => {
             onClick={handleMenuClick}
         >
             <Menu.Item key="en">English</Menu.Item>
-            <Menu.Item key="ar">Arabic</Menu.Item>
+            <Menu.Item key="ar">العربية</Menu.Item>
         </Menu>
     )
     return (
@@ -59,28 +60,66 @@ const FooterComponent = () => {
                 }}
             >
                 <div className="footer-col">
+                    {
+                        // change later
+                    }
                     <h1>Splash</h1>
                 </div>
                 <div className="footer-col">
-                    <h2>Policies & Terms</h2>
+                    <h2>
+                        {
+                            (langData as any).components.footercomponent
+                                .policiescol[language]
+                        }
+                    </h2>
                     <Divider />
                     <p>
-                        <a href="/privacy-policy">Privacy Policy</a>
+                        <a href="/privacy-policy">
+                            {
+                                (langData as any).components.footercomponent
+                                    .privacypolicy[language]
+                            }
+                        </a>
                         <br />
-                        <a href="/terms-and-conditions">Terms & Conditions</a>
+                        <a href="/terms-and-conditions">
+                            {
+                                (langData as any).components.footercomponent
+                                    .termsandconditions[language]
+                            }
+                        </a>
                     </p>
                 </div>
                 <div className="footer-col">
-                    <h2>Contact</h2>
+                    <h2>
+                        {
+                            (langData as any).components.footercomponent
+                                .contactcol[language]
+                        }
+                    </h2>
                     <Divider />
                     <p>
-                        <a href="/about">About Us</a>
+                        <a href="/about">
+                            {
+                                (langData as any).components.footercomponent
+                                    .aboutus[language]
+                            }
+                        </a>
                         <br />
-                        <a href="/contact">Contact Us</a>
+                        <a href="/contact">
+                            {
+                                (langData as any).components.footercomponent
+                                    .contactus[language]
+                            }
+                        </a>
                     </p>
                 </div>
                 <div className="footer-col">
-                    <h2>Follow Us</h2>
+                    <h2>
+                        {
+                            (langData as any).components.footercomponent
+                                .followuscol[language]
+                        }
+                    </h2>
                     <Divider />
                     <div className="social-icons">
                         <FacebookOutlined
@@ -121,12 +160,16 @@ const FooterComponent = () => {
                         fontSize: 12,
                     }}
                 >
-                    &copy; {currYear} Splash. All rights reserved.
+                    {language === 'en' ? currYear : arabicNumerals(currYear)}{' '}
+                    {
+                        (langData as any).components.footercomponent
+                            .allrightsreserved[language]
+                    }
                 </p>
                 <Dropdown overlay={menu} trigger={['click']} placement="bottom">
                     <Button className="language-switch">
                         <GlobalOutlined />
-                        {language == 'en' ? 'English' : 'Arabic'}{' '}
+                        {language == 'en' ? 'English' : 'العربية'}{' '}
                         <DownOutlined />
                     </Button>
                 </Dropdown>

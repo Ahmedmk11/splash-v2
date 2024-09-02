@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 
 import { Collapse, List, Skeleton } from 'antd'
 import displayTime from '../utils/displayTime'
 
 const { Panel } = Collapse
+import LanguageContext from '../contexts/LanguageContext'
 
 const Orders = ({ orders, loading }: { orders: any; loading: boolean }) => {
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
+
     return !loading ? (
         <List
             itemLayout="horizontal"
@@ -28,22 +31,36 @@ const Orders = ({ orders, loading }: { orders: any; loading: boolean }) => {
                                                 justifyContent: 'space-between',
                                             }}
                                         >
-                                            <div>Order ID: {item._id}</div>
                                             <div>
+                                                {(langData as any).components
+                                                    .orders.orderid[language] +
+                                                    item._id}
+                                            </div>
+                                            <div>
+                                                {language === 'en'
+                                                    ? item.total_price
+                                                    : arabicNumerals(
+                                                          item.total_price
+                                                      )}{' '}
                                                 <span
                                                     style={{
                                                         fontWeight: '600',
                                                         fontSize: 10,
                                                     }}
                                                 >
-                                                    EGP
-                                                </span>{' '}
-                                                {item.total_price}
+                                                    {
+                                                        (langData as any)
+                                                            .components.orders
+                                                            .egp[language]
+                                                    }
+                                                </span>
                                             </div>
                                         </div>
                                     }
                                     description={
-                                        'Order Date: ' + displayTime(item.date)
+                                        (langData as any).components.orders
+                                            .orderdate[language] +
+                                        displayTime(item.date, language)
                                     }
                                 />
                             </List.Item>
@@ -65,24 +82,45 @@ const Orders = ({ orders, loading }: { orders: any; loading: boolean }) => {
                                                 }}
                                             >
                                                 <div>
-                                                    {product.product_name}
+                                                    {language === 'en'
+                                                        ? product.product_name
+                                                        : arabicNumerals(
+                                                              product.product_name
+                                                          )}
                                                 </div>
                                                 <div>
+                                                    {language === 'en'
+                                                        ? product.price
+                                                        : arabicNumerals(
+                                                              product.price
+                                                          )}{' '}
                                                     <span
                                                         style={{
                                                             fontWeight: '600',
                                                             fontSize: 10,
                                                         }}
                                                     >
-                                                        EGP
-                                                    </span>{' '}
-                                                    {product.price}
+                                                        {
+                                                            (langData as any)
+                                                                .components
+                                                                .orders.egp[
+                                                                language
+                                                            ]
+                                                        }
+                                                    </span>
                                                 </div>
                                             </div>
                                         }
-                                        description={
-                                            'Quantity: ' + product.quantity
-                                        }
+                                        description={`${
+                                            (langData as any).components.orders
+                                                .quantity[language]
+                                        }${
+                                            language === 'en'
+                                                ? product.quantity
+                                                : arabicNumerals(
+                                                      product.quantity
+                                                  )
+                                        }`}
                                     />
                                 </List.Item>
                             )}

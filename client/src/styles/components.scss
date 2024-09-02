@@ -19,6 +19,7 @@
     height: 100%;
     border-right: 1px solid #e8ede7;
     span.underline-hover {
+        gap: 10px;
         height: 100%;
         display: flex;
         justify-content: flex-start;
@@ -142,4 +143,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center !important;
+}
+
+.icon {
+    color: rgba(0, 0, 0, 0.75);
 }

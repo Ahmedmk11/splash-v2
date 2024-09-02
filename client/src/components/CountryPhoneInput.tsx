@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Input, Select } from 'antd'
 import { getCountryDataList, getEmojiFlag } from 'countries-list'
 const { Option } = Select
-
 import countries from 'country-data'
 
 interface CountryPhoneInputProps {
@@ -12,7 +11,6 @@ interface CountryPhoneInputProps {
 const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange }) => {
     const [country, setCountry] = useState<any>('EGY')
     const [phoneNumber, setPhoneNumber] = useState('')
-
     const [countryDataList, setCountryDataList] = useState<any[]>([])
 
     useEffect(() => {

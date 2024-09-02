@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Row, Col, Card, Space, Skeleton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axiosApi, { baseURL } from '../utils/axiosApi'
 
 const { Meta } = Card
 
+import LanguageContext from '../contexts/LanguageContext'
+
 const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
     const navigate = useNavigate()
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const [category, setCategory] = useState<any>()
     const [products, setProducts] = useState<any>([])
@@ -52,13 +55,28 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                 />
             ) : (
                 <div>
-                    <h1>{category?.name}</h1>
+                    <h1>
+                        {language === 'en' ? category?.name : category?.name_ar}
+                    </h1>
                     <h4>
                         {products.length === 0
-                            ? 'No Products Found.'
+                            ? (langData as any).components.categorygrid
+                                  .noproducts[language]
                             : products.length === 1
-                            ? '1 Product Found.'
-                            : `${products.length} Products Found.`}
+                            ? (langData as any).components.categorygrid
+                                  .oneproduct[language]
+                            : language === 'en'
+                            ? `${products.length} ${
+                                  (langData as any).components.categorygrid
+                                      .manyproducts_1[language]
+                              }`
+                            : `${
+                                  (langData as any).components.categorygrid
+                                      .manyproducts_1[language]
+                              } ${arabicNumerals(products.length)} ${
+                                  (langData as any).components.categorygrid
+                                      .manyproducts_2[language]
+                              }`}
                     </h4>
                 </div>
             )}
@@ -81,7 +99,11 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                                         baseURL.slice(0, -1) +
                                                         product.imageUrl
                                                     }
-                                                    alt={product.name}
+                                                    alt={
+                                                        language === 'en'
+                                                            ? product.name
+                                                            : product.name_ar
+                                                    }
                                                     className="zoom-effect-image"
                                                     style={{
                                                         cursor: 'pointer',
@@ -96,8 +118,16 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                         }
                                     >
                                         <Meta
-                                            title={product.name}
-                                            description={product.description}
+                                            title={
+                                                language === 'en'
+                                                    ? product.name
+                                                    : product.name_ar
+                                            }
+                                            description={
+                                                language === 'en'
+                                                    ? product.description
+                                                    : product.description_ar
+                                            }
                                         />
                                     </Card>
                                 </Col>
