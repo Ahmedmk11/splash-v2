@@ -421,11 +421,11 @@
             },
             "carousel_status": {
                 "en": "Carousel Status",
-                "ar": "حالة الدائري"
+                "ar": "حالة العرض الدائري"
             },
             "carousel_status_message": {
                 "en": "Carousel Status is required",
-                "ar": "حالة الدائري مطلوبة"
+                "ar": "حالة العرض الدائري مطلوبة"
             },
             "appears": {
                 "en": "Appears",
@@ -452,15 +452,278 @@
                 "ar": "حذف المنتج"
             }
         },
-        "cart": {},
-        "category": {},
-        "contactus": {},
-        "forbidden": {},
-        "home": {},
-        "login": {},
-        "notfound": {},
-        "privacypolicy": {},
-        "product": {},
+        "cart": {
+            "error": {
+                "en": "Something went wrong",
+                "ar": "حدث خطأ ما"
+            },
+            "product_removed": {
+                "en": "Product removed from cart",
+                "ar": "تمت إزالة المنتج من السلة"
+            },
+            "product_removed_error": {
+                "en": "Error removing product from cart",
+                "ar": "خطأ في إزالة المنتج من السلة"
+            },
+            "added_wishlist": {
+                "en": "Product added to wishlist",
+                "ar": "تمت إضافة المنتج إلى قائمة الرغبات"
+            },
+            "added_wishlist_error": {
+                "en": "Error adding product to wishlist",
+                "ar": "خطأ في إضافة المنتج إلى قائمة الرغبات"
+            },
+            "order_completed": {
+                "en": "Order completed successfully. We will contact you soon to confirm.",
+                "ar": "تم إكمال الطلب بنجاح. سنتصل بك قريبًا للتأكيد."
+            },
+            "cart": {
+                "en": "Cart",
+                "ar": "السلة"
+            },
+            "cart_empty": {
+                "en": "Your cart is empty",
+                "ar": "سلتك فارغة"
+            },
+            "remove": {
+                "en": "Remove",
+                "ar": "إزالة"
+            },
+            "wishlist": {
+                "en": "Add To Wishlist",
+                "ar": "إضافة إلى قائمة الرغبات"
+            },
+            "egp": {
+                "en": "EGP",
+                "ar": "ج.م"
+            },
+            "complete_order": {
+                "en": "Complete Your Order",
+                "ar": "أكمل طلبك"
+            },
+            "agree": {
+                "en": "By completing your order, you agree to our return guarantee and policies. We will contact you as soon as possible to confirm your order and provide further instructions.",
+                "ar": "بإكمال طلبك، أنت توافق على ضمان العودة وسياساتنا. سنتواصل معك في أقرب وقت ممكن لتأكيد طلبك وتقديم مزيد من التعليمات."
+            },
+            "complete": {
+                "en": "Complete Order",
+                "ar": "أكمل الطلب"
+            }
+        },
+        "contactus": {
+            "title": {
+                "en": "Contact Us",
+                "ar": "اتصل بنا"
+            },
+            "name": {
+                "en": "Name",
+                "ar": "الاسم"
+            },
+            "name_message": {
+                "en": "Name is required",
+                "ar": "الاسم مطلوب"
+            },
+            "email": {
+                "en": "Email",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required",
+                "ar": "البريد الإلكتروني مطلوب"
+            },
+            "email_valid_message": {
+                "en": "Email must be a valid email",
+                "ar": "يجب أن يكون البريد الإلكتروني صالح"
+            },
+            "message": {
+                "en": "Message",
+                "ar": "الرسالة"
+            },
+            "message_message": {
+                "en": "Message is required",
+                "ar": "الرسالة مطلوبة"
+            },
+            "submit": {
+                "en": "Submit",
+                "ar": "إرسال"
+            },
+            "findusat": {
+                "en": "Find Us At: ",
+                "ar": "موقعنا: "
+            },
+            "contact_info": {
+                "en": "Contact Information: ",
+                "ar": "معلومات الاتصال: "
+            },
+            "whatsapp": {
+                "en": "WhatsApp: ",
+                "ar": "واتساب: "
+            },
+            "phone": {
+                "en": "Phone 1: ",
+                "ar": "الهاتف ١: "
+            },
+            "phone2": {
+                "en": "Phone 2: ",
+                "ar": "الهاتف ٢: "
+            },
+            "phone3": {
+                "en": "Phone 3: ",
+                "ar": "الهاتف ٣: "
+            }
+        },
+        "forbidden": {
+            "forbidden_page": {
+                "en": "This Page is Forbidden",
+                "ar": "هذه الصفحة ممنوعة"
+            }
+        },
+        "login": {
+            "login_successful": {
+                "en": "Login Successful",
+                "ar": "تم تسجيل الدخول بنجاح"
+            },
+            "doesnt_exist": {
+                "en": "Account doesn't exist",
+                "ar": "الحساب غير موجود"
+            },
+            "incorrect_password": {
+                "en": "Incorrect Password",
+                "ar": "كلمة المرور غير صحيحة"
+            },
+            "verify_email": {
+                "en": "Please verify your email",
+                "ar": "يرجى التحقق من بريدك الإلكتروني"
+            },
+            "error": {
+                "en": "Something went wrong",
+                "ar": "حدث خطأ ما"
+            },
+            "login": {
+                "en": "Login",
+                "ar": "تسجيل الدخول"
+            },
+            "email": {
+                "en": "Email Address",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required",
+                "ar": "البريد الإلكتروني مطلوب"
+            },
+            "password": {
+                "en": "Password",
+                "ar": "كلمة المرور"
+            },
+            "password_message": {
+                "en": "Password is required",
+                "ar": "كلمة المرور مطلوبة"
+            },
+            "forgot_password": {
+                "en": "Forgot Password?",
+                "ar": "نسيت كلمة المرور؟"
+            },
+            "dont_have_account": {
+                "en": "Don't have an account? ",
+                "ar": "ليس لديك حساب؟ "
+            },
+            "signup": {
+                "en": "Sign Up",
+                "ar": "تسجيل حساب"
+            }
+        },
+        "notfound": {
+            "notfound_page": {
+                "en": "404: This Page is Not Found",
+                "ar": "٤٠٤: هذه الصفحة غير موجودة"
+            },
+            "notfound_message": {
+                "en": "Sorry, the page you are looking for does not exist.",
+                "ar": "عذرًا، الصفحة التي تبحث عنها غير موجودة."
+            },
+            "go_home": {
+                "en": "Go Home",
+                "ar": "العودة إلى الصفحة الرئيسية"
+            }
+        },
+        "product": {
+            "added_cart": {
+                "en": "Product added to cart",
+                "ar": "تمت إضافة المنتج إلى السلة"
+            },
+            "added_cart_error": {
+                "en": "Error adding product to cart",
+                "ar": "خطأ في إضافة المنتج إلى السلة"
+            },
+            "added_wishlist": {
+                "en": "Product added to wishlist",
+                "ar": "تمت إضافة المنتج إلى قائمة الرغبات"
+            },
+            "added_wishlist_error": {
+                "en": "Error adding product to wishlist",
+                "ar": "خطأ في إضافة المنتج إلى قائمة الرغبات"
+            },
+            "contactus": {
+                "en": "Contact Us",
+                "ar": "اتصل بنا"
+            },
+            "email": {
+                "en": "Email Address: ",
+                "ar": "البريد الإلكتروني: "
+            },
+            "whatsapp": {
+                "en": "WhatsApp: ",
+                "ar": "واتساب: "
+            },
+            "chat": {
+                "en": "Chat with us on WhatsApp",
+                "ar": "تواصل معنا عبر واتساب"
+            },
+            "phone1": {
+                "en": "Phone 1: ",
+                "ar": "الهاتف ١: "
+            },
+            "phone2": {
+                "en": "Phone 2: ",
+                "ar": "الهاتف ٢: "
+            },
+            "phone3": {
+                "en": "Phone 3: ",
+                "ar": "الهاتف ٣: "
+            },
+            "remove_wishlist": {
+                "en": "Product removed from Wishlist",
+                "ar": "تمت إزالة المنتج من قائمة الرغبات"
+            },
+            "remove_wishlist_error": {
+                "en": "Error removing product from Wishlist",
+                "ar": "خطأ في إزالة المنتج من قائمة الرغبات"
+            },
+            "egp": {
+                "en": "EGP",
+                "ar": "ج.م"
+            },
+            "out_of_stock": {
+                "en": "Out of Stock",
+                "ar": "إنتهى من المخزن"
+            },
+            "remove_wishlist_btn": {
+                "en": "Remove from Wishlist",
+                "ar": "إزالة من قائمة الرغبات"
+            },
+            "add_to_wishlist": {
+                "en": "Add to Wishlist",
+                "ar": "إضافة إلى قائمة الرغبات"
+            },
+            "add_to_cart": {
+                "en": "Add to Cart",
+                "ar": "إضافة إلى السلة"
+            },
+            "inquire": {
+                "en": "Inquire",
+                "ar": "استفسر"
+            }
+        },
         "signup": {},
         "superadmindashboard": {},
         "wishlist": {}

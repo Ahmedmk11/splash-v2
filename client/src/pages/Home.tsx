@@ -8,12 +8,14 @@ import LazyImage from '../components/LazyImage'
 import CategoriesContext from '../contexts/CategoriesContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Flex, Spin } from 'antd'
+import LanguageContext from '../contexts/LanguageContext'
 
 const baseURL = config.REACT_APP_API_URL
 
 const Home = () => {
     const navigate = useNavigate()
     const { categories, setCategories } = useContext(CategoriesContext)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
     const [carouselProducts, setCarouselProducts] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -63,7 +65,11 @@ const Home = () => {
                                             baseURL.slice(0, -1) +
                                             product.imageUrl
                                         }
-                                        alt={product.name}
+                                        alt={
+                                            language === 'en'
+                                                ? product.name
+                                                : product.name_ar
+                                        }
                                     />
                                 ))}
                             </Carousel>
@@ -87,11 +93,19 @@ const Home = () => {
                                         >
                                             <LazyImage
                                                 imageUrl={category.imageUrl}
-                                                alt={category.name}
+                                                alt={
+                                                    language === 'en'
+                                                        ? category.name
+                                                        : category.name_ar
+                                                }
                                                 width={'100%'}
                                                 height={'700px'}
                                             />
-                                            <h2>{category.name}</h2>
+                                            <h2>
+                                                {language === 'en'
+                                                    ? category.name
+                                                    : category.name_ar}
+                                            </h2>
                                         </div>
                                     ))}
                             </div>
@@ -117,11 +131,19 @@ const Home = () => {
                                     >
                                         <LazyImage
                                             imageUrl={category.imageUrl}
-                                            alt={category.name}
+                                            alt={
+                                                language === 'en'
+                                                    ? category.name
+                                                    : category.name_ar
+                                            }
                                             width={'100%'}
                                             height={'700px'}
                                         />
-                                        <h2>{category.name}</h2>
+                                        <h2>
+                                            {language === 'en'
+                                                ? category.name
+                                                : category.name_ar}
+                                        </h2>
                                     </div>
                                 ))}
                         </div>
@@ -147,11 +169,19 @@ const Home = () => {
                                     >
                                         <LazyImage
                                             imageUrl={category.imageUrl}
-                                            alt={category.name}
+                                            alt={
+                                                language === 'en'
+                                                    ? category.name
+                                                    : category.name_ar
+                                            }
                                             width={'100%'}
                                             height={'700px'}
                                         />
-                                        <h2>{category.name}</h2>
+                                        <h2>
+                                            {language === 'en'
+                                                ? category.name
+                                                : category.name_ar}
+                                        </h2>
                                     </div>
                                 ))}
                         </div>

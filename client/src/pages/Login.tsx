@@ -1,30 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import Layout from '../Layout.tsx'
 import axiosApi from '../utils/axiosApi.ts'
 
+import LanguageContext from '../contexts/LanguageContext.tsx'
+
 const Login = () => {
     const [form] = Form.useForm()
     const navigate = useNavigate()
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const handleLogin = async (values: any) => {
         try {
             await axiosApi.post('/auth/login', values)
             console.log('Login values:', values)
-            message.success('Login Successful')
+            message.success(
+                (langData as any).pages.login.login_successful[language]
+            )
             form.resetFields()
             navigate('/')
         } catch (error: any) {
             let statusCode = error.response?.status
             if (statusCode === 404) {
-                message.error('User does not exist')
+                message.error(
+                    (langData as any).pages.login.doesnt_exist[language]
+                )
             } else if (statusCode === 401) {
-                message.error('Incorrect password')
+                message.error(
+                    (langData as any).pages.login.incorrect_password[language]
+                )
             } else if (statusCode === 403) {
-                message.error('Please verify your email address first')
+                message.error(
+                    (langData as any).pages.login.verify_email[language]
+                )
             } else {
-                message.error('Something went wrong')
+                message.error((langData as any).pages.login.error[language])
             }
         }
     }
@@ -39,7 +50,7 @@ const Login = () => {
                     padding: '20px',
                 }}
             >
-                <h1>Login</h1>
+                <h1>{(langData as any).pages.login.login[language]}</h1>
                 <Form
                     form={form}
                     name="login"
@@ -49,47 +60,69 @@ const Login = () => {
                 >
                     <Form.Item
                         name="email_address"
-                        label="Email Address"
+                        label={(langData as any).pages.login.email[language]}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your Email Address!',
+                                message: (langData as any).pages.login
+                                    .email_message[language],
                             },
                         ]}
                         style={{ width: '100%' }}
                     >
-                        <Input placeholder="Email Address" />
+                        <Input
+                            placeholder={
+                                (langData as any).pages.login.email[language]
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item
                         name="password"
-                        label="Password"
+                        label={(langData as any).pages.login.password[language]}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your password!',
+                                message: (langData as any).pages.login
+                                    .password_message[language],
                             },
                         ]}
                         style={{ width: '100%' }}
                     >
-                        <Input.Password placeholder="Password" />
+                        <Input.Password
+                            placeholder={
+                                (langData as any).pages.login.password[language]
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item>
-                        <a href="/forgot-password">Forgot Password?</a>
+                        <a href="/forgot-password">
+                            {
+                                (langData as any).pages.login.forgot_password[
+                                    language
+                                ]
+                            }
+                        </a>
                     </Form.Item>
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" block>
-                            Login
+                            {(langData as any).pages.login.login[language]}
                         </Button>
                     </Form.Item>
                 </Form>
 
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <p>
-                        Don't have an account?{' '}
-                        <Link to="/sign-up">Sign Up</Link>
+                        {
+                            (langData as any).pages.login.dont_have_account[
+                                language
+                            ]
+                        }
+                        <Link to="/sign-up">
+                            {(langData as any).pages.login.signup[language]}
+                        </Link>
                     </p>
                 </div>
             </div>

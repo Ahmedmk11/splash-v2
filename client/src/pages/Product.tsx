@@ -23,12 +23,14 @@ import {
 import Layout from '../Layout'
 import axiosApi, { baseURL } from '../utils/axiosApi'
 import CurrUserContext from '../contexts/CurrUserContext'
+import LanguageContext from '../contexts/LanguageContext'
 
 const { Title, Text, Link, Paragraph } = Typography
 
 const Product = () => {
     const { productId } = useParams<{ productId: string }>()
     const { currUser, fetchUser } = useContext(CurrUserContext)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
     const [product, setProduct] = useState<any>()
     const [category, setCategory] = useState<any>()
     const [loading, setLoading] = useState(true)
@@ -67,10 +69,14 @@ const Product = () => {
                 productId: productId,
                 quantity: 1,
             })
-            message.success('Added to cart')
+            message.success(
+                (langData as any).pages.product.added_cart[language]
+            )
         } catch (error) {
             console.error(error)
-            message.error('Login to add to cart')
+            message.error(
+                (langData as any).pages.product.added_cart_error[language]
+            )
         }
     }
 
@@ -82,49 +88,83 @@ const Product = () => {
                     productId: productId,
                 }
             )
-            message.success('Added to wishlist')
+            message.success(
+                (langData as any).pages.product.added_wishlist[language]
+            )
             fetchUser()
         } catch (error) {
             console.error(error)
-            message.error('Login to add to wishlist')
+            message.error(
+                (langData as any).pages.product.added_wishlist_error[language]
+            )
         }
     }
 
     const handleInquire = async () => {
         Modal.info({
-            title: 'Contact Us',
+            title: (langData as any).pages.product.contactus[language],
             content: (
                 <Space direction="vertical">
-                    <Text>
-                        <MailOutlined /> Email:{' '}
+                    <Text
+                        style={{
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        <MailOutlined />
+                        {(langData as any).pages.product.email[language]}
                         <Link href="mailto:amgadkamalsplash@gmail.com">
                             amgadkamalsplash@gmail.com
                         </Link>
                     </Text>
-                    <Text>
-                        <WhatsAppOutlined /> WhatsApp:{' '}
+                    <Text
+                        style={{
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        <WhatsAppOutlined />
+                        {(langData as any).pages.product.whatsapp[language]}
                         <Link
                             href="https://wa.me/+201221045135"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Chat with us on WhatsApp
+                            {(langData as any).pages.product.chat[language]}
                         </Link>
                     </Text>
-                    <Text>
-                        <PhoneOutlined /> Phone 1:{' '}
+                    <Text
+                        style={{
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        <PhoneOutlined />
+                        {(langData as any).pages.product.phone1[language]}
                         <Link target="_blank" href="tel:+201023223921">
                             +201023223921
                         </Link>
                     </Text>
-                    <Text>
-                        <PhoneOutlined /> Phone 2:{' '}
+                    <Text
+                        style={{
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        <PhoneOutlined />
+                        {(langData as any).pages.product.phone2[language]}
                         <Link target="_blank" href="tel:+201061499915">
                             +201061499915
                         </Link>
                     </Text>
-                    <Text>
-                        <PhoneOutlined /> Phone 3:{' '}
+                    <Text
+                        style={{
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        <PhoneOutlined />
+                        {(langData as any).pages.product.phone3[language]}
                         <Link target="_blank" href="tel:0223519255">
                             0223519255
                         </Link>
@@ -143,11 +183,15 @@ const Product = () => {
                     productId,
                 }
             )
-            message.success('Product removed from wishlist')
+            message.success(
+                (langData as any).pages.product.remove_wishlist[language]
+            )
             fetchUser()
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error(
+                (langData as any).pages.product.remove_wishlist_error[language]
+            )
         }
     }
 
@@ -171,7 +215,11 @@ const Product = () => {
                         ) : (
                             <Image
                                 src={baseURL.slice(0, -1) + product?.imageUrl}
-                                alt={product?.name}
+                                alt={
+                                    language === 'en'
+                                        ? product?.name
+                                        : product?.name_ar
+                                }
                                 style={{
                                     width: '100%',
                                     maxWidth: '800px',
@@ -211,7 +259,9 @@ const Product = () => {
                                     level={2}
                                     style={{ marginBottom: '10px' }}
                                 >
-                                    {product?.name}
+                                    {language === 'en'
+                                        ? product?.name
+                                        : product?.name_ar}
                                 </Title>
                             )}
                             {category?.type === 'main' ? (
@@ -226,15 +276,22 @@ const Product = () => {
                                         level={4}
                                         style={{ margin: 0, fontSize: 20 }}
                                     >
+                                        {language === 'en'
+                                            ? product?.price
+                                            : arabicNumerals(
+                                                  product?.price
+                                              )}{' '}
                                         <span
                                             style={{
                                                 fontWeight: '600',
                                                 fontSize: 14,
                                             }}
                                         >
-                                            EGP
-                                        </span>{' '}
-                                        {product?.price}
+                                            {
+                                                (langData as any).pages.product
+                                                    .egp[language]
+                                            }
+                                        </span>
                                     </Title>
                                 )
                             ) : null}
@@ -246,7 +303,11 @@ const Product = () => {
                                     style={{ width: '100%' }}
                                 />
                             ) : (
-                                <Paragraph>{product?.description}</Paragraph>
+                                <Paragraph>
+                                    {language === 'en'
+                                        ? product?.description
+                                        : product?.description_ar}
+                                </Paragraph>
                             )}
                             {product?.stock <= 0 ? (
                                 <Text
@@ -255,7 +316,10 @@ const Product = () => {
                                         fontSize: 16,
                                     }}
                                 >
-                                    Out of stock.
+                                    {
+                                        (langData as any).pages.product
+                                            .out_of_stock[language]
+                                    }
                                 </Text>
                             ) : null}
                         </Space>
@@ -273,7 +337,10 @@ const Product = () => {
                                     onClick={handleRemoveFromWishlist}
                                     block
                                 >
-                                    Remove from Wishlist
+                                    {
+                                        (langData as any).pages.product
+                                            .remove_wishlist_btn[language]
+                                    }
                                 </Button>
                             ) : (
                                 <Button
@@ -282,7 +349,10 @@ const Product = () => {
                                     onClick={handleAddToWishlist}
                                     block
                                 >
-                                    Add to Wishlist
+                                    {
+                                        (langData as any).pages.product
+                                            .add_to_wishlist[language]
+                                    }
                                 </Button>
                             )}
                             {category?.type === 'main' ? (
@@ -294,7 +364,10 @@ const Product = () => {
                                     icon={<ShoppingCartOutlined />}
                                     disabled={product?.stock === 0}
                                 >
-                                    Add to Cart
+                                    {
+                                        (langData as any).pages.product
+                                            .add_to_cart[language]
+                                    }
                                 </Button>
                             ) : (
                                 <Button
@@ -305,7 +378,11 @@ const Product = () => {
                                     icon={<InfoCircleOutlined />}
                                     disabled={product?.stock === 0}
                                 >
-                                    Inquire
+                                    {
+                                        (langData as any).pages.product.inquire[
+                                            language
+                                        ]
+                                    }
                                 </Button>
                             )}
                         </Space>

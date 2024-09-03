@@ -15,6 +15,7 @@ import Layout from '../Layout.tsx'
 import CurrUserContext from '../contexts/CurrUserContext.tsx'
 import axiosApi, { baseURL } from '../utils/axiosApi.ts'
 import { DeleteOutlined, HeartOutlined } from '@ant-design/icons'
+import LanguageContext from '../contexts/LanguageContext'
 
 const { Title, Text } = Typography
 
@@ -22,6 +23,7 @@ const Cart = () => {
     const { currUser } = useContext(CurrUserContext)
     const [cart, setCart] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const fetchCartProducts = async () => {
         const res = await axiosApi.get(`/user/get-cart/${currUser.user._id}`)
@@ -36,7 +38,7 @@ const Cart = () => {
             })
         )
         setCart(cartItems)
-        setLoading(false) // Stop loading once products are fetched
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -57,7 +59,7 @@ const Cart = () => {
             fetchCartProducts()
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error((langData as any).pages.cart.error[language])
         }
     }
 
@@ -66,11 +68,15 @@ const Cart = () => {
             await axiosApi.post(`/user/remove-from-cart/${currUser.user._id}`, {
                 productId,
             })
-            message.success('Product removed from cart')
+            message.success(
+                (langData as any).pages.cart.product_removed[language]
+            )
             fetchCartProducts()
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error(
+                (langData as any).pages.cart.product_removed_error[language]
+            )
         }
     }
 
@@ -79,10 +85,14 @@ const Cart = () => {
             await axiosApi.post(`/user/add-to-wishlist/${currUser.user._id}`, {
                 productId,
             })
-            message.success('Product added to wishlist')
+            message.success(
+                (langData as any).pages.cart.added_wishlist[language]
+            )
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error(
+                (langData as any).pages.cart.added_wishlist_error[language]
+            )
         }
     }
 
@@ -92,13 +102,13 @@ const Cart = () => {
 
             await axiosApi.post(`/user/empty-cart/${currUser.user._id}`)
             message.success(
-                'Order completed successfully. We will contact you soon to confirm.'
+                (langData as any).pages.cart.order_completed[language]
             )
 
             fetchCartProducts()
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error((langData as any).pages.cart.error[language])
         }
     }
 
@@ -106,7 +116,7 @@ const Cart = () => {
         <Layout>
             <div id="cart-page">
                 <Title level={2} style={{ marginBottom: '20px' }}>
-                    Cart
+                    {(langData as any).pages.cart.cart[language]}
                 </Title>
                 {loading ? (
                     <div
@@ -146,7 +156,9 @@ const Cart = () => {
                         </div>
                     </div>
                 ) : cart.length === 0 ? (
-                    <Text>Your cart is empty</Text>
+                    <Text>
+                        {(langData as any).pages.cart.cart_empty[language]}
+                    </Text>
                 ) : (
                     <>
                         <List
@@ -167,10 +179,14 @@ const Cart = () => {
                                                         0,
                                                         -1
                                                     )}${item?.imageUrl}`}
-                                                    alt={item.name}
+                                                    alt={
+                                                        language === 'en'
+                                                            ? item.name
+                                                            : item.name_ar
+                                                    }
                                                     style={{
-                                                        width: '100px',
-                                                        height: '100px',
+                                                        width: '200px',
+                                                        height: '200px',
                                                         objectFit: 'cover',
                                                         boxShadow:
                                                             '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -179,7 +195,7 @@ const Cart = () => {
                                             </div>
                                             <div
                                                 style={{
-                                                    marginLeft: '20px',
+                                                    margin: 20,
                                                     width: '100%',
                                                 }}
                                             >
@@ -192,22 +208,15 @@ const Cart = () => {
                                                     }}
                                                 >
                                                     <Space direction="vertical">
-                                                        <Title
-                                                            style={{
-                                                                marginLeft:
-                                                                    '15px',
-                                                            }}
-                                                            level={3}
-                                                        >
-                                                            {item.name}
+                                                        <Title level={3}>
+                                                            {language === 'en'
+                                                                ? item.name
+                                                                : item.name_ar}
                                                         </Title>
-                                                        <Text
-                                                            style={{
-                                                                marginLeft:
-                                                                    '15px',
-                                                            }}
-                                                        >
-                                                            {item.description}
+                                                        <Text>
+                                                            {language === 'en'
+                                                                ? item.description
+                                                                : item.description_ar}
                                                         </Text>
                                                         <Space
                                                             style={{
@@ -227,7 +236,14 @@ const Cart = () => {
                                                                     )
                                                                 }}
                                                             >
-                                                                Remove
+                                                                {
+                                                                    (
+                                                                        langData as any
+                                                                    ).pages.cart
+                                                                        .remove[
+                                                                        language
+                                                                    ]
+                                                                }
                                                             </Button>
                                                             <Button
                                                                 type="text"
@@ -240,7 +256,14 @@ const Cart = () => {
                                                                     )
                                                                 }}
                                                             >
-                                                                Add to Wishlist
+                                                                {
+                                                                    (
+                                                                        langData as any
+                                                                    ).pages.cart
+                                                                        .wishlist[
+                                                                        language
+                                                                    ]
+                                                                }
                                                             </Button>
                                                         </Space>
                                                     </Space>
@@ -249,6 +272,13 @@ const Cart = () => {
                                                         align="end"
                                                     >
                                                         <Title level={3}>
+                                                            {language === 'en'
+                                                                ? item?.price *
+                                                                  item?.quantity
+                                                                : arabicNumerals(
+                                                                      item?.price *
+                                                                          item?.quantity
+                                                                  )}{' '}
                                                             <span
                                                                 style={{
                                                                     fontWeight:
@@ -256,10 +286,15 @@ const Cart = () => {
                                                                     fontSize: 14,
                                                                 }}
                                                             >
-                                                                EGP
-                                                            </span>{' '}
-                                                            {item?.price *
-                                                                item?.quantity}
+                                                                {
+                                                                    (
+                                                                        langData as any
+                                                                    ).pages.cart
+                                                                        .egp[
+                                                                        language
+                                                                    ]
+                                                                }
+                                                            </span>
                                                         </Title>
                                                         <Space>
                                                             <Button
@@ -289,7 +324,12 @@ const Cart = () => {
                                                             >
                                                                 <Input
                                                                     value={
-                                                                        item.quantity
+                                                                        language ===
+                                                                        'en'
+                                                                            ? item.quantity
+                                                                            : arabicNumerals(
+                                                                                  item.quantity
+                                                                              )
                                                                     }
                                                                     style={{
                                                                         width: '40px',
@@ -327,20 +367,27 @@ const Cart = () => {
                                 width: '100%',
                             }}
                         >
-                            <Title level={3}>Complete Your Order</Title>
+                            <Title level={3}>
+                                {
+                                    (langData as any).pages.cart.complete_order[
+                                        language
+                                    ]
+                                }
+                            </Title>
                             <Text>
-                                By completing your order, you agree to our
-                                return guarantee and policies. We will contact
-                                you as soon as possible to confirm your order
-                                and provide further instructions.
+                                {(langData as any).pages.cart.agree[language]}
                             </Text>
                             <Button
                                 type="primary"
                                 size="large"
-                                style={{ marginLeft: '20px' }}
+                                style={{ margin: 20 }}
                                 onClick={handleCompleteOrder}
                             >
-                                Complete Order
+                                {
+                                    (langData as any).pages.cart.complete[
+                                        language
+                                    ]
+                                }
                             </Button>
                         </Card>
                     </>
