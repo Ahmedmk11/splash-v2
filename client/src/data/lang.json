@@ -724,9 +724,402 @@
                 "ar": "استفسر"
             }
         },
-        "signup": {},
-        "superadmindashboard": {},
-        "wishlist": {}
+        "search": {
+            "search_results": {
+                "en": "Search Results",
+                "ar": "نتائج البحث"
+            },
+            "no_results": {
+                "en": "No results found",
+                "ar": "لم يتم العثور على نتائج"
+            },
+            "search_results_error": {
+                "en": "Error fetching search results",
+                "ar": "خطأ في جلب نتائج البحث"
+            }
+        },
+        "signup": {
+            "signup_successful": {
+                "en": "Signup Successful",
+                "ar": "تم تسجيل الحساب بنجاح"
+            },
+            "email_exists": {
+                "en": "Email already exists",
+                "ar": "البريد الإلكتروني موجود بالفعل"
+            },
+            "error": {
+                "en": "Something went wrong",
+                "ar": "حدث خطأ ما"
+            },
+            "signup": {
+                "en": "Sign Up",
+                "ar": "تسجيل حساب"
+            },
+            "firstname": {
+                "en": "First Name",
+                "ar": "الاسم الأول"
+            },
+            "firstname_message": {
+                "en": "First Name is required",
+                "ar": "الاسم الأول مطلوب"
+            },
+            "lastname": {
+                "en": "Last Name",
+                "ar": "الاسم الأخير"
+            },
+            "lastname_message": {
+                "en": "Last Name is required",
+                "ar": "الاسم الأخير مطلوب"
+            },
+            "email": {
+                "en": "Email Address",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required",
+                "ar": "البريد الإلكتروني مطلوب"
+            },
+            "email_valid_message": {
+                "en": "Email must be a valid email",
+                "ar": "يجب أن يكون البريد الإلكتروني صالح"
+            },
+            "phone": {
+                "en": "Phone Number",
+                "ar": "رقم الهاتف"
+            },
+            "phone_message": {
+                "en": "Phone is required",
+                "ar": "الهاتف مطلوب"
+            },
+            "password": {
+                "en": "Password",
+                "ar": "كلمة المرور"
+            },
+            "password_message": {
+                "en": "Password is required",
+                "ar": "كلمة المرور مطلوبة"
+            },
+            "confirmPassword": {
+                "en": "Confirm Password",
+                "ar": "تأكيد كلمة المرور"
+            },
+            "confirmPassword_message": {
+                "en": "Confirm Password is required",
+                "ar": "تأكيد كلمة المرور مطلوب"
+            },
+            "confirmPassword_match": {
+                "en": "The two passwords that you entered do not match!",
+                "ar": "كلمتا المرور التي أدخلتهما لا تتطابقان!"
+            },
+            "city": {
+                "en": "City",
+                "ar": "المدينة"
+            },
+            "city_message": {
+                "en": "City is required",
+                "ar": "المدينة مطلوبة"
+            },
+            "area": {
+                "en": "Area",
+                "ar": "المنطقة"
+            },
+            "area_message": {
+                "en": "Area is required",
+                "ar": "المنطقة مطلوبة"
+            },
+            "address": {
+                "en": "Address",
+                "ar": "العنوان"
+            },
+            "address_message": {
+                "en": "Address is required",
+                "ar": "العنوان مطلوب"
+            },
+            "promotion": {
+                "en": "I want to receive weekly exclusive offers and promotions.",
+                "ar": "أريد تلقي عروض حصرية أسبوعية."
+            },
+            "signupbtn": {
+                "en": "Sign Up",
+                "ar": "تسجيل حساب"
+            },
+            "already_have_account": {
+                "en": "Already have an account? ",
+                "ar": "لديك حساب؟ "
+            },
+            "login": {
+                "en": "Login",
+                "ar": "تسجيل الدخول"
+            }
+        },
+        "superadmindashboard": {
+            "user_deleted": {
+                "en": "User deleted successfully",
+                "ar": "تم حذف المستخدم بنجاح"
+            },
+            "user_delete_error": {
+                "en": "Error deleting user",
+                "ar": "خطأ في حذف المستخدم"
+            },
+            "customer_updated": {
+                "en": "Customer updated successfully",
+                "ar": "تم تحديث العميل بنجاح"
+            },
+            "customer_update_error": {
+                "en": "Error updating customer",
+                "ar": "خطأ في تحديث العميل"
+            },
+            "admin_updated": {
+                "en": "Admin updated successfully",
+                "ar": "تم تحديث المسؤول بنجاح"
+            },
+            "admin_update_error": {
+                "en": "Error updating admin",
+                "ar": "خطأ في تحديث المسؤول"
+            },
+            "super_admin_updated": {
+                "en": "Super Admin updated successfully",
+                "ar": "تم تحديث المشرف الأعلى بنجاح"
+            },
+            "super_admin_update_error": {
+                "en": "Error updating super admin",
+                "ar": "خطأ في تحديث المشرف الأعلى"
+            },
+            "admin_promoted": {
+                "en": "Admin promoted successfully",
+                "ar": "تم ترقية المسؤول بنجاح"
+            },
+            "admin_promote_error": {
+                "en": "Error promoting admin",
+                "ar": "خطأ في ترقية المسؤول"
+            },
+            "admin_demoted": {
+                "en": "Admin demoted successfully",
+                "ar": "تم تخفيض المسؤول بنجاح"
+            },
+            "admin_demote_error": {
+                "en": "Error demoting admin",
+                "ar": "خطأ في تخفيض المسؤول"
+            },
+            "activity": {
+                "en": "Activity",
+                "ar": "النشاط"
+            },
+            "edit": {
+                "en": "Edit",
+                "ar": "تعديل"
+            },
+            "confirm": {
+                "en": "Confirm",
+                "ar": "تأكيد"
+            },
+            "confirm_message": {
+                "en": "Are you sure you want to delete ",
+                "ar": "هل أنت متأكد أنك تريد حذف "
+            },
+            "ques": {
+                "en": "?",
+                "ar": "؟"
+            },
+            "delete": {
+                "en": "Delete",
+                "ar": "حذف"
+            },
+            "firstname": {
+                "en": "First Name",
+                "ar": "الاسم الأول"
+            },
+            "firstname_message": {
+                "en": "First Name is required",
+                "ar": "الاسم الأول مطلوب"
+            },
+            "lastname": {
+                "en": "Last Name",
+                "ar": "الاسم الأخير"
+            },
+            "lastname_message": {
+                "en": "Last Name is required",
+                "ar": "الاسم الأخير مطلوب"
+            },
+            "email": {
+                "en": "Email Address",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required",
+                "ar": "البريد الإلكتروني مطلوب"
+            },
+            "email_valid_message": {
+                "en": "Email must be a valid email",
+                "ar": "يجب أن يكون البريد الإلكتروني صالح"
+            },
+            "phone": {
+                "en": "Phone Number",
+                "ar": "رقم الهاتف"
+            },
+            "phone_message": {
+                "en": "Phone is required",
+                "ar": "الهاتف مطلوب"
+            },
+            "password": {
+                "en": "Password",
+                "ar": "كلمة المرور"
+            },
+            "password_message": {
+                "en": "Password is required",
+                "ar": "كلمة المرور مطلوبة"
+            },
+            "address": {
+                "en": "Address",
+                "ar": "العنوان"
+            },
+            "address_message": {
+                "en": "Address is required",
+                "ar": "العنوان مطلوب"
+            },
+            "city": {
+                "en": "City",
+                "ar": "المدينة"
+            },
+            "city_message": {
+                "en": "City is required",
+                "ar": "المدينة مطلوبة"
+            },
+            "area": {
+                "en": "Area",
+                "ar": "المنطقة"
+            },
+            "area_message": {
+                "en": "Area is required",
+                "ar": "المنطقة مطلوبة"
+            },
+            "subscribed": {
+                "en": "Subscribed",
+                "ar": "مشترك"
+            },
+            "yes": {
+                "en": "Yes",
+                "ar": "نعم"
+            },
+            "no": {
+                "en": "No",
+                "ar": "لا"
+            },
+            "status": {
+                "en": "Status",
+                "ar": "الحالة"
+            },
+            "active": {
+                "en": "Active",
+                "ar": "نشط"
+            },
+            "inactive": {
+                "en": "Inactive",
+                "ar": "غير نشط"
+            },
+            "save": {
+                "en": "Save",
+                "ar": "حفظ"
+            },
+            "clear": {
+                "en": "Clear",
+                "ar": "مسح"
+            },
+            "promote": {
+                "en": "Promote",
+                "ar": "ترقية"
+            },
+            "demote": {
+                "en": "Demote",
+                "ar": "خفض الرتبة"
+            },
+            "admin_added": {
+                "en": "Admin added successfully",
+                "ar": "تمت إضافة المسؤول بنجاح"
+            },
+            "admin_add_error": {
+                "en": "Error adding admin",
+                "ar": "خطأ في إضافة المسؤول"
+            },
+            "manage_customers": {
+                "en": "Manage Customers",
+                "ar": "إدارة العملاء"
+            },
+            "manage_admins": {
+                "en": "Manage Admins",
+                "ar": "إدارة المسؤولين"
+            },
+            "manage_superadmins": {
+                "en": "Manage Super Admins",
+                "ar": "إدارة المشرفين الأعلى"
+            },
+            "add_admin": {
+                "en": "Add Admin",
+                "ar": "إضافة مسؤول"
+            },
+            "add_new_admin": {
+                "en": "Add New Admin",
+                "ar": "إضافة مسؤول جديد"
+            },
+            "confirm_password": {
+                "en": "Confirm Password",
+                "ar": "تأكيد كلمة المرور"
+            },
+            "confirm_password_message": {
+                "en": "Confirm Password is required",
+                "ar": "تأكيد كلمة المرور مطلوب"
+            },
+            "confirm_password_match": {
+                "en": "The two passwords that you entered do not match!",
+                "ar": "كلمتا المرور التي أدخلتهما لا تتطابقان!"
+            },
+            "admin_type": {
+                "en": "Admin Type",
+                "ar": "نوع المسؤول"
+            },
+            "admin_type_message": {
+                "en": "Admin Type is required",
+                "ar": "نوع المسؤول مطلوب"
+            },
+            "admin_type_select": {
+                "en": "Select Admin Type",
+                "ar": "اختر نوع المسؤول"
+            },
+            "admin": {
+                "en": "Admin",
+                "ar": "مسؤول"
+            },
+            "super_admin": {
+                "en": "Super Admin",
+                "ar": "مشرف أعلى"
+            }
+        },
+        "wishlist": {
+            "product_removed": {
+                "en": "Product removed from wishlist",
+                "ar": "تمت إزالة المنتج من قائمة الرغبات"
+            },
+            "product_removed_error": {
+                "en": "Error removing product from wishlist",
+                "ar": "خطأ في إزالة المنتج من قائمة الرغبات"
+            },
+            "wishlist": {
+                "en": "Wishlist",
+                "ar": "قائمة الرغبات"
+            },
+            "wishlist_empty": {
+                "en": "Your wishlist is empty",
+                "ar": "قائمة الرغبات فارغة"
+            },
+            "remove": {
+                "en": "Remove",
+                "ar": "إزالة"
+            },
+            "view": {
+                "en": "View Product",
+                "ar": "عرض المنتج"
+            }
+        }
     },
     "components": {
         "categorygrid": {
@@ -744,6 +1137,12 @@
             },
             "manyproducts_2": {
                 "ar": "منتجات."
+            }
+        },
+        "countryphoneinput": {
+            "phone": {
+                "en": "Phone Number",
+                "ar": "رقم الهاتف"
             }
         },
         "footercomponent": {

@@ -918,6 +918,37 @@ async function emptyCart(req, res) {
     }
 }
 
+async function getSearchResults(req, res) {
+    try {
+        const { query } = req.params
+
+        let products = await ProductModel.find({
+            $text: { $search: query },
+        }).populate({
+            path: 'category',
+            select: 'name name_ar',
+        })
+
+        if (!products.length) {
+            products = await ProductModel.find({
+                $or: [
+                    { name: { $regex: query, $options: 'i' } },
+                    { name_ar: { $regex: query, $options: 'i' } },
+                    { description: { $regex: query, $options: 'i' } },
+                    { description_ar: { $regex: query, $options: 'i' } },
+                ],
+            }).populate({
+                path: 'category',
+                select: 'name name_ar',
+            })
+        }
+
+        res.status(200).json({ products })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -958,4 +989,5 @@ export {
     getWishlist,
     emptyCart,
     getOrders,
+    getSearchResults,
 }

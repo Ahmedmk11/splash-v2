@@ -29,6 +29,11 @@ const Header = () => {
 
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
+    const search = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const inputValue = (e.target as HTMLInputElement).value
+        navigate(`/search/${inputValue}`)
+    }
+
     const items: MenuProps['items'] = [
         !currUser?.user?.type
             ? {
@@ -228,6 +233,7 @@ const Header = () => {
                                 cursor: 'text',
                                 outline: 'none',
                             }}
+                            onPressEnter={search}
                         />
                     </ConfigProvider>
                 </div>

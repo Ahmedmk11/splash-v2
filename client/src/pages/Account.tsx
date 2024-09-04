@@ -321,7 +321,7 @@ const Account = () => {
                             <Button
                                 htmlType="button"
                                 onClick={onResetEditAccount}
-                                style={{ marginLeft: '10px' }}
+                                style={{ margin: '10px' }}
                             >
                                 {
                                     (langData as any).pages.account.clear[
@@ -422,7 +422,7 @@ const Account = () => {
                             <Button
                                 htmlType="button"
                                 onClick={onResetEditPassword}
-                                style={{ marginLeft: '10px' }}
+                                style={{ margin: '10px' }}
                             >
                                 {
                                     (langData as any).pages.account.clear[

@@ -26,6 +26,7 @@ import Product from './pages/Product.tsx'
 import AboutUs from './pages/AboutUs.tsx'
 import ContactUs from './pages/ContactUs.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.tsx'
+import Search from './pages/Search.tsx'
 
 const RouteSwitch = () => {
     const { isAuthenticated, adminType } = useContext(CurrUserContext)
@@ -35,6 +36,7 @@ const RouteSwitch = () => {
             <Route path="*" element={<NotFound />} />
             <Route path="/category/:categoryId" element={<Category />} />
             <Route path="/product/:productId" element={<Product />} />
+            <Route path="/search/:searchTerm" element={<Search />} />
 
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />

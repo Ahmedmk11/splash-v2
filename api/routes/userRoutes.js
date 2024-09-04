@@ -40,6 +40,7 @@ import {
     getWishlist,
     emptyCart,
     getOrders,
+    getSearchResults,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -62,6 +63,7 @@ router.get('/get-admins', getAdmins)
 router.get('/get-super-admins', getSuperAdmins)
 router.get('/get-cart/:id', getCart)
 router.get('/get-wishlist/:id', getWishlist)
+router.get('/get-search-results/:query', getSearchResults)
 router.put('/update-category/:id', updateCategory)
 router.put('/update-product/:id', updateProduct)
 router.put('/update-customer/:id', updateCustomer)

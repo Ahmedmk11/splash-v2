@@ -30,6 +30,11 @@ const categorySchema = new mongoose.Schema(
     }
 )
 
+categorySchema.index({
+    name: 'text',
+    name_ar: 'text',
+})
+
 const CategoryModel = mongoose.model('Category', categorySchema)
 
 export default CategoryModel

@@ -4,6 +4,8 @@ import { getCountryDataList, getEmojiFlag } from 'countries-list'
 const { Option } = Select
 import countries from 'country-data'
 
+import LanguageContext from '../contexts/LanguageContext'
+
 interface CountryPhoneInputProps {
     onChange: (value: any) => void
 }
@@ -12,6 +14,7 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange }) => {
     const [country, setCountry] = useState<any>('EGY')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [countryDataList, setCountryDataList] = useState<any[]>([])
+    const { langData, language } = useContext(LanguageContext)
 
     useEffect(() => {
         setCountryDataList(getCountryDataList())
@@ -37,7 +40,9 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange }) => {
     return (
         <Input
             style={{ width: '100%' }}
-            placeholder="Phone Number"
+            placeholder={
+                (langData as any).components.countryphoneinput.phone[language]
+            }
             value={phoneNumber}
             onChange={(e) => handleInputChange(e.target.value)}
             addonBefore={

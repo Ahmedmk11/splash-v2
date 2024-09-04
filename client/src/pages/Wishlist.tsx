@@ -14,6 +14,7 @@ import CurrUserContext from '../contexts/CurrUserContext.tsx'
 import axiosApi, { baseURL } from '../utils/axiosApi.ts'
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import LanguageContext from '../contexts/LanguageContext.tsx'
 
 const { Title, Text } = Typography
 
@@ -22,6 +23,7 @@ const Wishlist = () => {
     const [wishlist, setWishlist] = useState<any[]>([])
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
+    const { langData, language, arabicNumerals } = useContext(LanguageContext)
 
     const fetchWishlistProducts = async () => {
         const res = await axiosApi.get(
@@ -53,11 +55,15 @@ const Wishlist = () => {
                     productId,
                 }
             )
-            message.success('Product removed from wishlist')
+            message.success(
+                (langData as any).pages.wishlist.product_removed[language]
+            )
             fetchWishlistProducts()
         } catch (error) {
             console.log('error', error)
-            message.error('Something went wrong')
+            message.error(
+                (langData as any).pages.wishlist.product_removed_error[language]
+            )
         }
     }
 
@@ -65,7 +71,7 @@ const Wishlist = () => {
         <Layout>
             <div id="wishlist-page">
                 <Title level={2} style={{ marginBottom: '20px' }}>
-                    Wishlist
+                    {(langData as any).pages.wishlist.wishlist[language]}
                 </Title>
                 {loading ? (
                     <div
@@ -105,7 +111,13 @@ const Wishlist = () => {
                         </div>
                     </div>
                 ) : wishlist.length === 0 ? (
-                    <Text>Your wishlist is empty</Text>
+                    <Text>
+                        {
+                            (langData as any).pages.wishlist.wishlist_empty[
+                                language
+                            ]
+                        }
+                    </Text>
                 ) : (
                     <List
                         grid={{ gutter: 16, column: 1 }}
@@ -124,10 +136,14 @@ const Wishlist = () => {
                                                 src={`${baseURL.slice(0, -1)}${
                                                     item?.imageUrl
                                                 }`}
-                                                alt={item.name}
+                                                alt={
+                                                    language === 'en'
+                                                        ? item.name
+                                                        : item.name_ar
+                                                }
                                                 style={{
-                                                    width: '100px',
-                                                    height: '100px',
+                                                    width: '200px',
+                                                    height: '200px',
                                                     objectFit: 'cover',
                                                     boxShadow:
                                                         '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -136,7 +152,7 @@ const Wishlist = () => {
                                         </div>
                                         <div
                                             style={{
-                                                marginLeft: '20px',
+                                                margin: '20px',
                                                 width: '100%',
                                             }}
                                         >
@@ -149,20 +165,15 @@ const Wishlist = () => {
                                                 }}
                                             >
                                                 <Space direction="vertical">
-                                                    <Title
-                                                        style={{
-                                                            marginLeft: '15px',
-                                                        }}
-                                                        level={3}
-                                                    >
-                                                        {item.name}
+                                                    <Title level={3}>
+                                                        {language === 'en'
+                                                            ? item.name
+                                                            : item.name_ar}
                                                     </Title>
-                                                    <Text
-                                                        style={{
-                                                            marginLeft: '15px',
-                                                        }}
-                                                    >
-                                                        {item.description}
+                                                    <Text>
+                                                        {language === 'en'
+                                                            ? item.description
+                                                            : item.description_ar}
                                                     </Text>
                                                     <Space
                                                         style={{
@@ -181,7 +192,14 @@ const Wishlist = () => {
                                                                 )
                                                             }}
                                                         >
-                                                            Remove
+                                                            {
+                                                                (
+                                                                    langData as any
+                                                                ).pages.wishlist
+                                                                    .remove[
+                                                                    language
+                                                                ]
+                                                            }
                                                         </Button>
                                                         <Button
                                                             type="text"
@@ -194,7 +212,14 @@ const Wishlist = () => {
                                                                 )
                                                             }}
                                                         >
-                                                            View
+                                                            {
+                                                                (
+                                                                    langData as any
+                                                                ).pages.wishlist
+                                                                    .view[
+                                                                    language
+                                                                ]
+                                                            }
                                                         </Button>
                                                     </Space>
                                                 </Space>

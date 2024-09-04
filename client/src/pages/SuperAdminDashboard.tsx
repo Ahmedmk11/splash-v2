@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     Tabs,
     List,
@@ -19,6 +19,7 @@ import Layout from '../Layout'
 import axiosApi from '../utils/axiosApi'
 import CountryPhoneInput from '../components/CountryPhoneInput.tsx'
 import { useNavigate } from 'react-router-dom'
+import LanguageContext from '../contexts/LanguageContext.tsx'
 
 const { Option } = Select
 const { Panel } = Collapse
@@ -37,9 +38,7 @@ const SuperAdminDashboard = () => {
     const [formEditAdmin] = Form.useForm()
     const [formEditSuperAdmin] = Form.useForm()
 
-    useEffect(() => {
-        axiosApi.get('/user/test-get')
-    }, [])
+    const { langData, language, arabicNumerals } = useContext(LanguageContext)
 
     const fetchCustomers = async () => {
         try {
@@ -89,12 +88,14 @@ const SuperAdminDashboard = () => {
             }
 
             message.success({
-                content: 'User deleted successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .user_deleted[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error deleting user',
+                content: (langData as any).pages.superadmindashboard
+                    .user_delete_error[language],
             })
         }
     }
@@ -111,12 +112,14 @@ const SuperAdminDashboard = () => {
             fetchCustomers()
             setExpandedItem(null)
             message.success({
-                content: 'Customer updated successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .customer_updated[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error updating customer',
+                content: (langData as any).pages.superadmindashboard
+                    .customer_update_error[language],
             })
         }
     }
@@ -127,12 +130,14 @@ const SuperAdminDashboard = () => {
             fetchAdmins()
             setExpandedItem(null)
             message.success({
-                content: 'Admin updated successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_updated[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error updating admin',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_update_error[language],
             })
         }
     }
@@ -143,12 +148,14 @@ const SuperAdminDashboard = () => {
             fetchSuperAdmins()
             setExpandedItem(null)
             message.success({
-                content: 'Super admin updated successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .super_admin_updated[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error updating super admin',
+                content: (langData as any).pages.superadmindashboard
+                    .super_admin_update_error[language],
             })
         }
     }
@@ -160,12 +167,14 @@ const SuperAdminDashboard = () => {
             fetchSuperAdmins()
             setExpandedItem(null)
             message.success({
-                content: 'Admin promoted successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_promoted[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error promoting admin',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_promoted_error[language],
             })
         }
     }
@@ -177,12 +186,14 @@ const SuperAdminDashboard = () => {
             fetchSuperAdmins()
             setExpandedItem(null)
             message.success({
-                content: 'Admin demoted successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_demoted[language],
             })
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error demoting admin',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_demote_error[language],
             })
         }
     }
@@ -208,19 +219,43 @@ const SuperAdminDashboard = () => {
                                             navigate(`/activity/${item._id}`)
                                         }}
                                     >
-                                        Activity
+                                        {
+                                            (langData as any).pages
+                                                .superadmindashboard.activity[
+                                                language
+                                            ]
+                                        }
                                     </Button>,
                                     <Button
                                         onClick={() => handleStartEdit(item)}
                                     >
-                                        Edit
+                                        {
+                                            (langData as any).pages
+                                                .superadmindashboard.edit[
+                                                language
+                                            ]
+                                        }
                                     </Button>,
                                     <Button
                                         danger
                                         onClick={() => {
                                             Modal.confirm({
-                                                title: 'Confirm',
-                                                content: `Are you sure you want to delete ${item.first_name} ${item.last_name}?`,
+                                                title: (langData as any).pages
+                                                    .superadmindashboard
+                                                    .confirm[language],
+                                                content: `${
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .confirm_message[
+                                                        language
+                                                    ]
+                                                } + ${item.first_name} ${
+                                                    item.last_name
+                                                } ${
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .ques[language]
+                                                }`,
                                                 onOk: () => {
                                                     handleDelete(item._id, role)
                                                     Modal.destroyAll()
@@ -228,7 +263,12 @@ const SuperAdminDashboard = () => {
                                             })
                                         }}
                                     >
-                                        Delete
+                                        {
+                                            (langData as any).pages
+                                                .superadmindashboard.delete[
+                                                language
+                                            ]
+                                        }
                                     </Button>,
                                 ]}
                             >
@@ -255,14 +295,22 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="First Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .firstname[language]
+                                            }
                                             name="first_name"
                                             initialValue={item.first_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter first name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .firstname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -271,14 +319,22 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Last Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .lastname[language]
+                                            }
                                             name="last_name"
                                             initialValue={item.last_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter last name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .lastname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -289,19 +345,32 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Email Address"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.email[
+                                                    language
+                                                ]
+                                            }
                                             name="email_address"
                                             initialValue={item.email_address}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_message[
+                                                        language
+                                                    ],
                                                 },
                                                 {
                                                     type: 'email',
-                                                    message:
-                                                        'Please enter a valid email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_valid_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -310,14 +379,23 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Phone Number"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.phone[
+                                                    language
+                                                ]
+                                            }
                                             name="phone_number"
                                             initialValue={item.phone_number}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter phone number',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .phone_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -328,94 +406,158 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Password"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .password[language]
+                                            }
                                             name="password"
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter password',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .password_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
-                                            <Input.Password placeholder="Password" />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            label="Address"
-                                            name="address"
-                                            initialValue={item.address}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message:
-                                                        'Please enter address',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row gutter={16}>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            label="City"
-                                            name="city"
-                                            initialValue={item.city}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message:
-                                                        'Please enter city',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            label="Area"
-                                            name="area"
-                                            initialValue={item.area}
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message:
-                                                        'Please enter area',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row gutter={16}>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            label="Subscribed"
-                                            name="subscribed"
-                                            initialValue={item.subscribed}
-                                            valuePropName="checked"
-                                        >
-                                            <Switch
-                                                checkedChildren="Yes"
-                                                unCheckedChildren="No"
+                                            <Input.Password
+                                                placeholder={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .password_message[
+                                                        language
+                                                    ]
+                                                }
                                             />
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Status"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .address[language]
+                                            }
+                                            name="address"
+                                            initialValue={item.address}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .address_message[
+                                                        language
+                                                    ],
+                                                },
+                                            ]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.city[
+                                                    language
+                                                ]
+                                            }
+                                            name="city"
+                                            initialValue={item.city}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .city_message[language],
+                                                },
+                                            ]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.area[
+                                                    language
+                                                ]
+                                            }
+                                            name="area"
+                                            initialValue={item.area}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .area_message[language],
+                                                },
+                                            ]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .subscribed[language]
+                                            }
+                                            name="subscribed"
+                                            initialValue={item.subscribed}
+                                            valuePropName="checked"
+                                        >
+                                            <Switch
+                                                checkedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .yes[language]
+                                                }
+                                                unCheckedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard.no[
+                                                        language
+                                                    ]
+                                                }
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.status[
+                                                    language
+                                                ]
+                                            }
                                             name="status"
                                             initialValue={item.status}
                                             valuePropName="checked"
                                         >
                                             <Switch
-                                                checkedChildren="Active"
-                                                unCheckedChildren="Inactive"
+                                                checkedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .active[language]
+                                                }
+                                                unCheckedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .inactive[language]
+                                                }
                                             />
                                         </Form.Item>
                                     </Col>
@@ -427,16 +569,24 @@ const SuperAdminDashboard = () => {
                                                 type="primary"
                                                 htmlType="submit"
                                             >
-                                                Save
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .save[language]
+                                                }
                                             </Button>
                                             <Button
                                                 htmlType="button"
                                                 onClick={onResetManageCustomer}
                                                 style={{
-                                                    marginLeft: '10px',
+                                                    margin: '10px',
                                                 }}
                                             >
-                                                Clear
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .clear[language]
+                                                }
                                             </Button>
                                         </Form.Item>
                                     </Col>
@@ -451,14 +601,22 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="First Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .firstname[language]
+                                            }
                                             name="first_name"
                                             initialValue={item.first_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter first name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .firstname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -467,14 +625,22 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Last Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .lastname[language]
+                                            }
                                             name="last_name"
                                             initialValue={item.last_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter last name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .lastname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -485,19 +651,32 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Email Address"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.email[
+                                                    language
+                                                ]
+                                            }
                                             name="email_address"
                                             initialValue={item.email_address}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_message[
+                                                        language
+                                                    ],
                                                 },
                                                 {
                                                     type: 'email',
-                                                    message:
-                                                        'Please enter a valid email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_valid_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -506,14 +685,21 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Phone Number"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.phone[
+                                                    language
+                                                ]
+                                            }
                                             name="phone_number"
                                             initialValue={item.phone_number}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter phone number',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .phone[language],
                                                 },
                                             ]}
                                         >
@@ -524,14 +710,22 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Password"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .password[language]
+                                            }
                                             name="password"
                                             initialValue={item.password}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter password',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .password_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -540,14 +734,27 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Status"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.status[
+                                                    language
+                                                ]
+                                            }
                                             name="status"
                                             initialValue={item.status}
                                             valuePropName="checked"
                                         >
                                             <Switch
-                                                checkedChildren="Active"
-                                                unCheckedChildren="Inactive"
+                                                checkedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .active[language]
+                                                }
+                                                unCheckedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .inactive[language]
+                                                }
                                             />
                                         </Form.Item>
                                     </Col>
@@ -560,25 +767,37 @@ const SuperAdminDashboard = () => {
                                                     handlePromote(item)
                                                 }
                                             >
-                                                Promote
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .promote[language]
+                                                }
                                             </Button>
                                             <Button
                                                 style={{
-                                                    marginLeft: '10px',
+                                                    margin: '10px',
                                                 }}
                                                 type="primary"
                                                 htmlType="submit"
                                             >
-                                                Save
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .save[language]
+                                                }
                                             </Button>
                                             <Button
                                                 htmlType="button"
                                                 onClick={onResetManageAdmin}
                                                 style={{
-                                                    marginLeft: '10px',
+                                                    margin: '10px',
                                                 }}
                                             >
-                                                Clear
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .clear[language]
+                                                }
                                             </Button>
                                         </Form.Item>
                                     </Col>
@@ -593,14 +812,22 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="First Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .firstname[language]
+                                            }
                                             name="first_name"
                                             initialValue={item.first_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter first name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .firstname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -609,14 +836,22 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Last Name"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .lastname[language]
+                                            }
                                             name="last_name"
                                             initialValue={item.last_name}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter last name',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .lastname_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -627,19 +862,32 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Email Address"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.email[
+                                                    language
+                                                ]
+                                            }
                                             name="email_address"
                                             initialValue={item.email_address}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_message[
+                                                        language
+                                                    ],
                                                 },
                                                 {
                                                     type: 'email',
-                                                    message:
-                                                        'Please enter a valid email address',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .email_valid_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -648,14 +896,23 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Phone Number"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.phone[
+                                                    language
+                                                ]
+                                            }
                                             name="phone_number"
                                             initialValue={item.phone_number}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter phone number',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .phone_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -666,14 +923,22 @@ const SuperAdminDashboard = () => {
                                 <Row gutter={16}>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Password"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .password[language]
+                                            }
                                             name="password"
                                             initialValue={item.password}
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message:
-                                                        'Please enter password',
+                                                    message: (langData as any)
+                                                        .pages
+                                                        .superadmindashboard
+                                                        .password_message[
+                                                        language
+                                                    ],
                                                 },
                                             ]}
                                         >
@@ -682,14 +947,27 @@ const SuperAdminDashboard = () => {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
-                                            label="Status"
+                                            label={
+                                                (langData as any).pages
+                                                    .superadmindashboard.status[
+                                                    language
+                                                ]
+                                            }
                                             name="status"
                                             initialValue={item.status}
                                             valuePropName="checked"
                                         >
                                             <Switch
-                                                checkedChildren="Active"
-                                                unCheckedChildren="Inactive"
+                                                checkedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .active[language]
+                                                }
+                                                unCheckedChildren={
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .inactive[language]
+                                                }
                                             />
                                         </Form.Item>
                                     </Col>
@@ -702,16 +980,24 @@ const SuperAdminDashboard = () => {
                                                     handleDemote(item)
                                                 }
                                             >
-                                                Demote
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .demote[language]
+                                                }
                                             </Button>
                                             <Button
                                                 style={{
-                                                    marginLeft: '10px',
+                                                    margin: '10px',
                                                 }}
                                                 type="primary"
                                                 htmlType="submit"
                                             >
-                                                Save
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .save[language]
+                                                }
                                             </Button>
                                             <Button
                                                 htmlType="button"
@@ -719,10 +1005,14 @@ const SuperAdminDashboard = () => {
                                                     onResetManageSuperAdmin
                                                 }
                                                 style={{
-                                                    marginLeft: '10px',
+                                                    margin: '10px',
                                                 }}
                                             >
-                                                Clear
+                                                {
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .clear[language]
+                                                }
                                             </Button>
                                         </Form.Item>
                                     </Col>
@@ -742,13 +1032,15 @@ const SuperAdminDashboard = () => {
             fetchAdmins()
             fetchSuperAdmins()
             message.success({
-                content: 'Admin added successfully',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_added[language],
             })
             onResetAddAdmin()
         } catch (error) {
             console.error(error)
             message.error({
-                content: 'Error adding admin',
+                content: (langData as any).pages.superadmindashboard
+                    .admin_add_error[language],
             })
         }
     }
@@ -776,25 +1068,35 @@ const SuperAdminDashboard = () => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'Manage Customers',
+            label: (langData as any).pages.superadmindashboard.manage_customers[
+                language
+            ],
             children: renderList(customers, 'customer'),
         },
         {
             key: '2',
-            label: 'Manage Admins',
+            label: (langData as any).pages.superadmindashboard.manage_admins[
+                language
+            ],
             children: renderList(admins, 'admin'),
         },
         {
             key: '3',
-            label: 'Manage Super Admins',
+            label: (langData as any).pages.superadmindashboard
+                .manage_superadmins[language],
             children: renderList(superAdmins, 'super-admin'),
         },
         {
             key: '5',
-            label: 'Add Admin',
+            label: (langData as any).pages.superadmindashboard.add_admin[
+                language
+            ],
             children: (
                 <Card
-                    title="Add New Admin"
+                    title={
+                        (langData as any).pages.superadmindashboard
+                            .add_new_admin[language]
+                    }
                     style={{
                         maxWidth: '600px',
                         margin: 'auto',
@@ -809,31 +1111,57 @@ const SuperAdminDashboard = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="first_name"
-                                    label="First Name"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.firstname[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                "Please input the admin's first name!",
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .firstname_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter first name" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard.firstname[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
                                 <Form.Item
                                     name="last_name"
-                                    label="Last Name"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.lastname[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                "Please input the admin's last name!",
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .lastname_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter last name" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard.lastname[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -841,16 +1169,33 @@ const SuperAdminDashboard = () => {
                             <Col span={24}>
                                 <Form.Item
                                     name="email_address"
-                                    label="Email Address"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.email[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                "Please input the admin's email address!",
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .email_message[language],
+                                        },
+                                        {
+                                            type: 'email',
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .email_valid_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter email address" />
+                                    <Input
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard.email[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -858,29 +1203,49 @@ const SuperAdminDashboard = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="password"
-                                    label="Password"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.password[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input the admin password!',
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .password_message[language],
                                         },
                                     ]}
                                 >
-                                    <Input.Password placeholder="Enter password" />
+                                    <Input.Password
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard.password[
+                                                language
+                                            ]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
                                 <Form.Item
                                     name="confirmPassword"
-                                    label="Confirm Password"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard
+                                            .confirm_password[language]
+                                    }
                                     dependencies={['password']}
                                     hasFeedback
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please confirm the admin password!',
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .confirm_password_message[
+                                                language
+                                            ],
                                         },
                                         ({ getFieldValue }) => ({
                                             validator(rule, value) {
@@ -894,13 +1259,23 @@ const SuperAdminDashboard = () => {
                                                 }
 
                                                 return Promise.reject(
-                                                    'The two passwords that you entered do not match!'
+                                                    (langData as any).pages
+                                                        .superadmindashboard
+                                                        .confirm_password_match[
+                                                        language
+                                                    ]
                                                 )
                                             },
                                         }),
                                     ]}
                                 >
-                                    <Input.Password placeholder="Confirm password" />
+                                    <Input.Password
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard
+                                                .confirm_password[language]
+                                        }
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -908,12 +1283,16 @@ const SuperAdminDashboard = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="phone_number"
-                                    label="Phone Number"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.phone[language]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please input your phone number!',
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .phone_message[language],
                                         },
                                     ]}
                                 >
@@ -925,19 +1304,42 @@ const SuperAdminDashboard = () => {
                             <Col span={12}>
                                 <Form.Item
                                     name="type"
-                                    label="Type"
+                                    label={
+                                        (langData as any).pages
+                                            .superadmindashboard.admin_type[
+                                            language
+                                        ]
+                                    }
                                     rules={[
                                         {
                                             required: true,
-                                            message:
-                                                'Please select the admin type!',
+                                            message: (langData as any).pages
+                                                .superadmindashboard
+                                                .admin_type_message[language],
                                         },
                                     ]}
                                 >
-                                    <Select placeholder="Select admin type">
-                                        <Option value="Admin">Admin</Option>
+                                    <Select
+                                        placeholder={
+                                            (langData as any).pages
+                                                .superadmindashboard
+                                                .admin_type_select[language]
+                                        }
+                                    >
+                                        <Option value="Admin">
+                                            {
+                                                (langData as any).pages
+                                                    .superadmindashboard.admin[
+                                                    language
+                                                ]
+                                            }
+                                        </Option>
                                         <Option value="Super Admin">
-                                            Super Admin
+                                            {
+                                                (langData as any).pages
+                                                    .superadmindashboard
+                                                    .super_admin[language]
+                                            }
                                         </Option>
                                     </Select>
                                 </Form.Item>
@@ -945,14 +1347,20 @@ const SuperAdminDashboard = () => {
                         </Row>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Add Admin
+                                {
+                                    (langData as any).pages.superadmindashboard
+                                        .add_admin[language]
+                                }
                             </Button>
                             <Button
                                 htmlType="button"
                                 onClick={onResetAddAdmin}
-                                style={{ marginLeft: '10px' }}
+                                style={{ margin: '10px' }}
                             >
-                                Clear
+                                {
+                                    (langData as any).pages.superadmindashboard
+                                        .clear[language]
+                                }
                             </Button>
                         </Form.Item>
                     </Form>

@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Layout from '../Layout.tsx'
 import CountryPhoneInput from '../components/CountryPhoneInput.tsx'
 import axiosApi from '../utils/axiosApi.ts'
+import LanguageContext from '../contexts/LanguageContext'
 
 const SignUp = () => {
     const [form] = Form.useForm()
     const navigate = useNavigate()
+    const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const handleSignUp = async (values: {
         first_name: string
@@ -26,15 +28,19 @@ const SignUp = () => {
 
         try {
             await axiosApi.post('/auth/register-customer', newValues)
-            message.success('Sign Up Successful')
+            message.success(
+                (langData as any).pages.signup.signup_successful[language]
+            )
             form.resetFields()
             navigate('/')
         } catch (error: any) {
             let statusCode = error.response.status
             if (statusCode === 400) {
-                message.error('User already exists')
+                message.error(
+                    (langData as any).pages.signup.email_exists[language]
+                )
             } else {
-                message.error('Something went wrong')
+                message.error((langData as any).pages.signup.error[language])
             }
         }
     }
@@ -53,7 +59,7 @@ const SignUp = () => {
                     padding: '20px',
                 }}
             >
-                <h1>Sign Up</h1>
+                <h1>{(langData as any).pages.signup.signup[language]}</h1>
                 <Form
                     form={form}
                     name="signup"
@@ -69,54 +75,87 @@ const SignUp = () => {
                     >
                         <Form.Item
                             name="first_name"
-                            label="First Name"
+                            label={
+                                (langData as any).pages.signup.firstname[
+                                    language
+                                ]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your first name!',
+                                    message: (langData as any).pages.signup
+                                        .firstname_message[language],
                                 },
                             ]}
                             style={{ width: '48%' }}
                         >
-                            <Input placeholder="First Name" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.signup.firstname[
+                                        language
+                                    ]
+                                }
+                            />
                         </Form.Item>
 
                         <Form.Item
                             name="last_name"
-                            label="Last Name"
+                            label={
+                                (langData as any).pages.signup.lastname[
+                                    language
+                                ]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your last name!',
+                                    message: (langData as any).pages.signup
+                                        .lastname_message[language],
                                 },
                             ]}
                             style={{ width: '48%' }}
                         >
-                            <Input placeholder="Last Name" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.signup.lastname[
+                                        language
+                                    ]
+                                }
+                            />
                         </Form.Item>
                     </div>
 
                     <Form.Item
                         name="email_address"
-                        label="Email Address"
+                        label={(langData as any).pages.signup.email[language]}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your Email Address!',
+                                message: (langData as any).pages.signup
+                                    .email_message[language],
+                            },
+                            {
+                                type: 'email',
+                                message: (langData as any).pages.signup
+                                    .email_valid_message[language],
                             },
                         ]}
                         style={{ width: '100%' }}
                     >
-                        <Input placeholder="Email Address" />
+                        <Input
+                            placeholder={
+                                (langData as any).pages.signup.email[language]
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item
                         name="phone_number"
-                        label="Phone Number"
+                        label={(langData as any).pages.signup.phone[language]}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your phone number!',
+                                message: (langData as any).pages.signup
+                                    .phone_message[language],
                             },
                         ]}
                     >
@@ -125,25 +164,39 @@ const SignUp = () => {
 
                     <Form.Item
                         name="password"
-                        label="Password"
+                        label={
+                            (langData as any).pages.signup.password[language]
+                        }
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your password!',
+                                message: (langData as any).pages.signup
+                                    .password_message[language],
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Password" />
+                        <Input.Password
+                            placeholder={
+                                (langData as any).pages.signup.password[
+                                    language
+                                ]
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item
                         name="confirmPassword"
-                        label="Confirm Password"
+                        label={
+                            (langData as any).pages.signup.confirmPassword[
+                                language
+                            ]
+                        }
                         dependencies={['password']}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please confirm your password!',
+                                message: (langData as any).pages.signup
+                                    .confirmPassword_message[language],
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
@@ -155,14 +208,24 @@ const SignUp = () => {
                                     }
                                     return Promise.reject(
                                         new Error(
-                                            'The two passwords that you entered do not match!'
+                                            (
+                                                langData as any
+                                            ).pages.signup.confirmPassword_match[
+                                                language
+                                            ]
                                         )
                                     )
                                 },
                             }),
                         ]}
                     >
-                        <Input.Password placeholder="Confirm Password" />
+                        <Input.Password
+                            placeholder={
+                                (langData as any).pages.signup.confirmPassword[
+                                    language
+                                ]
+                            }
+                        />
                     </Form.Item>
 
                     <div
@@ -173,63 +236,92 @@ const SignUp = () => {
                     >
                         <Form.Item
                             name="city"
-                            label="City"
+                            label={
+                                (langData as any).pages.signup.city[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your city!',
+                                    message: (langData as any).pages.signup
+                                        .city_message[language],
                                 },
                             ]}
                             style={{ width: '48%' }}
                         >
-                            <Input placeholder="City" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.signup.city[
+                                        language
+                                    ]
+                                }
+                            />
                         </Form.Item>
 
                         <Form.Item
                             name="area"
-                            label="Area"
+                            label={
+                                (langData as any).pages.signup.area[language]
+                            }
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your area!',
+                                    message: (langData as any).pages.signup
+                                        .area_message[language],
                                 },
                             ]}
                             style={{ width: '48%' }}
                         >
-                            <Input placeholder="Area" />
+                            <Input
+                                placeholder={
+                                    (langData as any).pages.signup.area[
+                                        language
+                                    ]
+                                }
+                            />
                         </Form.Item>
                     </div>
 
                     <Form.Item
                         name="address"
-                        label="Address"
+                        label={(langData as any).pages.signup.address[language]}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your address!',
+                                message: (langData as any).pages.signup
+                                    .address_message[language],
                             },
                         ]}
                     >
-                        <Input placeholder="Address" />
+                        <Input
+                            placeholder={
+                                (langData as any).pages.signup.address[language]
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item name="promotions" valuePropName="checked">
                         <Checkbox>
-                            I want to receive weekly exclusive offers and
-                            promotions.
+                            {(langData as any).pages.signup.promotion[language]}
                         </Checkbox>
                     </Form.Item>
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" block>
-                            Sign Up
+                            {(langData as any).pages.signup.signupbtn[language]}
                         </Button>
                     </Form.Item>
                 </Form>
 
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <p>
-                        Already have an account? <Link to="/login">Login</Link>
+                        {
+                            (langData as any).pages.signup.already_have_account[
+                                language
+                            ]
+                        }
+                        <Link to="/login">
+                            {(langData as any).pages.signup.login[language]}
+                        </Link>
                     </p>
                 </div>
             </div>
