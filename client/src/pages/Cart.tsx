@@ -361,6 +361,50 @@ const Cart = () => {
                             style={{
                                 marginTop: '20px',
                                 padding: '20px',
+                                borderRadius: '8px',
+                                width: '100%',
+                            }}
+                        >
+                            <Space
+                                direction="horizontal"
+                                style={{
+                                    width: '100%',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <Title level={3}>
+                                    {
+                                        (langData as any).pages.cart.total_cart[
+                                            language
+                                        ]
+                                    }
+                                </Title>
+                                <Title level={3}>
+                                    {cart.reduce(
+                                        (acc, item) =>
+                                            acc + item.price * item.quantity,
+                                        0
+                                    )}{' '}
+                                    <span
+                                        style={{
+                                            fontWeight: '600',
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        {
+                                            (langData as any).pages.cart.egp[
+                                                language
+                                            ]
+                                        }
+                                    </span>
+                                </Title>
+                            </Space>
+                        </Card>
+
+                        <Card
+                            style={{
+                                marginTop: '20px',
+                                padding: '20px',
                                 backgroundColor: '#f9f9f9',
                                 borderRadius: '8px',
                                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',

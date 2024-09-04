@@ -508,6 +508,10 @@
             "complete": {
                 "en": "Complete Order",
                 "ar": "أكمل الطلب"
+            },
+            "total_cart": {
+                "en": "Cart Total: ",
+                "ar": "إجمالي السلة: "
             }
         },
         "contactus": {
@@ -1195,6 +1199,10 @@
             "logout": {
                 "en": "Logout",
                 "ar": "تسجيل الخروج"
+            },
+            "logoutSuccessful": {
+                "en": "Logout Successful",
+                "ar": "تم تسجيل الخروج بنجاح"
             },
             "login": {
                 "en": "Login",

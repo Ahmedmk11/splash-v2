@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Input, Dropdown, Menu, Space, ConfigProvider } from 'antd'
+import { Input, Dropdown, Menu, Space, ConfigProvider, message } from 'antd'
 import {
     AppstoreOutlined,
     HeartOutlined,
@@ -31,6 +31,7 @@ const Header = () => {
 
     const search = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const inputValue = (e.target as HTMLInputElement).value
+        if (!inputValue) return
         navigate(`/search/${inputValue}`)
     }
 
@@ -82,6 +83,10 @@ const Header = () => {
             key: '10',
             onClick: async () => {
                 await axiosApi.post('/auth/logout')
+                message.success(
+                    (langData as any).components.headercomponent
+                        .logoutSuccessful[language]
+                )
                 setCurrUser(null)
                 navigate('/')
             },
@@ -234,6 +239,7 @@ const Header = () => {
                                 outline: 'none',
                             }}
                             onPressEnter={search}
+                            allowClear
                         />
                     </ConfigProvider>
                 </div>
