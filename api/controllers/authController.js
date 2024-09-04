@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
 
 import CustomerModel from '../models/customerModel.js'
 import AdminModel from '../models/adminModel.js'
@@ -65,11 +66,11 @@ async function login(req, res) {
                 email_verified: user.email_verified,
             }
 
-            // if (!user.email_verified) {
-            //     return res.status(403).json({
-            //         message: 'Please verify your email address first',
-            //     })
-            // }
+            if (!user.email_verified) {
+                return res.status(403).json({
+                    message: 'Please verify your email address first',
+                })
+            }
         }
 
         const token = jwt.sign({ tokenData }, process.env.JWT_SECRET, {
@@ -95,6 +96,113 @@ async function logout(req, res) {
     res.status(200).json({ message: 'Logged out' })
 }
 
+async function verifyEmail(req, res) {
+    const { token } = req.query
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const customer = await CustomerModel.findOneAndUpdate(
+            { email_address: decoded.email },
+            { email_verified: true }
+        )
+
+        if (!customer) {
+            return res.status(400).send('Invalid token or customer not found.')
+        }
+
+        res.send(`
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+                <div style="margin-bottom: 20px;">
+                    <img src="${
+                        process.env.SERVER_URL
+                    }/public/logo.jpg" alt="Splash" style="max-width: 150px;" />
+                </div>
+                <h2 style="color: #333333;">Email Verified Successfully</h2>
+                <p style="color: #555555; font-size: 16px;">
+                    Thank you for verifying your email! Your account is now active.
+                </p>
+                <p style="margin-top: 20px;">
+                    <a href="${
+                        process.env.CLIENT_URL
+                    }" style="display: inline-block; background-color: #007bff; color: #ffffff; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
+                        Go to Home
+                    </a>
+                </p>
+                <p style="color: #999999; font-size: 12px; margin-top: 20px;">
+                    © ${new Date().getFullYear()} Splash. All rights reserved.
+                </p>
+            </div>
+        `)
+    } catch (error) {
+        res.status(400).send('Invalid or expired token.')
+    }
+}
+
+async function sendEmail(email) {
+    const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, {
+        expiresIn: '1h',
+    })
+
+    const verificationUrl = `${process.env.SERVER_URL}/auth/verify-email?token=${verificationToken}`
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASSWORD,
+        },
+    })
+
+    const mailOptions = {
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: 'Verify your email',
+        html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <div style="text-align: center;">
+                <img src="${
+                    process.env.SERVER_URL
+                }/public/logo.jpg" alt="Splash" style="max-width: 150px; margin-bottom: 20px;" />
+            </div>
+            <h2 style="color: #333333; text-align: center;">Verify Your Email Address</h2>
+            <p style="color: #555555; font-size: 16px; text-align: center;">
+                Thank you for signing up! To complete your registration, please verify your email address by clicking the button below.
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${verificationUrl}" style="background-color: #007bff; color: #ffffff; padding: 15px 30px; text-decoration: none; font-size: 16px; border-radius: 5px;">
+                    Verify Email
+                </a>
+            </div>
+            <p style="color: #999999; font-size: 12px; text-align: center;">
+                If you did not sign up for this account, you can ignore this email.
+            </p>
+            <p style="color: #999999; font-size: 12px; text-align: center;">
+                © ${new Date().getFullYear()} Splash. All rights reserved.
+            </p>
+        </div>
+        `,
+    }
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error)
+        } else {
+            console.log('Verification email sent:', info.response)
+        }
+    })
+}
+
+async function resendEmail(req, res) {
+    const { email } = req.body
+
+    try {
+        sendEmail(email)
+    } catch (error) {
+        console.error('Error resending email:', error)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
 async function registerCustomer(req, res) {
     try {
         console.log(req.body)
@@ -111,6 +219,8 @@ async function registerCustomer(req, res) {
         const newCustomer = new CustomerModel(req.body)
 
         await newCustomer.save()
+
+        sendEmail(newCustomer.email_address)
 
         return res.status(201).json({ data: newCustomer })
     } catch (error) {
@@ -156,4 +266,12 @@ async function getCurrSession(req, res) {
     }
 }
 
-export { login, logout, registerCustomer, registerAdmin, getCurrSession }
+export {
+    login,
+    logout,
+    registerCustomer,
+    registerAdmin,
+    getCurrSession,
+    verifyEmail,
+    resendEmail,
+}

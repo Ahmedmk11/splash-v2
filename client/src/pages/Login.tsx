@@ -12,6 +12,8 @@ const Login = () => {
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const handleLogin = async (values: any) => {
+        const key = 'resendMessage'
+
         try {
             await axiosApi.post('/auth/login', values)
             console.log('Login values:', values)
@@ -31,9 +33,31 @@ const Login = () => {
                     (langData as any).pages.login.incorrect_password[language]
                 )
             } else if (statusCode === 403) {
-                message.error(
-                    (langData as any).pages.login.verify_email[language]
-                )
+                message.error({
+                    key,
+                    content: (
+                        <span>
+                            {
+                                (langData as any).pages.login.verify_email[
+                                    language
+                                ]
+                            }
+                            ,
+                            <Button
+                                type="link"
+                                onClick={async () => {
+                                    message.destroy(key)
+                                    await axiosApi.post('/auth/resend-email', {
+                                        email: values.email_address,
+                                    })
+                                }}
+                                style={{ padding: 0, marginLeft: 4 }}
+                            >
+                                {(langData as any).pages.login.resend[language]}
+                            </Button>
+                        </span>
+                    ),
+                })
             } else {
                 message.error((langData as any).pages.login.error[language])
             }

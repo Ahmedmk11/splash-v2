@@ -177,34 +177,6 @@ const Account = () => {
                         <Row gutter={16}>
                             <Col xs={24} sm={12}>
                                 <Form.Item
-                                    name="email_address"
-                                    label={
-                                        (langData as any).pages.account.email[
-                                            language
-                                        ]
-                                    }
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: (langData as any).pages
-                                                .account.email_message[
-                                                language
-                                            ],
-                                        },
-                                        {
-                                            type: 'email',
-                                            message: (langData as any).pages
-                                                .account.email_valid_message[
-                                                language
-                                            ],
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} sm={12}>
-                                <Form.Item
                                     name="phone_number"
                                     label={
                                         (langData as any).pages.account.phone[

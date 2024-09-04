@@ -6,10 +6,14 @@ import {
     registerAdmin,
     registerCustomer,
     getCurrSession,
+    verifyEmail,
+    resendEmail,
 } from '../controllers/authController.js'
 
 const router = express.Router()
 
+router.get('/verify-email', verifyEmail)
+router.post('/resend-email', resendEmail)
 router.post('/login', login)
 router.post('/logout', logout)
 router.post('/register-customer', registerCustomer)

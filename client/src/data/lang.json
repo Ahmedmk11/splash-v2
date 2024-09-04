@@ -634,6 +634,10 @@
             "signup": {
                 "en": "Sign Up",
                 "ar": "تسجيل حساب"
+            },
+            "resend": {
+                "en": "Resend Email",
+                "ar": "إعادة إرسال البريد الإلكتروني"
             }
         },
         "notfound": {
