@@ -115,7 +115,7 @@ const Cart = () => {
     return (
         <Layout>
             <div id="cart-page">
-                <Title level={2} style={{ marginBottom: '20px' }}>
+                <Title level={4} style={{ marginBottom: '20px' }}>
                     {(langData as any).pages.cart.cart[language]}
                 </Title>
                 {loading ? (

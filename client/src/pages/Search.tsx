@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import LanguageContext from '../contexts/LanguageContext.tsx'
 
 const { Meta } = Card
-const { Title } = Typography
+const { Title, Paragraph } = Typography
 
 const Search = () => {
     const { searchTerm } = useParams<{ searchTerm: string }>()
@@ -57,14 +57,14 @@ const Search = () => {
                     />
                 ) : (
                     <div>
-                        <Title level={2} style={{ marginBottom: '20px' }}>
+                        <Title level={4} style={{ marginBottom: '20px' }}>
                             {
                                 (langData as any).pages.search.search_results[
                                     language
                                 ]
                             }
                         </Title>
-                        <h4>
+                        <Paragraph>
                             {searchResults.length === 0
                                 ? (langData as any).components.categorygrid
                                       .noproducts[language]
@@ -83,7 +83,7 @@ const Search = () => {
                                       (langData as any).components.categorygrid
                                           .manyproducts_2[language]
                                   }`}
-                        </h4>
+                        </Paragraph>
                     </div>
                 )}
                 {!loading ? (

@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom'
 import axiosApi from '../utils/axiosApi'
 import Orders from '../components/Orders'
 import LanguageContext from '../contexts/LanguageContext'
+import { Typography } from 'antd'
+
+const { Title } = Typography
 
 const Activity = () => {
     const { cid } = useParams<{ cid: string }>()
@@ -28,13 +31,14 @@ const Activity = () => {
     return (
         <Layout>
             <div id="activity-page">
-                <h2
+                <Title
+                    level={4}
                     style={{
                         marginBottom: '20px',
                     }}
                 >
                     {(langData as any).pages.activity.orders[language]}
-                </h2>
+                </Title>
 
                 <Orders orders={orders} loading={loading} />
             </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Row, Col, Card, Space, Skeleton } from 'antd'
+import { Row, Col, Card, Typography, Skeleton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axiosApi, { baseURL } from '../utils/axiosApi'
 
 const { Meta } = Card
+const { Title, Paragraph } = Typography
 
 import LanguageContext from '../contexts/LanguageContext'
 
@@ -55,10 +56,10 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                 />
             ) : (
                 <div>
-                    <h1>
+                    <Title level={4}>
                         {language === 'en' ? category?.name : category?.name_ar}
-                    </h1>
-                    <h4>
+                    </Title>
+                    <Paragraph>
                         {products.length === 0
                             ? (langData as any).components.categorygrid
                                   .noproducts[language]
@@ -77,7 +78,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                   (langData as any).components.categorygrid
                                       .manyproducts_2[language]
                               }`}
-                    </h4>
+                    </Paragraph>
                 </div>
             )}
             {!loading ? (

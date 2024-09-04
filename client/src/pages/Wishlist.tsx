@@ -70,7 +70,7 @@ const Wishlist = () => {
     return (
         <Layout>
             <div id="wishlist-page">
-                <Title level={2} style={{ marginBottom: '20px' }}>
+                <Title level={4} style={{ marginBottom: '20px' }}>
                     {(langData as any).pages.wishlist.wishlist[language]}
                 </Title>
                 {loading ? (

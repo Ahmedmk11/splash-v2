@@ -4,6 +4,7 @@ import Layout from '../Layout'
 import LanguageContext from '../contexts/LanguageContext'
 
 const { Title, Paragraph } = Typography
+
 const AboutUs = () => {
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
