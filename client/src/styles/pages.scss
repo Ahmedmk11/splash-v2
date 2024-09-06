@@ -174,3 +174,29 @@
         width: 50%;
     }
 }
+
+/* Phones */
+@media (max-width: 1024px) {
+    #home-categories,
+    #home-categories-main,
+    #home-categories-display {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-rows: auto;
+        gap: 10px;
+    }
+
+    .home-category-item,
+    .home-category-main-item {
+        min-width: 300px;
+        height: 500px;
+    }
+
+    .home-category-display-item {
+        min-width: 100%;
+    }
+}
+
+/* Laptops and PCs */
+@media (min-width: 1024px) {
+}

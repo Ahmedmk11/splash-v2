@@ -3,7 +3,16 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Input, Dropdown, Menu, Space, ConfigProvider, message } from 'antd'
+import {
+    Input,
+    Dropdown,
+    Menu,
+    Space,
+    ConfigProvider,
+    message,
+    Divider,
+    Drawer,
+} from 'antd'
 import {
     AppstoreOutlined,
     HeartOutlined,
@@ -14,6 +23,7 @@ import {
     SettingOutlined,
     ControlOutlined,
     CodeOutlined,
+    MenuOutlined,
 } from '@ant-design/icons'
 import CurrUserContext from '../contexts/CurrUserContext'
 import CategoriesContext from '../contexts/CategoriesContext'
@@ -24,9 +34,10 @@ import LanguageContext from '../contexts/LanguageContext'
 
 const Header = () => {
     const navigate = useNavigate()
+    const [drawerVisible, setDrawerVisible] = useState(false)
+    const [dropdownVisible, setDropdownVisible] = useState(false)
     const { currUser, setCurrUser } = useContext(CurrUserContext)
     const { categories, setCategories } = useContext(CategoriesContext)
-
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
     const search = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -125,6 +136,11 @@ const Header = () => {
         navigate(`/category/${e.key}`)
     }
 
+    const handleMenuClickDrawer = (e: any) => {
+        if (e.key === 'stop') return
+        navigate(`/${e.key}`)
+    }
+
     const groupedCategories = {
         main: categories.filter((category: any) => category.type === 'main'),
         inquiry: categories.filter(
@@ -195,11 +211,92 @@ const Header = () => {
         </Menu>
     )
 
+    const drawerContent = (
+        <>
+            <div className="drawer-item">
+                <Input
+                    placeholder={
+                        (langData as any).components.headercomponent.search[
+                            language
+                        ]
+                    }
+                    prefix={<SearchOutlined />}
+                    onPressEnter={search}
+                    allowClear
+                />
+            </div>
+            <Divider />
+            <Menu
+                selectable={false}
+                mode="vertical"
+                onClick={handleMenuClickDrawer}
+            >
+                {/* Categories dropdown */}
+                <Menu.Item
+                    key="stop"
+                    icon={<AppstoreOutlined />}
+                    onMouseEnter={() => setDropdownVisible(true)}
+                    onMouseLeave={() => setDropdownVisible(false)}
+                >
+                    <Dropdown
+                        overlay={menu}
+                        placement="bottomRight"
+                        open={dropdownVisible}
+                    >
+                        <span style={{ cursor: 'pointer' }}>
+                            {
+                                (langData as any).components.headercomponent
+                                    .categories[language]
+                            }
+                        </span>
+                    </Dropdown>
+                </Menu.Item>
+
+                {/* Wishlist */}
+                <Menu.Item key="wishlist" icon={<HeartOutlined />}>
+                    {
+                        (langData as any).components.headercomponent.wishlist[
+                            language
+                        ]
+                    }
+                </Menu.Item>
+
+                {/* Cart */}
+                <Menu.Item key="cart" icon={<ShoppingCartOutlined />}>
+                    {
+                        (langData as any).components.headercomponent.cart[
+                            language
+                        ]
+                    }
+                </Menu.Item>
+
+                {/* User account or login */}
+                {currUser ? (
+                    <Menu.Item key="account" icon={<UserOutlined />}>
+                        {currUser?.user?.first_name}
+                    </Menu.Item>
+                ) : (
+                    <Menu.Item
+                        key="login"
+                        icon={<UserOutlined />}
+                        onClick={() => navigate('/login')}
+                    >
+                        {
+                            (langData as any).components.headercomponent.login[
+                                language
+                            ]
+                        }
+                    </Menu.Item>
+                )}
+            </Menu>
+        </>
+    )
+
     return (
         <>
             <div id="header-component">
                 <h1
-                    className="header-item"
+                    className="header-item all-screens"
                     style={{
                         cursor: 'pointer',
                     }}
@@ -213,7 +310,7 @@ const Header = () => {
                     Splash
                 </h1>
 
-                <div className="header-item" id="search-container">
+                <div className="header-item big-screens" id="search-container">
                     <ConfigProvider
                         theme={{
                             components: {
@@ -243,138 +340,174 @@ const Header = () => {
                         />
                     </ConfigProvider>
                 </div>
-                <div className="header-item">
-                    <Dropdown
-                        overlay={menu}
-                        placement="bottom"
-                        overlayStyle={{
-                            width: 300,
-                        }}
-                    >
-                        <span className="underline-hover">
-                            <AppstoreOutlined className="icon" />
-                            <h4>
-                                {
-                                    (langData as any).components.headercomponent
-                                        .categories[language]
-                                }
-                            </h4>
-                        </span>
-                    </Dropdown>
-                </div>
-                {!currUser?.user?.type ? (
-                    <>
-                        <div className="header-item">
-                            <span
-                                className="underline-hover"
-                                onClick={() => {
-                                    navigate('/wishlist')
-                                }}
-                            >
-                                <HeartOutlined className="icon" />
-                                <h4>
-                                    {
-                                        (langData as any).components
-                                            .headercomponent.wishlist[language]
-                                    }
-                                </h4>
-                            </span>
-                        </div>
-                        <div className="header-item">
-                            <span
-                                className="underline-hover"
-                                onClick={() => {
-                                    navigate('/cart')
-                                }}
-                            >
-                                <ShoppingCartOutlined className="icon" />
-                                <h4>
-                                    {
-                                        (langData as any).components
-                                            .headercomponent.cart[language]
-                                    }
-                                </h4>
-                            </span>
-                        </div>
-                    </>
-                ) : currUser?.user?.type === 'Super Admin' ? (
-                    <>
-                        <div className="header-item">
-                            <span
-                                className="underline-hover"
-                                onClick={async () => {
-                                    await axiosApi.post('/user/test-get')
-                                }}
-                            >
-                                <CodeOutlined className="icon" />
-                                <h4>
-                                    {
-                                        (langData as any).components
-                                            .headercomponent.testget[language]
-                                    }
-                                </h4>
-                            </span>
-                        </div>
-                        <div className="header-item">
-                            <span
-                                className="underline-hover"
-                                onClick={async () => {
-                                    await axiosApi.post('/user/test-post')
-                                }}
-                            >
-                                <CodeOutlined className="icon" />
-                                <h4>
-                                    {' '}
-                                    {
-                                        (langData as any).components
-                                            .headercomponent.testpost[language]
-                                    }
-                                </h4>
-                            </span>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="header-item"></div>
-                        <div className="header-item"></div>
-                    </>
-                )}
-                <div className="header-item">
-                    {currUser ? (
+                <>
+                    <div className="header-item big-screens">
                         <Dropdown
-                            menu={{ items }}
-                            trigger={['click']}
+                            overlay={menu}
+                            placement="bottom"
                             overlayStyle={{
-                                width: 250,
+                                width: 300,
                             }}
                         >
                             <span className="underline-hover">
+                                <AppstoreOutlined className="icon" />
+                                <h4>
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.categories[
+                                            language
+                                        ]
+                                    }
+                                </h4>
+                            </span>
+                        </Dropdown>
+                    </div>
+                    {!currUser?.user?.type ? (
+                        <>
+                            <div className="header-item big-screens">
+                                <span
+                                    className="underline-hover"
+                                    onClick={() => {
+                                        navigate('/wishlist')
+                                    }}
+                                >
+                                    <HeartOutlined className="icon" />
+                                    <h4>
+                                        {
+                                            (langData as any).components
+                                                .headercomponent.wishlist[
+                                                language
+                                            ]
+                                        }
+                                    </h4>
+                                </span>
+                            </div>
+                            <div className="header-item big-screens">
+                                <span
+                                    className="underline-hover"
+                                    onClick={() => {
+                                        navigate('/cart')
+                                    }}
+                                >
+                                    <ShoppingCartOutlined className="icon" />
+                                    <h4>
+                                        {
+                                            (langData as any).components
+                                                .headercomponent.cart[language]
+                                        }
+                                    </h4>
+                                </span>
+                            </div>
+                        </>
+                    ) : currUser?.user?.type === 'Super Admin' ? (
+                        <>
+                            <div className="header-item big-screens">
+                                <span
+                                    className="underline-hover"
+                                    onClick={async () => {
+                                        await axiosApi.post('/user/test-get')
+                                    }}
+                                >
+                                    <CodeOutlined className="icon" />
+                                    <h4>
+                                        {
+                                            (langData as any).components
+                                                .headercomponent.testget[
+                                                language
+                                            ]
+                                        }
+                                    </h4>
+                                </span>
+                            </div>
+                            <div className="header-item big-screens">
+                                <span
+                                    className="underline-hover"
+                                    onClick={async () => {
+                                        await axiosApi.post('/user/test-post')
+                                    }}
+                                >
+                                    <CodeOutlined className="icon" />
+                                    <h4>
+                                        {' '}
+                                        {
+                                            (langData as any).components
+                                                .headercomponent.testpost[
+                                                language
+                                            ]
+                                        }
+                                    </h4>
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="header-item big-screens"></div>
+                            <div className="header-item big-screens"></div>
+                        </>
+                    )}
+                    <div className="header-item big-screens">
+                        {currUser ? (
+                            <Dropdown
+                                menu={{ items }}
+                                trigger={['click']}
+                                overlayStyle={{
+                                    width: 250,
+                                }}
+                            >
+                                <span className="underline-hover">
+                                    <Space>
+                                        <UserOutlined className="icon" />
+                                    </Space>
+                                    <h4>{currUser?.user?.first_name}</h4>
+                                </span>
+                            </Dropdown>
+                        ) : (
+                            <span
+                                className="underline-hover"
+                                onClick={() => {
+                                    navigate('/login')
+                                }}
+                            >
                                 <Space>
                                     <UserOutlined className="icon" />
                                 </Space>
-                                <h4>{currUser?.user?.first_name}</h4>
+                                <h4>
+                                    {
+                                        (langData as any).components
+                                            .headercomponent.login[language]
+                                    }
+                                </h4>
                             </span>
-                        </Dropdown>
-                    ) : (
+                        )}
+                    </div>
+                    <div
+                        style={{
+                            minWidth: 50,
+                        }}
+                        className="header-item small-screens"
+                    >
                         <span
                             className="underline-hover"
-                            onClick={() => {
-                                navigate('/login')
-                            }}
+                            onClick={() => setDrawerVisible(true)}
                         >
-                            <Space>
-                                <UserOutlined className="icon" />
-                            </Space>
-                            <h4>
-                                {
-                                    (langData as any).components.headercomponent
-                                        .login[language]
-                                }
-                            </h4>
+                            <MenuOutlined
+                                style={{
+                                    fontSize: 20,
+                                }}
+                                className="icon"
+                            />
                         </span>
-                    )}
-                </div>
+                    </div>
+                </>
             </div>
+            <Drawer
+                placement="left"
+                onClose={() => setDrawerVisible(false)}
+                open={drawerVisible}
+                width={300}
+            >
+                {drawerContent}
+            </Drawer>
         </>
     )
 }

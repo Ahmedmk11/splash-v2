@@ -10,15 +10,16 @@ const LazyImage = ({
 }: {
     imageUrl: string
     alt: string
-    width: string | number
-    height: string | number
+    width: string | number | 'none'
+    height: string | number | 'none'
 }) => {
     return (
         <LazyLoad
-            style={{
-                height: height,
-                width: width,
-            }}
+            style={
+                width === 'none' || height === 'none'
+                    ? {}
+                    : { height: height, width: width }
+            }
             offset={100}
         >
             <img

@@ -3,21 +3,27 @@
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #e8ede7;
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
     h1 {
         font-size: 30px;
     }
 }
 
+#search-container {
+    width: 40%;
+}
+
 .header-item {
+    width: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    border-right: 1px solid #e8ede7;
+    min-width: 120px;
+    border-left: 1px solid #e8ede7;
     span.underline-hover {
         gap: 10px;
         height: 100%;
@@ -147,4 +153,37 @@
 
 .icon {
     color: rgba(0, 0, 0, 0.75);
+}
+
+/* Phones */
+@media (max-width: 1024px) {
+    .small-screens {
+        display: flex;
+    }
+
+    .big-screens {
+        display: none;
+    }
+
+    .drawer-item {
+        width: 100%;
+    }
+
+    #header-component {
+        justify-content: space-between;
+        .header-item {
+            border-left: 0px;
+        }
+    }
+}
+
+/* Laptops and PCs */
+@media (min-width: 1024px) {
+    .small-screens {
+        display: none;
+    }
+
+    .big-screens {
+        display: flex;
+    }
 }
