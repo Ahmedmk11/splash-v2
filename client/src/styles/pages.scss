@@ -180,15 +180,14 @@
     #home-categories,
     #home-categories-main,
     #home-categories-display {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        grid-template-rows: auto;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
     }
 
     .home-category-item,
     .home-category-main-item {
-        min-width: 300px;
+        min-width: 100%;
         height: 500px;
     }
 

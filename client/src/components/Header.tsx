@@ -152,14 +152,7 @@ const Header = () => {
     }
 
     const menu = (
-        <Menu
-            style={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: 600,
-            }}
-            onClick={handleMenuClick}
-        >
+        <Menu className="header-menu" onClick={handleMenuClick}>
             <Menu.ItemGroup
                 style={{
                     width: 200,

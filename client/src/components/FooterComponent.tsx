@@ -49,97 +49,90 @@ const FooterComponent = () => {
                 }}
             />
 
-            <div
-                className="footer-top"
-                style={{
-                    backgroundColor: '#f0f0f0',
-                    width: '100%',
-                    padding: '50px',
-                    paddingBottom: '80px',
-                    boxSizing: 'border-box',
-                }}
-            >
-                <div className="footer-col">
+            <div className="footer-top">
+                <div id="footer-logo" className="footer-col">
                     {
                         // change later
                     }
                     <h1>Splash</h1>
                 </div>
-                <div className="footer-col">
-                    <h2>
-                        {
-                            (langData as any).components.footercomponent
-                                .policiescol[language]
-                        }
-                    </h2>
-                    <Divider />
-                    <p>
-                        <a href="/privacy-policy">
+                <div id="footer-sections">
+                    <div className="footer-col">
+                        <h2>
                             {
                                 (langData as any).components.footercomponent
-                                    .privacypolicy[language]
+                                    .policiescol[language]
                             }
-                        </a>
-                        <br />
-                        <a href="/terms-and-conditions">
+                        </h2>
+                        <Divider />
+                        <p>
+                            <a href="/privacy-policy">
+                                {
+                                    (langData as any).components.footercomponent
+                                        .privacypolicy[language]
+                                }
+                            </a>
+                            <br />
+                            <a href="/terms-and-conditions">
+                                {
+                                    (langData as any).components.footercomponent
+                                        .termsandconditions[language]
+                                }
+                            </a>
+                        </p>
+                    </div>
+                    <div className="footer-col">
+                        <h2>
                             {
                                 (langData as any).components.footercomponent
-                                    .termsandconditions[language]
+                                    .contactcol[language]
                             }
-                        </a>
-                    </p>
-                </div>
-                <div className="footer-col">
-                    <h2>
-                        {
-                            (langData as any).components.footercomponent
-                                .contactcol[language]
-                        }
-                    </h2>
-                    <Divider />
-                    <p>
-                        <a href="/about">
+                        </h2>
+                        <Divider />
+                        <p>
+                            <a href="/about">
+                                {
+                                    (langData as any).components.footercomponent
+                                        .aboutus[language]
+                                }
+                            </a>
+                            <br />
+                            <a href="/contact">
+                                {
+                                    (langData as any).components.footercomponent
+                                        .contactus[language]
+                                }
+                            </a>
+                        </p>
+                    </div>
+                    <div className="footer-col">
+                        <h2>
                             {
                                 (langData as any).components.footercomponent
-                                    .aboutus[language]
+                                    .followuscol[language]
                             }
-                        </a>
-                        <br />
-                        <a href="/contact">
-                            {
-                                (langData as any).components.footercomponent
-                                    .contactus[language]
-                            }
-                        </a>
-                    </p>
-                </div>
-                <div className="footer-col">
-                    <h2>
-                        {
-                            (langData as any).components.footercomponent
-                                .followuscol[language]
-                        }
-                    </h2>
-                    <Divider />
-                    <div className="social-icons">
-                        <FacebookOutlined
-                            className="social-icon"
-                            onClick={() => {
-                                window.open(
-                                    'https://www.facebook.com/profile.php?id=100086553070056',
-                                    '_blank'
-                                )
-                            }}
-                        />
-                        <InstagramOutlined
-                            className="social-icon"
-                            onClick={() => {
-                                window.open(
-                                    'https://www.instagram.com/a_splashfurniture/',
-                                    '_blank'
-                                )
-                            }}
-                        />
+                        </h2>
+                        <Divider />
+                        <div className="social-icons">
+                            <FacebookOutlined
+                                className="social-icon"
+                                onClick={() => {
+                                    window.open(
+                                        'https://www.facebook.com/profile.php?id=100086553070056',
+                                        '_blank'
+                                    )
+                                }}
+                            />
+                            <InstagramOutlined
+                                className="social-icon"
+                                onClick={() => {
+                                    window.open(
+                                        'https://www.instagram.com/a_splashfurniture/',
+                                        '_blank'
+                                    )
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
