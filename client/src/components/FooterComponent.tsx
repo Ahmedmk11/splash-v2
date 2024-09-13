@@ -8,10 +8,13 @@ import {
     WhatsAppOutlined,
 } from '@ant-design/icons'
 
+import { useNavigate } from 'react-router-dom'
+
 import LanguageContext from '../contexts/LanguageContext'
 
 const FooterComponent = () => {
     const currYear = new Date().getFullYear()
+    const navigate = useNavigate()
 
     const { language, setLanguage, langData, arabicNumerals } =
         useContext(LanguageContext)
@@ -50,10 +53,16 @@ const FooterComponent = () => {
             />
 
             <div className="footer-top">
-                <div id="footer-logo" className="footer-col">
-                    {
-                        // change later
-                    }
+                <div
+                    style={{
+                        cursor: 'pointer',
+                    }}
+                    id="footer-logo"
+                    className="footer-col"
+                    onClick={() => {
+                        navigate('/')
+                    }}
+                >
                     <h1>Splash</h1>
                 </div>
                 <div id="footer-sections">

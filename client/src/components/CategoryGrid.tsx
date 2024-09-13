@@ -46,6 +46,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                 flexDirection: 'column',
                 boxSizing: 'border-box',
             }}
+            className="layout-child layout-category"
         >
             {loading ? (
                 <Skeleton
@@ -83,6 +84,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
             )}
             {!loading ? (
                 <div
+                    id="products-grid"
                     style={{
                         width: '100%',
                         height: '100%',

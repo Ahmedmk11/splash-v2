@@ -552,8 +552,8 @@
                 "ar": "إرسال"
             },
             "findusat": {
-                "en": "Find Us At: ",
-                "ar": "موقعنا: "
+                "en": "Find Us At",
+                "ar": "موقعنا"
             },
             "contact_info": {
                 "en": "Contact Information: ",
@@ -1126,6 +1126,32 @@
             "view": {
                 "en": "View Product",
                 "ar": "عرض المنتج"
+            }
+        },
+        "ForgotPassword": {
+            "email_sent": {
+                "en": "Email sent successfully",
+                "ar": "تم إرسال البريد الإلكتروني بنجاح"
+            },
+            "email_not_sent": {
+                "en": "Error sending email",
+                "ar": "خطأ في إرسال البريد الإلكتروني"
+            },
+            "title": {
+                "en": "Forgot Password",
+                "ar": "نسيت كلمة المرور"
+            },
+            "email": {
+                "en": "Email Address",
+                "ar": "البريد الإلكتروني"
+            },
+            "email_message": {
+                "en": "Email is required to send reset link",
+                "ar": "البريد الإلكتروني مطلوب لإرسال رابط إعادة تعيين"
+            },
+            "send": {
+                "en": "Send Email",
+                "ar": "إرسال البريد الإلكتروني"
             }
         }
     },

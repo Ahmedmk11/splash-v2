@@ -27,6 +27,7 @@ import AboutUs from './pages/AboutUs.tsx'
 import ContactUs from './pages/ContactUs.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.tsx'
 import Search from './pages/Search.tsx'
+import ForgotPassword from './pages/ForgotPassword.tsx'
 
 const RouteSwitch = () => {
     const { isAuthenticated, adminType } = useContext(CurrUserContext)
@@ -40,9 +41,9 @@ const RouteSwitch = () => {
 
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            {/* <Route path="/return-policy" element={<ReturnPolicy />} /> */}
+            {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} /> */}
             {/* <Route path="/terms-and-conditions" element={<TermsAndConditions />} /> */}
 
             <Route path="/forbidden-access" element={<Forbidden />} />

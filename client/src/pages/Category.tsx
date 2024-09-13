@@ -7,11 +7,9 @@ const Category = () => {
     const { categoryId } = useParams<{ categoryId: string }>()
 
     return (
-        <>
-            <Layout>
-                <CategoryGrid categoryId={categoryId} />
-            </Layout>
-        </>
+        <Layout>
+            <CategoryGrid categoryId={categoryId} />
+        </Layout>
     )
 }
 

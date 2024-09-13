@@ -88,6 +88,7 @@ const Search = () => {
                 )}
                 {!loading ? (
                     <div
+                        id="products-grid"
                         style={{
                             width: '100%',
                             height: '100%',

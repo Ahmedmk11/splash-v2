@@ -1,5 +1,3 @@
-// TODO: implement forgot password, verify email address, uncomment email verification check
-
 import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
 import dotenv from 'dotenv'
@@ -112,11 +110,6 @@ async function verifyEmail(req, res) {
 
         res.send(`
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
-                <div style="margin-bottom: 20px;">
-                    <img src="${
-                        process.env.SERVER_URL
-                    }/public/logo.jpg" alt="Splash" style="max-width: 150px;" />
-                </div>
                 <h2 style="color: #333333;">Email Verified Successfully</h2>
                 <p style="color: #555555; font-size: 16px;">
                     Thank you for verifying your email! Your account is now active.
@@ -159,11 +152,6 @@ async function sendEmail(email) {
         subject: 'Verify your email',
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
-            <div style="text-align: center;">
-                <img src="${
-                    process.env.SERVER_URL
-                }/public/logo.jpg" alt="Splash" style="max-width: 150px; margin-bottom: 20px;" />
-            </div>
             <h2 style="color: #333333; text-align: center;">Verify Your Email Address</h2>
             <p style="color: #555555; font-size: 16px; text-align: center;">
                 Thank you for signing up! To complete your registration, please verify your email address by clicking the button below.
@@ -266,6 +254,134 @@ async function getCurrSession(req, res) {
     }
 }
 
+async function forgotPasswordEmail(req, res) {
+    const { email_address } = req.body
+
+    console.log('emm' + email_address)
+
+    try {
+        const customer = await CustomerModel.findOne({ email_address })
+
+        if (!customer) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        const loginToken = jwt.sign({ email_address }, process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        })
+
+        const loginUrl = `${process.env.SERVER_URL}/auth/login-with-token?token=${loginToken}`
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD,
+            },
+        })
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: email_address,
+            subject: 'Login Link',
+            html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+                <h2 style="color: #333333; text-align: center;">Login to Your Account</h2>
+                <p style="color: #555555; font-size: 16px; text-align: center;">
+                    You are receiving this email because you requested to log in directly to your account.
+                </p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${loginUrl}" style="background-color: #007bff; color: #ffffff; padding: 15px 30px; text-decoration: none; font-size: 16px; border-radius: 5px;">
+                        Login
+                    </a>
+                </div>
+                <p style="color: #999999; font-size: 12px; text-align: center;">
+                    If you did not request this, you can ignore this email.
+                </p>
+                <p style="color: #999999; font-size: 12px; text-align: center;">
+                    © ${new Date().getFullYear()} Splash. All rights reserved.
+                </p>
+            </div>
+            `,
+        }
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error)
+            } else {
+                console.log('Login link email sent:', info.response)
+            }
+        })
+
+        return res.status(200).json({ message: 'Login link email sent' })
+    } catch (error) {
+        console.error('Error sending login link email:', error)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+async function loginWithToken(req, res) {
+    const { token } = req.query
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        const customer = await CustomerModel.findOne({
+            email_address: decoded.email_address,
+        })
+        const admin = await AdminModel.findOne({
+            email_address: decoded.email_address,
+        })
+
+        if (!customer && !admin) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        const user = customer || admin
+
+        const tokenData = {
+            _id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email_address: user.email_address,
+            phone_number: user.phone_number,
+            type: user.type,
+            email_verified: user.email_verified,
+        }
+
+        const authToken = jwt.sign({ tokenData }, process.env.JWT_SECRET, {
+            expiresIn: '365d',
+        })
+
+        res.cookie('token_splash', authToken, {
+            httpOnly: true,
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+        })
+
+        res.send(`
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+                <h2 style="color: #333333;">Logged In Successfully</h2>
+                <p style="color: #555555; font-size: 16px;">
+                    You have been logged in successfully. Welcome back!
+                </p>
+                <p style="margin-top: 20px;">
+                    <a href="${
+                        process.env.CLIENT_URL
+                    }" style="display: inline-block; background-color: #007bff; color: #ffffff; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
+                        Go to Home
+                    </a>
+                </p>
+                <p style="color: #999999; font-size: 12px; margin-top: 20px;">
+                    © ${new Date().getFullYear()} Splash. All rights reserved.
+                </p>
+            </div>
+        `)
+    } catch (error) {
+        console.error('Error logging in with token: ', error)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     login,
     logout,
@@ -274,4 +390,6 @@ export {
     getCurrSession,
     verifyEmail,
     resendEmail,
+    forgotPasswordEmail,
+    loginWithToken,
 }

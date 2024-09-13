@@ -100,7 +100,8 @@
 }
 
 #login-page,
-#signup-page {
+#signup-page,
+#forgotpassword-page {
     padding: 20px;
     box-sizing: border-box;
 
@@ -110,18 +111,21 @@
 }
 
 #login-page h1,
-#signup-page h1 {
+#signup-page h1,
+#forgotpassword-page h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 #login-page .ant-form-item,
-#signup-page .ant-form-item {
+#signup-page .ant-form-item,
+#forgotpassword-page .ant-form-item {
     margin-bottom: 20px;
 }
 
 #login-page .ant-form-item-control-input-content,
-#signup-page .ant-form-item-control-input-content {
+#signup-page .ant-form-item-control-input-content,
+#forgotpassword-page .ant-form-item-control-input-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -173,6 +177,84 @@
     .ant-space-item {
         width: 50%;
     }
+
+    #contactus-cont {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        align-items: flex-start;
+
+        .contactus-items {
+            width: 50%;
+            background-color: #fafafa;
+        }
+    }
+}
+
+.wishlist-container {
+    display: flex;
+    justify-content: space-between;
+
+    .wishlist-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.cart-container {
+    display: flex;
+    justify-content: space-between;
+
+    .cart-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+#complete-order {
+    .ant-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        button {
+            width: 25%;
+            margin-left: 0px !important;
+        }
+    }
+}
+
+.cart-item-lower {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#products-grid {
+    .ant-card-body {
+        height: 150px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+    }
+    .ant-card-meta-description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        line-height: 1.5;
+        max-height: 6em;
+    }
 }
 
 /* Phones */
@@ -185,6 +267,30 @@
         gap: 10px;
     }
 
+    #contactus-page {
+        #contactus-cont {
+            justify-content: flex-start;
+            display: flex;
+            flex-direction: column;
+            .contactus-items {
+                width: 100%;
+            }
+        }
+    }
+
+    #complete-order {
+        .ant-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            button {
+                width: 50%;
+                margin-left: 0px !important;
+            }
+        }
+    }
+
     .home-category-item,
     .home-category-main-item {
         min-width: 100%;
@@ -193,6 +299,53 @@
 
     .home-category-display-item {
         min-width: 100%;
+    }
+
+    .custom-title {
+        font-size: 10px;
+    }
+
+    .custom-description {
+        font-size: 8px;
+    }
+
+    .list-btn {
+        width: 50px !important;
+        height: 30px !important;
+        font-size: 10px !important;
+    }
+
+    .wishlist-container {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        .wishlist-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .cart-container {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        .cart-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .cart-item-lower {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-between;
     }
 }
 

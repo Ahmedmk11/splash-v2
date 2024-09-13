@@ -3,6 +3,9 @@ import path, { dirname } from 'path'
 import dotenv from 'dotenv'
 import fs from 'fs'
 
+import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
+
 import CustomerModel from '../models/customerModel.js'
 import AdminModel from '../models/adminModel.js'
 import CategoryModel from '../models/categoryModel.js'
@@ -27,42 +30,38 @@ async function testGet(req, res) {
 
 async function testPost(req, res) {
     try {
-        // const newCustomer = new CustomerModel({
-        //     email_address: 'ajh@t.com',
-        //     password: 'password',
-        //     first_name: 'Ahmed',
-        //     last_name: 'Taha',
-        //     phone_number: '1234557890',
-        //     address: '123, Street, City',
-        //     city: 'City',
-        //     area: 'Area',
-        // })
-        // await newCustomer.save()
-
-        const newOrder = new OrderModel({
-            customer: '66a7e7f7f43bc127a2b6b080',
-            products: [
-                {
-                    pid: '66a53ec7843ab0963cb6a3cc',
-                    quantity: 2,
-                    product_name: 'Testing Product 3',
-                },
-            ],
-            total_price: 12000,
-            delivery_address: {
-                city: 'City',
-                area: 'Area',
-                address: '123, Street, City',
-            },
-        })
-
-        await CustomerModel.findByIdAndUpdate('66a7e7f7f43bc127a2b6b080', {
-            $push: { orders: newOrder._id },
-        })
-
-        await newOrder.save()
-
-        res.status(201).json({ message: 'Customer added successfully' })
+        //     // const newCustomer = new CustomerModel({
+        //     //     email_address: 'ajh@t.com',
+        //     //     password: 'password',
+        //     //     first_name: 'Ahmed',
+        //     //     last_name: 'Taha',
+        //     //     phone_number: '1234557890',
+        //     //     address: '123, Street, City',
+        //     //     city: 'City',
+        //     //     area: 'Area',
+        //     // })
+        //     // await newCustomer.save()
+        //     const newOrder = new OrderModel({
+        //         customer: '66a7e7f7f43bc127a2b6b080',
+        //         products: [
+        //             {
+        //                 pid: '66a53ec7843ab0963cb6a3cc',
+        //                 quantity: 2,
+        //                 product_name: 'Testing Product 3',
+        //             },
+        //         ],
+        //         total_price: 12000,
+        //         delivery_address: {
+        //             city: 'City',
+        //             area: 'Area',
+        //             address: '123, Street, City',
+        //         },
+        //     })
+        //     await CustomerModel.findByIdAndUpdate('66a7e7f7f43bc127a2b6b080', {
+        //         $push: { orders: newOrder._id },
+        //     })
+        //     await newOrder.save()
+        //     res.status(201).json({ message: 'Customer added successfully' })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -813,6 +812,122 @@ async function removeFromWishlist(req, res) {
     }
 }
 
+async function sendOrderToBusiness(customer, products, totalPrice) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASSWORD,
+        },
+    })
+
+    const productListHtml = products
+        .map(
+            (product) =>
+                `<li>${product.product_name} - $${product.price.toFixed(
+                    2
+                )}</li>`
+        )
+        .join('')
+
+    const mailOptions = {
+        from: process.env.GMAIL_USER,
+        to: process.env.GMAIL_USER,
+        subject: 'New Order Received',
+        html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <h2 style="color: #333333; text-align: center;">New Order Received!</h2>
+            <p style="color: #555555; font-size: 16px; text-align: center;">
+                A new order has been placed. Here are the details:
+            </p>
+            <div style="margin: 20px 0;">
+                <h3 style="color: #333333;text-decoration: underline;">Customer Details</h3>
+                <p style="color: #555555; font-size: 16px;">
+                    <strong>Customer ID:</strong> ${customer._id}<br>
+                    <strong>Name:</strong> ${customer.first_name} ${
+            customer.last_name
+        }<br>
+                    <strong>Email:</strong> ${customer.email_address}<br>
+                    <strong>Phone:</strong> ${customer.phone_number}<br>
+                    <strong>Address:</strong> ${customer.address}, ${
+            customer.area
+        }, ${customer.city}<br>
+                </p>
+                <h3 style="color: #333333;">Order Summary:</h3>
+                <ul style="color: #555555; font-size: 16px;">
+                    ${productListHtml}
+                </ul>
+                <p style="color: #333333; font-size: 16px;">
+                    <strong>Total Price: $${totalPrice.toFixed(2)}</strong>
+                </p>
+            </div>
+            <p style="color: #999999; font-size: 12px; text-align: center;">
+                © ${new Date().getFullYear()} Splash. All rights reserved.
+            </p>
+        </div>
+        `,
+    }
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error)
+        } else {
+            console.log('Order confirmation email sent:', info.response)
+        }
+    })
+}
+
+async function sendOrderConfirmation(email, price, products) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASSWORD,
+        },
+    })
+
+    const productListHtml = products
+        .map((product) => `<li>${product.product_name}</li>`)
+        .join('')
+
+    const mailOptions = {
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: 'Order Confirmation',
+        html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <h2 style="color: #333333; text-align: center;">Thank You for Your Order!</h2>
+            <p style="color: #555555; font-size: 16px; text-align: center;">
+                Your order has been confirmed. Here are the details of your purchase:
+            </p>
+            <div style="margin: 20px 0;">
+                <h3 style="color: #333333;">Order Summary:</h3>
+                <ul style="color: #555555; font-size: 16px;">
+                    ${productListHtml}
+                </ul>
+                <p style="color: #333333; font-size: 16px;">
+                    <strong>Total Price: $${price.toFixed(2)}</strong>
+                </p>
+            </div>
+            <p style="color: #999999; font-size: 12px; text-align: center;">
+                If you have any questions, feel free to contact our support team.
+            </p>
+            <p style="color: #999999; font-size: 12px; text-align: center;">
+                © ${new Date().getFullYear()} Splash. All rights reserved.
+            </p>
+        </div>
+        `,
+    }
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error)
+        } else {
+            console.log('Order confirmation email sent:', info.response)
+        }
+    })
+}
+
 async function createOrder(req, res) {
     try {
         const { id } = req.params
@@ -852,6 +967,14 @@ async function createOrder(req, res) {
         await order.save()
         customer.cart = []
         await customer.save()
+
+        await sendOrderConfirmation(
+            customer.email_address,
+            total_price,
+            products
+        )
+
+        await sendOrderToBusiness(customer, products, total_price)
 
         products.forEach(async (item) => {
             const product = await ProductModel.findById(item.pid)

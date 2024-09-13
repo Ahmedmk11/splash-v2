@@ -215,6 +215,7 @@ const SuperAdminDashboard = () => {
                             <List.Item
                                 actions={[
                                     <Button
+                                        className="list-btn"
                                         onClick={() => {
                                             navigate(`/activity/${item._id}`)
                                         }}
@@ -227,6 +228,7 @@ const SuperAdminDashboard = () => {
                                         }
                                     </Button>,
                                     <Button
+                                        className="list-btn"
                                         onClick={() => handleStartEdit(item)}
                                     >
                                         {
@@ -237,6 +239,7 @@ const SuperAdminDashboard = () => {
                                         }
                                     </Button>,
                                     <Button
+                                        className="list-btn"
                                         danger
                                         onClick={() => {
                                             Modal.confirm({
@@ -274,13 +277,19 @@ const SuperAdminDashboard = () => {
                             >
                                 <List.Item.Meta
                                     title={
-                                        item.first_name +
-                                        ' ' +
-                                        item.last_name +
-                                        ' | ' +
-                                        item.email_address
+                                        <div className="custom-title">
+                                            {item.first_name +
+                                                ' ' +
+                                                item.last_name +
+                                                ' | ' +
+                                                item.email_address}
+                                        </div>
                                     }
-                                    description={item._id}
+                                    description={
+                                        <div className="custom-description">
+                                            {item._id}
+                                        </div>
+                                    }
                                 />
                             </List.Item>
                         }

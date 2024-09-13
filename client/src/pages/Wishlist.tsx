@@ -125,12 +125,7 @@ const Wishlist = () => {
                         renderItem={(item: any) => (
                             <List.Item>
                                 <Card>
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                        }}
-                                    >
+                                    <div className="wishlist-container">
                                         <div>
                                             <Image
                                                 src={`${baseURL.slice(0, -1)}${
@@ -141,13 +136,7 @@ const Wishlist = () => {
                                                         ? item.name
                                                         : item.name_ar
                                                 }
-                                                style={{
-                                                    width: '200px',
-                                                    height: '200px',
-                                                    objectFit: 'cover',
-                                                    boxShadow:
-                                                        '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                                }}
+                                                className="wishlist-image"
                                             />
                                         </div>
                                         <div

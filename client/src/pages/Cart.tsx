@@ -167,14 +167,10 @@ const Cart = () => {
                             renderItem={(item: any) => (
                                 <List.Item>
                                     <Card>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                            }}
-                                        >
+                                        <div className="cart-container">
                                             <div>
                                                 <Image
+                                                    className="cart-image"
                                                     src={`${baseURL.slice(
                                                         0,
                                                         -1
@@ -184,29 +180,17 @@ const Cart = () => {
                                                             ? item.name
                                                             : item.name_ar
                                                     }
-                                                    style={{
-                                                        width: '200px',
-                                                        height: '200px',
-                                                        objectFit: 'cover',
-                                                        boxShadow:
-                                                            '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                                    }}
                                                 />
                                             </div>
                                             <div
                                                 style={{
                                                     margin: 20,
+                                                    padding: 20,
+                                                    boxSizing: 'border-box',
                                                     width: '100%',
                                                 }}
                                             >
-                                                <Space
-                                                    direction="horizontal"
-                                                    style={{
-                                                        width: '100%',
-                                                        justifyContent:
-                                                            'space-between',
-                                                    }}
-                                                >
+                                                <div className="cart-item-lower">
                                                     <Space direction="vertical">
                                                         <Title level={3}>
                                                             {language === 'en'
@@ -350,7 +334,7 @@ const Cart = () => {
                                                             </Button>
                                                         </Space>
                                                     </Space>
-                                                </Space>
+                                                </div>
                                             </div>
                                         </div>
                                     </Card>
@@ -410,6 +394,7 @@ const Cart = () => {
                                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                 width: '100%',
                             }}
+                            id="complete-order"
                         >
                             <Title level={3}>
                                 {

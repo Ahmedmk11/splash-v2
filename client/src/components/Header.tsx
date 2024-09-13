@@ -36,6 +36,7 @@ const Header = () => {
     const navigate = useNavigate()
     const [drawerVisible, setDrawerVisible] = useState(false)
     const [dropdownVisible, setDropdownVisible] = useState(false)
+    const [dropdown2Visible, setDropdown2Visible] = useState(false)
     const { currUser, setCurrUser } = useContext(CurrUserContext)
     const { categories, setCategories } = useContext(CategoriesContext)
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
@@ -44,6 +45,8 @@ const Header = () => {
         const inputValue = (e.target as HTMLInputElement).value
         if (!inputValue) return
         navigate(`/search/${inputValue}`)
+
+        setDrawerVisible(false)
     }
 
     const items: MenuProps['items'] = [
@@ -137,7 +140,7 @@ const Header = () => {
     }
 
     const handleMenuClickDrawer = (e: any) => {
-        if (e.key === 'stop') return
+        if (e.key === 'stop' || e.key === 'stop2') return
         navigate(`/${e.key}`)
     }
 
@@ -236,7 +239,12 @@ const Header = () => {
                         placement="bottomRight"
                         open={dropdownVisible}
                     >
-                        <span style={{ cursor: 'pointer' }}>
+                        <span
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                setDrawerVisible(false)
+                            }}
+                        >
                             {
                                 (langData as any).components.headercomponent
                                     .categories[language]
@@ -262,11 +270,23 @@ const Header = () => {
                         ]
                     }
                 </Menu.Item>
-
-                {/* User account or login */}
                 {currUser ? (
-                    <Menu.Item key="account" icon={<UserOutlined />}>
-                        {currUser?.user?.first_name}
+                    <Menu.Item
+                        key="stop2"
+                        icon={<UserOutlined />}
+                        onMouseEnter={() => setDropdown2Visible(true)}
+                        onMouseLeave={() => setDropdown2Visible(false)}
+                    >
+                        <Dropdown
+                            menu={{ items }}
+                            trigger={['click']}
+                            placement="bottomRight"
+                            open={dropdown2Visible}
+                        >
+                            <span style={{ cursor: 'pointer' }}>
+                                {currUser?.user?.first_name}
+                            </span>
+                        </Dropdown>
                     </Menu.Item>
                 ) : (
                     <Menu.Item
@@ -297,9 +317,6 @@ const Header = () => {
                         navigate('/')
                     }}
                 >
-                    {
-                        // change this
-                    }
                     Splash
                 </h1>
 
