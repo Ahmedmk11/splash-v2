@@ -29,8 +29,9 @@ import CurrUserContext from '../contexts/CurrUserContext'
 import CategoriesContext from '../contexts/CategoriesContext'
 
 import type { MenuProps } from 'antd'
-import axiosApi from '../utils/axiosApi'
+import axiosApi, { baseURL } from '../utils/axiosApi'
 import LanguageContext from '../contexts/LanguageContext'
+import LazyImage from './LazyImage'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -41,6 +42,8 @@ const Header = () => {
     const { categories, setCategories } = useContext(CategoriesContext)
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
 
+    const [logoImage, setLogoImage] = useState('')
+
     const search = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const inputValue = (e.target as HTMLInputElement).value
         if (!inputValue) return
@@ -48,6 +51,21 @@ const Header = () => {
 
         setDrawerVisible(false)
     }
+
+    const fetchSettings = async () => {
+        try {
+            const res = await axiosApi.get('/user/get-settings')
+            const settings = res.data.settings
+
+            setLogoImage(settings.logoUrl)
+        } catch (err) {
+            console.error('Error fetching settings', err)
+        }
+    }
+
+    useEffect(() => {
+        fetchSettings()
+    }, [])
 
     const items: MenuProps['items'] = [
         !currUser?.user?.type
@@ -308,17 +326,37 @@ const Header = () => {
     return (
         <>
             <div id="header-component">
-                <h1
-                    className="header-item all-screens"
+                <div
                     style={{
                         cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                     }}
+                    className="header-item all-screens"
                     onClick={() => {
                         navigate('/')
                     }}
                 >
-                    Splash
-                </h1>
+                    {/* <h1>Splash</h1> */}
+                    <h1
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <img
+                            alt={
+                                (langData as any).components.headercomponent
+                                    .logo[language]
+                            }
+                            src={baseURL.slice(0, -1) + logoImage}
+                            width={'150px'}
+                            height={'auto'}
+                        />
+                    </h1>
+                </div>
 
                 <div className="header-item big-screens" id="search-container">
                     <ConfigProvider

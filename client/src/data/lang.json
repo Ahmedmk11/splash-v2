@@ -163,6 +163,102 @@
             }
         },
         "admindashboard": {
+            "marketing_email_sent": {
+                "en": "Marketing email sent successfully",
+                "ar": "تم إرسال رسالة التسويق بنجاح"
+            },
+            "marketing_email_sent_error": {
+                "en": "Error sending marketing email",
+                "ar": "خطأ في إرسال رسالة التسويق"
+            },
+            "send_emails": {
+                "en": "Send Marketing Emails",
+                "ar": "إرسال رسائل التسويق"
+            },
+            "subject_email": {
+                "en": "Subject: ",
+                "ar": "الموضوع: "
+            },
+            "manage_marketing_emails": {
+                "en": "Manage Marketing Emails",
+                "ar": "إدارة رسائل التسويق"
+            },
+            "marketing_email_success": {
+                "en": "Marketing email saved successfully",
+                "ar": "تم حفظ رسالة التسويق بنجاح"
+            },
+            "image_message": {
+                "en": "Image is required",
+                "ar": "الصورة مطلوبة"
+            },
+            "subject": {
+                "en": "Subject",
+                "ar": "الموضوع"
+            },
+            "subject_message": {
+                "en": "Subject is required",
+                "ar": "الموضوع مطلوب"
+            },
+            "title": {
+                "en": "Title",
+                "ar": "العنوان"
+            },
+            "title_message": {
+                "en": "Title is required",
+                "ar": "العنوان مطلوب"
+            },
+            "subtitle": {
+                "en": "Subtitle",
+                "ar": "العنوان الفرعي"
+            },
+            "subtitle_message": {
+                "en": "Subtitle is required",
+                "ar": "العنوان الفرعي مطلوب"
+            },
+            "content": {
+                "en": "Content",
+                "ar": "المحتوى"
+            },
+            "content_message": {
+                "en": "Content is required",
+                "ar": "المحتوى مطلوب"
+            },
+            "image": {
+                "en": "Image",
+                "ar": "الصورة"
+            },
+            "save_marketing": {
+                "en": "Save Marketing Email",
+                "ar": "حفظ رسالة التسويق"
+            },
+            "edit_logo": {
+                "en": "Edit Logo",
+                "ar": "تعديل الشعار"
+            },
+            "save_logo": {
+                "en": "Save Logo",
+                "ar": "حفظ الشعار"
+            },
+            "update_logo_success": {
+                "en": "Logo updated successfully",
+                "ar": "تم تحديث الشعار بنجاح"
+            },
+            "update_logo_error": {
+                "en": "Error updating logo",
+                "ar": "خطأ في تحديث الشعار"
+            },
+            "view_marketing_email": {
+                "en": "View Current Marketing Email",
+                "ar": "عرض رسالة التسويق الحالية"
+            },
+            "upload_images": {
+                "en": "Upload Images",
+                "ar": "تحميل الصور"
+            },
+            "marketing_email_error": {
+                "en": "Error saving marketing email",
+                "ar": "خطأ في حفظ رسالة التسويق"
+            },
             "delete_message": {
                 "en": "Category deleted successfully",
                 "ar": "تم حذف الفئة بنجاح"
@@ -1180,6 +1276,10 @@
             }
         },
         "footercomponent": {
+            "logo": {
+                "en": "Logo",
+                "ar": "شعار"
+            },
             "policiescol": {
                 "en": "Policies & Terms",
                 "ar": "السياسات والشروط"
@@ -1277,6 +1377,10 @@
             "testpost": {
                 "en": "Test Post",
                 "ar": "اختبار POST"
+            },
+            "logo": {
+                "en": "Logo",
+                "ar": "شعار"
             }
         },
         "orders": {

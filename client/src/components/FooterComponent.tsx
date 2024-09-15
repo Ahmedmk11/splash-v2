@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Dropdown, Divider, Button, Menu, FloatButton } from 'antd'
 import {
     DownOutlined,
@@ -11,6 +11,9 @@ import {
 import { useNavigate } from 'react-router-dom'
 
 import LanguageContext from '../contexts/LanguageContext'
+import axiosApi from '../utils/axiosApi'
+import LazyImage from './LazyImage'
+import LazyLoad from 'react-lazyload'
 
 const FooterComponent = () => {
     const currYear = new Date().getFullYear()
@@ -19,9 +22,26 @@ const FooterComponent = () => {
     const { language, setLanguage, langData, arabicNumerals } =
         useContext(LanguageContext)
 
+    const [logoImage, setLogoImage] = useState('')
+
     const handleMenuClick = (e: any) => {
         setLanguage(e.key)
     }
+
+    const fetchSettings = async () => {
+        try {
+            const res = await axiosApi.get('/user/get-settings')
+            const settings = res.data.settings
+
+            setLogoImage(settings.logoUrl)
+        } catch (err) {
+            console.error('Error fetching settings', err)
+        }
+    }
+
+    useEffect(() => {
+        fetchSettings()
+    }, [])
 
     const menu = (
         <Menu
@@ -53,17 +73,19 @@ const FooterComponent = () => {
             />
 
             <div className="footer-top">
-                <div
-                    style={{
-                        cursor: 'pointer',
-                    }}
-                    id="footer-logo"
-                    className="footer-col"
-                    onClick={() => {
-                        navigate('/')
-                    }}
-                >
-                    <h1>Splash</h1>
+                <div className="footer-col">
+                    {/* <h1>Splash</h1> */}
+                    <h1 className="logo-h1">
+                        <LazyImage
+                            alt={
+                                (langData as any).components.headercomponent
+                                    .logo[language]
+                            }
+                            imageUrl={logoImage}
+                            width={'75%'}
+                            height={'auto'}
+                        />
+                    </h1>
                 </div>
                 <div id="footer-sections">
                     <div className="footer-col">

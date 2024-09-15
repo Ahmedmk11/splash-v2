@@ -1,5 +1,10 @@
 import express from 'express'
-import { uploadProduct, uploadCategory } from '../middleware/upload.js'
+import {
+    uploadProduct,
+    uploadCategory,
+    uploadMarketing,
+    uploadLogo,
+} from '../middleware/upload.js'
 
 const router = express.Router()
 
@@ -21,6 +26,30 @@ router.post('/category', uploadCategory, (req, res) => {
             success: true,
             message: 'Category image uploaded!',
             filePath: `/images/categories/${req.file.filename}`,
+        })
+    } else {
+        res.status(400).json({ success: false, message: 'No file selected!' })
+    }
+})
+
+router.post('/marketing', uploadMarketing, (req, res) => {
+    if (req.file) {
+        res.status(200).json({
+            success: true,
+            message: 'Marketing image uploaded!',
+            filePath: `/images/marketing/${req.file.filename}`,
+        })
+    } else {
+        res.status(400).json({ success: false, message: 'No file selected!' })
+    }
+})
+
+router.post('/logo', uploadLogo, (req, res) => {
+    if (req.file) {
+        res.status(200).json({
+            success: true,
+            message: 'Logo uploaded!',
+            filePath: `/images/logo/${req.file.filename}`,
         })
     } else {
         res.status(400).json({ success: false, message: 'No file selected!' })

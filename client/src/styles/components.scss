@@ -199,6 +199,14 @@
     width: 80%;
 }
 
+.logo-h1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    max-width: 300px;
+}
+
 /* Phones */
 @media (max-width: 1024px) {
     .small-screens {
@@ -292,6 +300,11 @@
         text-align: center;
     }
     .social-icons {
+        justify-content: center;
+    }
+    .logo-h1 {
+        display: flex;
+        align-items: center;
         justify-content: center;
     }
 }

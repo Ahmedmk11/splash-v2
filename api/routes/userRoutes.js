@@ -41,6 +41,11 @@ import {
     emptyCart,
     getOrders,
     getSearchResults,
+    updateSettings,
+    saveMarketingEmail,
+    getSettings,
+    getMarketingEmail,
+    sendMarketingEmail,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -48,6 +53,8 @@ const router = express.Router()
 router.get('/test-get', testGet)
 router.post('/test-post', testPost)
 
+router.get('/get-marketing-email', getMarketingEmail)
+router.get('/get-settings', getSettings)
 router.get('/get-user/:id', getCurrUser)
 router.get('/get-customer/:id', getCustomer)
 router.get('/get-orders/:id', getOrders)
@@ -73,6 +80,7 @@ router.put('/update-admin/:id', updateAdmin)
 router.put('/promote-admin/:id', promoteAdmin)
 router.put('/demote-admin/:id', demoteAdmin)
 router.put('/update-product-quantity/:id', updateProductQuantity)
+router.put('/update-settings', updateSettings)
 router.post('/add-category', addNewCategory)
 router.post('/add-product', addNewProduct)
 router.post('/add-to-cart/:id', addToCart)
@@ -81,6 +89,8 @@ router.post('/add-to-wishlist/:id', addToWishlist)
 router.post('/remove-from-wishlist/:id', removeFromWishlist)
 router.post('/create-order/:id', createOrder)
 router.post('/empty-cart/:id', emptyCart)
+router.post('/save-marketing-email', saveMarketingEmail)
+router.post('/send-marketing-email', sendMarketingEmail)
 router.delete('/delete-category/:id', deleteCategory)
 router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)

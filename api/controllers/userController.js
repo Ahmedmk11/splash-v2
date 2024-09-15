@@ -11,11 +11,27 @@ import AdminModel from '../models/adminModel.js'
 import CategoryModel from '../models/categoryModel.js'
 import ProductModel from '../models/productModel.js'
 import OrderModel from '../models/orderModel.js'
+import SettingsModel from '../models/settingsModel.js'
+import MarketingEmailModel from '../models/marketingEmailModel.js'
 
 const currentFileUrl = import.meta.url
 const currentFilePath = fileURLToPath(currentFileUrl)
 const __dirname = dirname(currentFilePath)
 dotenv.config({ path: path.join(__dirname, '.env') })
+
+async function getSettingsHelper() {
+    try {
+        const settings = await SettingsModel.findOne()
+
+        if (!settings) {
+            return res.status(404).json({ message: 'Settings not found' })
+        }
+
+        return settings.logoUrl
+    } catch (error) {
+        return null
+    }
+}
 
 // --------------------------------------------------
 // API Endpoints
@@ -813,6 +829,8 @@ async function removeFromWishlist(req, res) {
 }
 
 async function sendOrderToBusiness(customer, products, totalPrice) {
+    const logoUrl = await getSettingsHelper()
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -836,6 +854,11 @@ async function sendOrderToBusiness(customer, products, totalPrice) {
         subject: 'New Order Received',
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${
+                    process.env.SERVER_URL + logoUrl
+                }" alt="Splash" style="max-width: 150px; height: auto;">
+            </div>
             <h2 style="color: #333333; text-align: center;">New Order Received!</h2>
             <p style="color: #555555; font-size: 16px; text-align: center;">
                 A new order has been placed. Here are the details:
@@ -878,6 +901,8 @@ async function sendOrderToBusiness(customer, products, totalPrice) {
 }
 
 async function sendOrderConfirmation(email, price, products) {
+    const logoUrl = await getSettingsHelper()
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -896,6 +921,11 @@ async function sendOrderConfirmation(email, price, products) {
         subject: 'Order Confirmation',
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${
+                    process.env.SERVER_URL + logoUrl
+                }" alt="Splash" style="max-width: 150px; height: auto;">
+            </div>
             <h2 style="color: #333333; text-align: center;">Thank You for Your Order!</h2>
             <p style="color: #555555; font-size: 16px; text-align: center;">
                 Your order has been confirmed. Here are the details of your purchase:
@@ -1072,6 +1102,185 @@ async function getSearchResults(req, res) {
     }
 }
 
+async function updateSettings(req, res) {
+    try {
+        const settings = await SettingsModel.findOne()
+
+        if (!settings) {
+            const newSettings = new SettingsModel({
+                logoUrl: req.body.logoUrl,
+            })
+
+            await newSettings.save()
+        }
+
+        settings.logoUrl = req.body.logoUrl
+        await settings.save()
+        res.status(200).json({ settings })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function saveMarketingEmail(req, res) {
+    try {
+        const { subject, title, subtitle, content, imageUrl } = req.body
+
+        const marketingEmail = await MarketingEmailModel.findOne()
+
+        if (!marketingEmail) {
+            const newMarketingEmail = new MarketingEmailModel({
+                subject,
+                title,
+                subtitle,
+                content,
+                imageUrl,
+            })
+            await newMarketingEmail.save()
+        }
+
+        marketingEmail.subject = subject
+        marketingEmail.title = title
+        marketingEmail.subtitle = subtitle
+        marketingEmail.content = content
+        marketingEmail.imageUrl = imageUrl
+
+        await marketingEmail.save()
+
+        res.status(200).json({ marketingEmail })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getSettings(req, res) {
+    try {
+        const settings = await SettingsModel.findOne()
+
+        if (!settings) {
+            return res.status(404).json({ message: 'Settings not found' })
+        }
+
+        res.status(200).json({ settings })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function sendMarketingEmail(req, res) {
+    try {
+        const marketingEmail = await MarketingEmailModel.findOne()
+
+        if (!marketingEmail) {
+            return res
+                .status(404)
+                .json({ message: 'Marketing email not found' })
+        }
+
+        const { subject, title, subtitle, content, imageUrl } = marketingEmail
+
+        const customers = await CustomerModel.find({ subscribed: true })
+
+        if (!customers.length) {
+            return res.status(404).json({ message: 'No subscribed customers' })
+        }
+
+        const logoUrl = await getSettingsHelper()
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD,
+            },
+        })
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            subject: subject,
+            html: `
+                <div
+                    style="
+                        font-family: Arial, sans-serif;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #f9f9f9;
+                        border: 1px solid #dddddd;
+                        border-radius: 10px;
+                        text-align: center;
+                    "
+                >
+                    <div style="margin-bottom: 30px">
+                        <img
+                            src="${process.env.SERVER_URL + logoUrl}"
+                            alt="Splash"
+                            style="max-width: 150px; height: auto"
+                        />
+                    </div>
+
+                    <h1 style="color: #333333; font-size: 24px; margin: 30px 0"> ${title} </h1>
+                    <h2 style="color: #666666; font-size: 18px; margin: 20px 0">
+                        ${subtitle}
+                    </h2>
+
+                    <div style="color: #555555; font-size: 16px; margin: 30px 0">
+                        <p>${content}</p>
+                    </div>
+
+                    ${
+                        imageUrl
+                            ? `<div style="margin: 30px 0">
+                        <img
+                            src="${imageUrl}"
+                            alt="Marketing Image"
+                            style="max-width: 100%; height: auto; border-radius: 10px"
+                        /> </div
+                    >`
+                            : ''
+                    }
+
+                    <p style="color: #999999; font-size: 12px; margin: 20px 0">
+                        © ${new Date().getFullYear()} Splash. All rights reserved.
+                    </p>
+                </div>
+            `,
+        }
+
+        customers.forEach((customer) => {
+            mailOptions.to = customer.email_address
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error)
+                } else {
+                    console.log('Marketing email sent:', info.response)
+                }
+            })
+        })
+
+        res.status(200).json({ message: 'Marketing email sent successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+async function getMarketingEmail(req, res) {
+    try {
+        const marketingEmail = await MarketingEmailModel.findOne()
+
+        if (!marketingEmail) {
+            return res
+                .status(404)
+                .json({ message: 'Marketing email not found' })
+        }
+
+        res.status(200).json({ marketingEmail })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -1113,4 +1322,9 @@ export {
     emptyCart,
     getOrders,
     getSearchResults,
+    updateSettings,
+    saveMarketingEmail,
+    getSettings,
+    getMarketingEmail,
+    sendMarketingEmail,
 }

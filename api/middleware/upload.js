@@ -40,6 +40,14 @@ const categoryFilename = (req, file, cb) => {
     cb(null, file.originalname)
 }
 
+const marketingFilename = (req, file, cb) => {
+    cb(null, file.originalname)
+}
+
+const logoFilename = (req, file, cb) => {
+    cb(null, file.originalname)
+}
+
 const uploadProduct = multer({
     storage: createStorage('products', productFilename),
     limits: { fileSize: 10000000 },
@@ -56,4 +64,20 @@ const uploadCategory = multer({
     },
 }).single('image')
 
-export { uploadProduct, uploadCategory }
+const uploadMarketing = multer({
+    storage: createStorage('marketing', marketingFilename),
+    limits: { fileSize: 10000000 },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb)
+    },
+}).single('image')
+
+const uploadLogo = multer({
+    storage: createStorage('logo', logoFilename),
+    limits: { fileSize: 10000000 },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb)
+    },
+}).single('image')
+
+export { uploadProduct, uploadCategory, uploadMarketing, uploadLogo }

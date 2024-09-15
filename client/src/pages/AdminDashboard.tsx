@@ -25,6 +25,8 @@ import config from '../../config'
 
 import CategoriesContext from '../contexts/CategoriesContext'
 import LanguageContext from '../contexts/LanguageContext'
+import LazyImage from '../components/LazyImage'
+import { send } from 'vite'
 
 const baseURL = config.REACT_APP_API_URL
 
@@ -36,13 +38,18 @@ const AdminDashboard: React.FC = () => {
     const [formProduct] = Form.useForm()
     const [formEditCategory] = Form.useForm()
     const [formEditProduct] = Form.useForm()
+    const [formEditMarketingEmail] = Form.useForm()
+    const [formEditLogo] = Form.useForm()
 
+    const [marketingImage, setMarketingImage] = useState<File | null>(null)
     const [categoryImage, setCategoryImage] = useState<File | null>(null)
     const [productImage, setProductImage] = useState<File | null>(null)
     const [editCategoryUploadedImage, setEditCategoryUploadedImage] =
         useState<File | null>(null)
     const [editProductUploadedImage, setEditProductUploadedImage] =
         useState<File | null>(null)
+
+    const [logoImage, setLogoImage] = useState<File | null>(null)
 
     const [products, setProducts] = useState<any[]>([])
 
@@ -77,6 +84,51 @@ const AdminDashboard: React.FC = () => {
     const [editCategoryType, setEditCategoryType] = useState<string>('')
     const [categoryType, setCategoryType] = useState<string>('')
 
+    const [subject, setSubject] = useState<string>('')
+    const [title, setTitle] = useState<string>('')
+    const [subTitle, setSubTitle] = useState<string>('')
+    const [content, setContent] = useState<string>('')
+    const [marketingImageView, setMarketingImageView] = useState<string>('')
+
+    const fetchMarketingEmail = async () => {
+        try {
+            const res = await axiosApi.get('/user/get-marketing-email')
+            const marketingEmail = res.data.marketingEmail
+
+            setSubject(marketingEmail.subject)
+            setTitle(marketingEmail.title)
+            setSubTitle(marketingEmail.subtitle)
+            setContent(marketingEmail.content)
+            setMarketingImageView(marketingEmail.imageUrl)
+
+            formEditMarketingEmail.setFieldsValue({
+                subject: marketingEmail.subject,
+                title: marketingEmail.title,
+                subtitle: marketingEmail.subtitle,
+                content: marketingEmail.content,
+            })
+        } catch (err) {
+            console.error('Error fetching marketing email', err)
+        }
+    }
+
+    const sendMarketingEmails = async () => {
+        try {
+            await axiosApi.post('/user/send-marketing-email')
+            message.success(
+                (langData as any).pages.admindashboard.marketing_email_sent[
+                    language
+                ]
+            )
+        } catch (err) {
+            console.error('Error sending marketing emails', err)
+            message.error(
+                (langData as any).pages.admindashboard
+                    .marketing_email_sent_error[language]
+            )
+        }
+    }
+
     const fetchCategories = async () => {
         try {
             const res = await axiosApi.get('/user/get-categories')
@@ -94,10 +146,26 @@ const AdminDashboard: React.FC = () => {
         }
     }
 
+    const fetchSettings = async () => {
+        try {
+            const res = await axiosApi.get('/user/get-settings')
+            const settings = res.data.settings
+
+            setLogoImage(settings.logoUrl)
+        } catch (err) {
+            console.error('Error fetching settings', err)
+        }
+    }
+
     useEffect(() => {
         fetchCategories()
         fetchProducts()
+        fetchSettings()
     }, [])
+
+    useEffect(() => {
+        fetchMarketingEmail()
+    }, [formEditMarketingEmail])
 
     useEffect(() => {
         if (selectedCategory) {
@@ -185,6 +253,75 @@ const AdminDashboard: React.FC = () => {
             console.error('Error deleting product', err)
             message.error(
                 (langData as any).pages.admindashboard.delete_product_error[
+                    language
+                ]
+            )
+        }
+    }
+
+    const onFinishEditLogo = async (values: any) => {
+        try {
+            if (logoImage) {
+                const formData = new FormData()
+                formData.append('image', logoImage)
+                console.log(formData)
+                const res = await axiosApi.post('/upload/logo', formData)
+                const imageUrl = res.data.filePath
+                await axiosApi.put('/user/update-settings', {
+                    logoUrl: imageUrl,
+                })
+            }
+
+            message.success(
+                (langData as any).pages.admindashboard.update_logo_success[
+                    language
+                ]
+            )
+
+            formEditLogo.resetFields()
+        } catch (err) {
+            console.error('Error updating logo', err)
+            message.error(
+                (langData as any).pages.admindashboard.update_logo_error[
+                    language
+                ]
+            )
+        }
+    }
+
+    const onFinishEditMarketingEmail = async (values: any) => {
+        const { subject, title, subtitle, content } = values
+
+        try {
+            const formData = new FormData()
+            let imageUrl = null
+
+            if (marketingImage) {
+                formData.append('image', marketingImage)
+                const res = await axiosApi.post('/upload/marketing', formData)
+                imageUrl = res.data.filePath
+            }
+
+            await axiosApi.post('/user/save-marketing-email', {
+                subject,
+                title,
+                subtitle,
+                content,
+                imageUrl,
+            })
+
+            message.success(
+                (langData as any).pages.admindashboard.marketing_email_success[
+                    language
+                ]
+            )
+
+            formEditMarketingEmail.resetFields()
+            fetchMarketingEmail()
+        } catch (err) {
+            console.error('Error saving marketing email', err)
+            message.error(
+                (langData as any).pages.admindashboard.marketing_email_error[
                     language
                 ]
             )
@@ -370,6 +507,11 @@ const AdminDashboard: React.FC = () => {
         setProductImage(null)
     }
 
+    const onResetEditMarketingEmail = () => {
+        formEditMarketingEmail.resetFields()
+        setMarketingImage(null)
+    }
+
     const onResetEditCategory = () => {
         formEditCategory.resetFields()
         setEditCategoryUploadedImage(null)
@@ -382,9 +524,19 @@ const AdminDashboard: React.FC = () => {
         setSelectedProduct(null)
     }
 
+    const onResetEditLogo = () => {
+        formEditLogo.resetFields()
+    }
+
     const handleFileChange = (
         file: any,
-        type: 'category' | 'product' | 'editCategory' | 'editProduct'
+        type:
+            | 'category'
+            | 'product'
+            | 'editCategory'
+            | 'editProduct'
+            | 'marketing'
+            | 'logo'
     ) => {
         if (type === 'category') {
             setCategoryImage(file.originFileObj)
@@ -394,6 +546,10 @@ const AdminDashboard: React.FC = () => {
             setEditCategoryUploadedImage(file.originFileObj)
         } else if (type === 'editProduct') {
             setEditProductUploadedImage(file.originFileObj)
+        } else if (type === 'marketing') {
+            setMarketingImage(file.originFileObj)
+        } else if (type === 'logo') {
+            setLogoImage(file.originFileObj)
         }
     }
 
@@ -402,6 +558,14 @@ const AdminDashboard: React.FC = () => {
     }
 
     const customRequestProduct = async ({ file, onSuccess }: any) => {
+        onSuccess(file)
+    }
+
+    const customRequestMarketing = async ({ file, onSuccess }: any) => {
+        onSuccess(file)
+    }
+
+    const customRequestLogo = async ({ file, onSuccess }: any) => {
         onSuccess(file)
     }
 
@@ -913,6 +1077,53 @@ const AdminDashboard: React.FC = () => {
                         layout="vertical"
                         style={{ marginTop: '20px' }}
                     >
+                        <Row>
+                            {selectedCategory && (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#f0f0f0',
+                                        padding: '10px',
+                                        marginBottom: '40px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                        }}
+                                        src={
+                                            baseURL.slice(0, -1) +
+                                            editCategoryImage
+                                        }
+                                        alt={
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
+                                    />
+
+                                    <Divider />
+                                    <h3
+                                        style={{
+                                            textAlign: 'center',
+                                            margin: 0,
+                                        }}
+                                    >
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
+                                    </h3>
+                                </div>
+                            )}
+                        </Row>
                         <Form.Item
                             name="selectEditCategory"
                             label={
@@ -1099,51 +1310,6 @@ const AdminDashboard: React.FC = () => {
                                     </Button>
                                 </Upload>
                             </Form.Item>
-
-                            {selectedCategory && (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: '#f0f0f0',
-                                        padding: '10px',
-                                    }}
-                                >
-                                    <img
-                                        style={{
-                                            width: '200px',
-                                            height: '200px',
-                                        }}
-                                        src={
-                                            baseURL.slice(0, -1) +
-                                            editCategoryImage
-                                        }
-                                        alt={
-                                            (langData as any).pages
-                                                .admindashboard.current_image[
-                                                language
-                                            ]
-                                        }
-                                    />
-
-                                    <Divider />
-                                    <h3
-                                        style={{
-                                            textAlign: 'center',
-                                            margin: 0,
-                                        }}
-                                    >
-                                        {
-                                            (langData as any).pages
-                                                .admindashboard.current_image[
-                                                language
-                                            ]
-                                        }
-                                    </h3>
-                                </div>
-                            )}
                         </Space>
                         <Form.Item>
                             <Button
@@ -1242,6 +1408,53 @@ const AdminDashboard: React.FC = () => {
                         layout="vertical"
                         style={{ marginTop: '20px' }}
                     >
+                        <Row>
+                            {selectedProduct && (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#f0f0f0',
+                                        padding: '10px',
+                                        marginBottom: '40px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                        }}
+                                        src={
+                                            baseURL.slice(0, -1) +
+                                            editProductImage
+                                        }
+                                        alt={
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
+                                    />
+
+                                    <Divider />
+                                    <h3
+                                        style={{
+                                            textAlign: 'center',
+                                            margin: 0,
+                                        }}
+                                    >
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.current_image[
+                                                language
+                                            ]
+                                        }
+                                    </h3>
+                                </div>
+                            )}
+                        </Row>
                         <Form.Item
                             name="selectEditProduct"
                             label={
@@ -1633,51 +1846,6 @@ const AdminDashboard: React.FC = () => {
                                     </Button>
                                 </Upload>
                             </Form.Item>
-
-                            {selectedProduct && (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: '#f0f0f0',
-                                        padding: '10px',
-                                    }}
-                                >
-                                    <img
-                                        style={{
-                                            width: '200px',
-                                            height: '200px',
-                                        }}
-                                        src={
-                                            baseURL.slice(0, -1) +
-                                            editProductImage
-                                        }
-                                        alt={
-                                            (langData as any).pages
-                                                .admindashboard.current_image[
-                                                language
-                                            ]
-                                        }
-                                    />
-
-                                    <Divider />
-                                    <h3
-                                        style={{
-                                            textAlign: 'center',
-                                            margin: 0,
-                                        }}
-                                    >
-                                        {
-                                            (langData as any).pages
-                                                .admindashboard.current_image[
-                                                language
-                                            ]
-                                        }
-                                    </h3>
-                                </div>
-                            )}
                         </Space>
                         <Form.Item>
                             <Button
@@ -1752,6 +1920,429 @@ const AdminDashboard: React.FC = () => {
                 </Card>
             ),
         },
+        {
+            key: '5',
+            label: (langData as any).pages.admindashboard
+                .manage_marketing_emails[language],
+            children: (
+                <Card
+                    title={
+                        (langData as any).pages.admindashboard
+                            .manage_marketing_emails[language]
+                    }
+                    style={{
+                        maxWidth: '600px',
+                        margin: 'auto',
+                    }}
+                >
+                    <Form
+                        form={formEditMarketingEmail}
+                        onFinish={onFinishEditMarketingEmail}
+                        layout="vertical"
+                        style={{ marginTop: '20px' }}
+                    >
+                        <Form.Item
+                            name="subject"
+                            label={
+                                langData.pages.admindashboard.subject[language]
+                            }
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        langData.pages.admindashboard
+                                            .subject_message[language],
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder={
+                                    langData.pages.admindashboard.subject[
+                                        language
+                                    ]
+                                }
+                                value={subject}
+                                onChange={(e) => setSubject(e.target.value)}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="title"
+                            label={
+                                langData.pages.admindashboard.title[language]
+                            }
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        langData.pages.admindashboard
+                                            .title_message[language],
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder={
+                                    langData.pages.admindashboard.title[
+                                        language
+                                    ]
+                                }
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="subtitle"
+                            label={
+                                langData.pages.admindashboard.subtitle[language]
+                            }
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        langData.pages.admindashboard
+                                            .subtitle_message[language],
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder={
+                                    langData.pages.admindashboard.subtitle[
+                                        language
+                                    ]
+                                }
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="content"
+                            label={
+                                langData.pages.admindashboard.content[language]
+                            }
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        langData.pages.admindashboard
+                                            .content_message[language],
+                                },
+                            ]}
+                        >
+                            <Input.TextArea
+                                placeholder={
+                                    langData.pages.admindashboard.content[
+                                        language
+                                    ]
+                                }
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="image"
+                            label={
+                                langData.pages.admindashboard.image[language]
+                            }
+                            valuePropName="fileList"
+                            getValueFromEvent={(e: any) =>
+                                Array.isArray(e) ? e : e && e.fileList
+                            }
+                        >
+                            <Upload
+                                customRequest={customRequestMarketing}
+                                listType="picture"
+                                maxCount={1}
+                                onChange={({ file }) =>
+                                    handleFileChange(file, 'marketing')
+                                }
+                            >
+                                <Button icon={<UploadOutlined />}>
+                                    {
+                                        langData.pages.admindashboard
+                                            .click_upload[language]
+                                    }
+                                </Button>
+                            </Upload>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button
+                                style={{ margin: 5 }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                {
+                                    langData.pages.admindashboard
+                                        .save_marketing[language]
+                                }
+                            </Button>
+                            <Button
+                                style={{ margin: 5 }}
+                                htmlType="button"
+                                onClick={onResetEditMarketingEmail}
+                            >
+                                {langData.pages.admindashboard.clear[language]}
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Card>
+            ),
+        },
+        {
+            key: '6',
+            label: (langData as any).pages.admindashboard.view_marketing_email[
+                language
+            ],
+            children: (
+                <Card
+                    title={
+                        (langData as any).pages.admindashboard.subject_email[
+                            language
+                        ] + subject
+                    }
+                    style={{
+                        maxWidth: '600px',
+                        margin: 'auto',
+                    }}
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <div
+                            style={{
+                                textAlign: 'center',
+                                fontFamily: 'Arial, sans-serif',
+                                maxWidth: '600px',
+                                margin: '0 auto',
+                                padding: '20px',
+                                backgroundColor: '#f9f9f9',
+                                border: '1px solid #dddddd',
+                                borderRadius: '10px',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    marginBottom: '30px',
+                                }}
+                            >
+                                <img
+                                    src={baseURL.slice(0, -1) + logoImage}
+                                    alt="Splash"
+                                    height="auto"
+                                    width="150px"
+                                />
+                            </div>
+
+                            <h1
+                                style={{
+                                    color: '#333333',
+                                    fontSize: '24px',
+                                    margin: '30px 0',
+                                }}
+                            >
+                                {title}
+                            </h1>
+                            <h2
+                                style={{
+                                    color: '#666666',
+                                    fontSize: '18px',
+                                    margin: '20px 0',
+                                }}
+                            >
+                                {subTitle}
+                            </h2>
+
+                            <div
+                                style={{
+                                    color: '#555555',
+                                    fontSize: '16px',
+                                    margin: '30px 0',
+                                }}
+                            >
+                                <p>{content}</p>
+                            </div>
+
+                            {true ? (
+                                <div
+                                    style={{
+                                        margin: '30px 0',
+                                    }}
+                                >
+                                    <LazyImage
+                                        imageUrl={marketingImageView}
+                                        alt="Marketing Image"
+                                        width="100%"
+                                        height="auto"
+                                    />
+                                </div>
+                            ) : null}
+
+                            <p
+                                style={{
+                                    color: '#999999',
+                                    fontSize: '12px',
+                                    margin: '20px 0',
+                                }}
+                            >
+                                © {new Date().getFullYear()} Splash. All rights
+                                reserved.
+                            </p>
+                        </div>
+                        <Button
+                            style={{
+                                margin: '20px 0',
+                            }}
+                            htmlType="button"
+                            onClick={sendMarketingEmails}
+                        >
+                            {
+                                (langData as any).pages.admindashboard
+                                    .send_emails[language]
+                            }
+                        </Button>
+                    </div>
+                </Card>
+            ),
+        },
+        {
+            key: '7',
+            label: (langData as any).pages.admindashboard.edit_logo[language],
+            children: (
+                <Card
+                    title={
+                        (langData as any).pages.admindashboard.edit_logo[
+                            language
+                        ]
+                    }
+                    style={{
+                        maxWidth: '600px',
+                        margin: 'auto',
+                    }}
+                >
+                    <Form
+                        form={formEditLogo}
+                        onFinish={onFinishEditLogo}
+                        layout="vertical"
+                        style={{ marginTop: '20px' }}
+                    >
+                        {/* <Row>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: '#f0f0f0',
+                                    padding: '10px',
+                                    marginBottom: '40px',
+                                }}
+                            >
+                                <img
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                    }}
+                                    src={baseURL.slice(0, -1) + logoImage}
+                                    alt={
+                                        (langData as any).pages.admindashboard
+                                            .current_image[language]
+                                    }
+                                />
+
+                                <Divider />
+                                <h3
+                                    style={{
+                                        textAlign: 'center',
+                                        margin: 0,
+                                    }}
+                                >
+                                    {
+                                        (langData as any).pages.admindashboard
+                                            .current_image[language]
+                                    }
+                                </h3>
+                            </div>
+                        </Row> */}
+                        <Space
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'flex-start',
+                                justifyContent: 'space-between',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            <Form.Item
+                                name="image"
+                                label={
+                                    (langData as any).pages.admindashboard
+                                        .image[language]
+                                }
+                                valuePropName="fileList"
+                                getValueFromEvent={(e: any) =>
+                                    Array.isArray(e) ? e : e && e.fileList
+                                }
+                                required={true}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: (langData as any).pages
+                                            .admindashboard.image_message[
+                                            language
+                                        ],
+                                    },
+                                ]}
+                            >
+                                <Upload
+                                    customRequest={customRequestLogo}
+                                    listType="picture"
+                                    maxCount={1}
+                                    onChange={({ file }) =>
+                                        handleFileChange(file, 'logo')
+                                    }
+                                >
+                                    <Button icon={<UploadOutlined />}>
+                                        {
+                                            (langData as any).pages
+                                                .admindashboard.click_upload[
+                                                language
+                                            ]
+                                        }
+                                    </Button>
+                                </Upload>
+                            </Form.Item>
+                        </Space>
+                        <Form.Item>
+                            <Button
+                                style={{
+                                    margin: 5,
+                                }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .save_logo[language]
+                                }
+                            </Button>
+                            <Button
+                                style={{
+                                    margin: 5,
+                                }}
+                                htmlType="button"
+                                onClick={onResetEditLogo}
+                            >
+                                {
+                                    (langData as any).pages.admindashboard
+                                        .clear[language]
+                                }
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Card>
+            ),
+        },
     ]
 
     return (
@@ -1763,6 +2354,7 @@ const AdminDashboard: React.FC = () => {
                         onResetCategory()
                         onResetEditCategory()
                         onResetEditProduct()
+                        fetchMarketingEmail()
                     }}
                     defaultActiveKey="1"
                     items={items}

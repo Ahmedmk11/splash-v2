@@ -132,6 +132,8 @@ async function verifyEmail(req, res) {
 }
 
 async function sendEmail(email) {
+    const logoUrl = await getSettingsHelper()
+
     const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
     })
@@ -152,6 +154,11 @@ async function sendEmail(email) {
         subject: 'Verify your email',
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${
+                    process.env.SERVER_URL + logoUrl
+                }" alt="Splash" style="max-width: 150px; height: auto;">
+            </div>
             <h2 style="color: #333333; text-align: center;">Verify Your Email Address</h2>
             <p style="color: #555555; font-size: 16px; text-align: center;">
                 Thank you for signing up! To complete your registration, please verify your email address by clicking the button below.
@@ -255,9 +262,9 @@ async function getCurrSession(req, res) {
 }
 
 async function forgotPasswordEmail(req, res) {
-    const { email_address } = req.body
+    const logoUrl = await getSettingsHelper()
 
-    console.log('emm' + email_address)
+    const { email_address } = req.body
 
     try {
         const customer = await CustomerModel.findOne({ email_address })
@@ -286,6 +293,11 @@ async function forgotPasswordEmail(req, res) {
             subject: 'Login Link',
             html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="${
+                        process.env.SERVER_URL + logoUrl
+                    }" alt="Splash" style="max-width: 150px; height: auto;">
+                </div>
                 <h2 style="color: #333333; text-align: center;">Login to Your Account</h2>
                 <p style="color: #555555; font-size: 16px; text-align: center;">
                     You are receiving this email because you requested to log in directly to your account.
