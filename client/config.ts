@@ -1,6 +1,5 @@
 const config = {
-    REACT_APP_CLIENT_URL: 'http://192.168.0.100:5180/',
-    REACT_APP_API_URL: 'http://192.168.0.100:3000/',
+    REACT_APP_API_URL: 'https://eight88-backend-service.onrender.com/',
 }
 
 export default config
