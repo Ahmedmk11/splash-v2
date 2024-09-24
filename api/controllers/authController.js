@@ -71,8 +71,6 @@ async function login(req, res) {
             }
         }
 
-        req.session.user = tokenData
-
         const token = jwt.sign({ tokenData }, process.env.JWT_SECRET, {
             expiresIn: '365d',
         })
