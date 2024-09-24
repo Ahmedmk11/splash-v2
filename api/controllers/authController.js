@@ -71,6 +71,8 @@ async function login(req, res) {
             }
         }
 
+        req.session.user = tokenData
+
         const token = jwt.sign({ tokenData }, process.env.JWT_SECRET, {
             expiresIn: '365d',
         })
@@ -79,6 +81,7 @@ async function login(req, res) {
 
         res.cookie('token_splash', token, {
             httpOnly: true,
+            secure: true,
             maxAge: 30 * 24 * 60 * 60 * 1000,
         })
 
