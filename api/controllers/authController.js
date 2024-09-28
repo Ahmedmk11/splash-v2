@@ -78,7 +78,7 @@ async function login(req, res) {
         console.log(user)
 
         res.cookie('token_splash', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: true,
             maxAge: 30 * 24 * 60 * 60 * 1000,
         })
@@ -367,7 +367,7 @@ async function loginWithToken(req, res) {
         })
 
         res.cookie('token_splash', authToken, {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 30 * 24 * 60 * 60 * 1000,
         })
 
