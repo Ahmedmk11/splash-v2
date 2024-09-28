@@ -31,19 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/images', express.static('images'))
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            secure: true,
-            httpOnly: false,
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-        },
-    })
-)
-
 app.use('/upload', uploadRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
