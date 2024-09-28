@@ -257,6 +257,25 @@
     }
 }
 
+#product-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+
+    #product-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 /* Phones */
 @media (max-width: 1024px) {
     #home-categories,
@@ -347,8 +366,4 @@
         width: 100%;
         justify-content: space-between;
     }
-}
-
-/* Laptops and PCs */
-@media (min-width: 1024px) {
 }

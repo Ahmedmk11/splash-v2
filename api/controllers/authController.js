@@ -77,12 +77,19 @@ async function login(req, res) {
 
         console.log(user)
 
-        res.cookie('token_splash', token, {
-            httpOnly: false,
-            secure: true,
-            sameSite: 'None',
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-        })
+        if (process.env.PRODUCTION === 'true') {
+            res.cookie('token_splash', token, {
+                httpOnly: false,
+                secure: true,
+                sameSite: 'None',
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
+        } else {
+            res.cookie('token_splash', token, {
+                httpOnly: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
+        }
 
         return res.status(200).json({ token, data: { user } })
     } catch (error) {
@@ -367,12 +374,19 @@ async function loginWithToken(req, res) {
             expiresIn: '365d',
         })
 
-        res.cookie('token_splash', authToken, {
-            httpOnly: false,
-            sameSite: 'None',
-            secure: true,
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-        })
+        if (process.env.PRODUCTION === 'true') {
+            res.cookie('token_splash', authToken, {
+                httpOnly: false,
+                secure: true,
+                sameSite: 'None',
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
+        } else {
+            res.cookie('token_splash', authToken, {
+                httpOnly: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
+        }
 
         res.send(`
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 10px;">

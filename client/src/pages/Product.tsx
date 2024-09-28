@@ -198,13 +198,9 @@ const Product = () => {
     return (
         <Layout>
             <div id="product-page" style={{ padding: '20px' }}>
-                <Row gutter={[16, 16]} justify="center">
-                    <Col
-                        xs={24}
-                        sm={24}
-                        md={12}
-                        lg={12}
-                        xl={12}
+                <div id="product-container">
+                    <div
+                        id="product-image"
                         style={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -224,18 +220,15 @@ const Product = () => {
                                     width: '100%',
                                     maxWidth: '800px',
                                     height: 'auto',
+                                    maxHeight: '500px',
                                     objectFit: 'cover',
                                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                 }}
                             />
                         )}
-                    </Col>
-                    <Col
-                        xs={24}
-                        sm={24}
-                        md={12}
-                        lg={12}
-                        xl={12}
+                    </div>
+                    <div
+                        id="product-info"
                         style={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -386,8 +379,8 @@ const Product = () => {
                                 </Button>
                             )}
                         </Space>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
         </Layout>
     )

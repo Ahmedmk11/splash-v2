@@ -28,7 +28,14 @@ import LanguageContext from '../contexts/LanguageContext'
 import LazyImage from '../components/LazyImage'
 import { send } from 'vite'
 
-const baseURL = config.REACT_APP_API_URL
+const prod = config.PRODUCTION
+let baseURL
+
+if (prod) {
+    baseURL = config.REACT_APP_API_URL_PROD
+} else {
+    baseURL = config.REACT_APP_API_URL_DEV
+}
 
 const AdminDashboard: React.FC = () => {
     const { categories, setCategories } = useContext(CategoriesContext)

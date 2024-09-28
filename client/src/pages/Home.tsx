@@ -10,7 +10,14 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { Flex, Spin } from 'antd'
 import LanguageContext from '../contexts/LanguageContext'
 
-const baseURL = config.REACT_APP_API_URL
+const prod = config.PRODUCTION
+let baseURL
+
+if (prod) {
+    baseURL = config.REACT_APP_API_URL_PROD
+} else {
+    baseURL = config.REACT_APP_API_URL_DEV
+}
 
 const Home = () => {
     const navigate = useNavigate()
