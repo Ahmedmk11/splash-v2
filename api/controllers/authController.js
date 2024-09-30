@@ -214,7 +214,11 @@ async function registerCustomer(req, res) {
             email_address: req.body.email_address,
         })
 
-        if (customer) {
+        const admin = await AdminModel.findOne({
+            email_address: req.body.email_address,
+        })
+
+        if (customer || admin) {
             return res
                 .status(400)
                 .json({ message: 'Email address is already used.' })
@@ -238,7 +242,11 @@ async function registerAdmin(req, res) {
             email_address: req.body.email_address,
         })
 
-        if (admin) {
+        const customer = await CustomerModel.findOne({
+            email_address: req.body.email_address,
+        })
+
+        if (admin || customer) {
             return res
                 .status(400)
                 .json({ message: 'Email address is already used.' })
