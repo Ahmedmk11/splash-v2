@@ -84,6 +84,10 @@ const FooterComponent = () => {
                             imageUrl={logoImage}
                             width={'75%'}
                             height={'auto'}
+                            onclick={() => {
+                                navigate('/')
+                            }}
+                            pointer
                         />
                     </h1>
                 </div>

@@ -1,5 +1,3 @@
-// need to update categories to be fetched from the server
-
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -31,7 +29,6 @@ import CategoriesContext from '../contexts/CategoriesContext'
 import type { MenuProps } from 'antd'
 import axiosApi, { baseURL } from '../utils/axiosApi'
 import LanguageContext from '../contexts/LanguageContext'
-import LazyImage from './LazyImage'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -352,8 +349,8 @@ const Header = () => {
                                     .logo[language]
                             }
                             src={baseURL.slice(0, -1) + logoImage}
-                            width={'150px'}
-                            height={'auto'}
+                            width={'auto'}
+                            height={'40px'}
                         />
                     </h1>
                 </div>
@@ -489,8 +486,8 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <div className="header-item big-screens"></div>
-                            <div className="header-item big-screens"></div>
+                            <div className="header-item big-screens">-----</div>
+                            <div className="header-item big-screens">-----</div>
                         </>
                     )}
                     <div className="header-item big-screens">

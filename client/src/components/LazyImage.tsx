@@ -7,11 +7,15 @@ const LazyImage = ({
     alt,
     width,
     height,
+    onclick,
+    pointer,
 }: {
     imageUrl: string
     alt: string
     width: string | number | 'none'
     height: string | number | 'none'
+    onclick?: () => void | undefined
+    pointer?: boolean
 }) => {
     return (
         <LazyLoad
@@ -29,7 +33,9 @@ const LazyImage = ({
                     objectFit: 'cover',
                     width: width,
                     height: height,
+                    cursor: pointer ? 'pointer' : 'default',
                 }}
+                onClick={onclick}
             />
         </LazyLoad>
     )
