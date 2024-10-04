@@ -173,6 +173,11 @@ const SignUp = () => {
                                 message: (langData as any).pages.signup
                                     .password_message[language],
                             },
+                            {
+                                min: 8,
+                                message: (langData as any).pages.signup
+                                    .password_length_message[language],
+                            },
                         ]}
                     >
                         <Input.Password

@@ -843,6 +843,10 @@
             }
         },
         "signup": {
+            "password_length_message": {
+                "en": "Password must be at least 8 characters",
+                "ar": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل"
+            },
             "signup_successful": {
                 "en": "Signup Successful",
                 "ar": "تم تسجيل الحساب بنجاح"

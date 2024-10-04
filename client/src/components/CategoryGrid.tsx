@@ -38,14 +38,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
 
     return (
         <div
-            style={{
-                width: '100%',
-                height: '100%',
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                boxSizing: 'border-box',
-            }}
+            id="category-grid-component"
             className="layout-child layout-category"
         >
             {loading ? (

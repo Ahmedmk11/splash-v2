@@ -214,19 +214,24 @@ const SuperAdminDashboard = () => {
                         header={
                             <List.Item
                                 actions={[
-                                    <Button
-                                        className="list-btn"
-                                        onClick={() => {
-                                            navigate(`/activity/${item._id}`)
-                                        }}
-                                    >
-                                        {
-                                            (langData as any).pages
-                                                .superadmindashboard.activity[
-                                                language
-                                            ]
-                                        }
-                                    </Button>,
+                                    ...(role === 'customer'
+                                        ? [
+                                              <Button
+                                                  className="list-btn"
+                                                  onClick={() => {
+                                                      navigate(
+                                                          `/activity/${item._id}`
+                                                      )
+                                                  }}
+                                              >
+                                                  {
+                                                      (langData as any).pages
+                                                          .superadmindashboard
+                                                          .activity[language]
+                                                  }
+                                              </Button>,
+                                          ]
+                                        : []),
                                     <Button
                                         className="list-btn"
                                         onClick={() => handleStartEdit(item)}

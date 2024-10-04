@@ -38,16 +38,7 @@ const Search = () => {
 
     return (
         <Layout>
-            <div
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxSizing: 'border-box',
-                }}
-            >
+            <div id="search-page" style={{ padding: '20px' }}>
                 {loading ? (
                     <Skeleton
                         style={{
