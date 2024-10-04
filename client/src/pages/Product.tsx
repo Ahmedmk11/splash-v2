@@ -224,15 +224,7 @@ const Product = () => {
                             />
                         )}
                     </div>
-                    <div
-                        id="product-info"
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-start',
-                        }}
-                    >
+                    <div id="product-info">
                         <Space
                             direction="vertical"
                             size="large"

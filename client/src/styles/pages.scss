@@ -273,7 +273,7 @@
 
 #product-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
@@ -284,9 +284,10 @@
     #product-info {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        width: 100%;
+        justify-content: flex-start;
+        width: 50%;
         height: 100%;
+        gap: 50px;
     }
 }
 
@@ -379,5 +380,24 @@
         flex-direction: column;
         width: 100%;
         justify-content: space-between;
+    }
+
+    #product-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+
+        #product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+        }
     }
 }

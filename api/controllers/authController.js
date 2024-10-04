@@ -99,8 +99,17 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
-    res.clearCookie('token_splash')
-    res.status(200).json({ message: 'Logged out' })
+    if (process.env.PRODUCTION === 'true') {
+        res.clearCookie('token_splash', {
+            httpOnly: false,
+            secure: true,
+            sameSite: 'None',
+        })
+        res.status(200).json({ message: 'Logged out' })
+    } else if (process.env.PRODUCTION === 'false') {
+        res.clearCookie('token_splash')
+        res.status(200).json({ message: 'Logged out' })
+    }
 }
 
 async function verifyEmail(req, res) {
