@@ -21,7 +21,6 @@ const ForgotPassword = () => {
             )
             navigate('/login')
         } catch (error: any) {
-            console.log('Error:', error)
             message.error(
                 (langData as any).pages.ForgotPassword.email_not_sent[language]
             )

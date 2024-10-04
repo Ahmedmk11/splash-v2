@@ -16,7 +16,6 @@ const Login = () => {
 
         try {
             await axiosApi.post('auth/login', values)
-            console.log('Login values:', values)
             message.success(
                 (langData as any).pages.login.login_successful[language]
             )

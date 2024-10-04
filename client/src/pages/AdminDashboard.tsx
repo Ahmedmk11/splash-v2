@@ -271,7 +271,6 @@ const AdminDashboard: React.FC = () => {
             if (logoImage) {
                 const formData = new FormData()
                 formData.append('image', logoImage)
-                console.log(formData)
                 const res = await axiosApi.post('/upload/logo', formData)
                 const imageUrl = res.data.filePath
                 await axiosApi.put('/user/update-settings', {

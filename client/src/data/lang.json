@@ -611,6 +611,14 @@
             }
         },
         "contactus": {
+            "success_message": {
+                "en": "Message sent successfully",
+                "ar": "تم إرسال الرسالة بنجاح"
+            },
+            "error_message": {
+                "en": "Something went wrong",
+                "ar": "حدث خطأ ما"
+            },
             "title": {
                 "en": "Contact Us",
                 "ar": "اتصل بنا"

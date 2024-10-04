@@ -51,7 +51,6 @@ const Product = () => {
             const res = await axiosApi.get(`/user/get-product/${productId}`)
             setProduct(res.data.product)
             fetchCategory(res.data.product)
-            console.log(currUser?.user?.wishlist)
         } catch (error) {
             console.error(error)
         }
@@ -64,7 +63,6 @@ const Product = () => {
 
     const handleAddToCart = async () => {
         try {
-            console.log(currUser.user._id)
             await axiosApi.post(`/user/add-to-cart/${currUser.user._id}`, {
                 productId: productId,
                 quantity: 1,
@@ -188,7 +186,6 @@ const Product = () => {
             )
             fetchUser()
         } catch (error) {
-            console.log('error', error)
             message.error(
                 (langData as any).pages.product.remove_wishlist_error[language]
             )

@@ -50,7 +50,6 @@ const LanguageProvider = ({ children }: ProviderProps) => {
     }
 
     useEffect(() => {
-        console.log('Language:', language)
         localStorage.setItem('language', language)
 
         document.body.classList.remove('ar')

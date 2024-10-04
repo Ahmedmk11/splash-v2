@@ -36,7 +36,6 @@ const CurrUserProvider = ({ children }: ProviderProps) => {
             .then((res: any) => {
                 if (res.data.tokenData) {
                     setIsAuthenticated(true)
-                    console.log('Authenticated')
                     setUserID(res.data.tokenData._id)
                     if (res.data.tokenData.type) {
                         setAdminType(res.data.tokenData.type)
@@ -47,7 +46,6 @@ const CurrUserProvider = ({ children }: ProviderProps) => {
                 }
             })
             .catch(() => {
-                console.log('Not Authenticated')
                 setIsAuthenticated(false)
             })
     }, [location])
@@ -55,7 +53,6 @@ const CurrUserProvider = ({ children }: ProviderProps) => {
     const fetchUser = async () => {
         const res = await axiosApi.get(`/user/get-user/${userID}`)
         setCurrUser(res.data)
-        console.log('Curr User:', res.data)
     }
 
     useEffect(() => {

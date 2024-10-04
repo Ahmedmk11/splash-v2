@@ -1041,7 +1041,6 @@ const SuperAdminDashboard = () => {
 
     const onFinishAddAdmin = async (values: any) => {
         try {
-            console.log('Admin: ', values)
             await axiosApi.post('/auth/register-admin', values)
             fetchAdmins()
             fetchSuperAdmins()

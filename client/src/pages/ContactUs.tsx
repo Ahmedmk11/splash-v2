@@ -1,20 +1,31 @@
 import React, { useContext } from 'react'
-import { Form, Input, Button, Card, Typography, Space } from 'antd'
+import { Form, Input, Button, Card, Typography, Space, message } from 'antd'
 import Layout from '../Layout'
 
 import LanguageContext from '../contexts/LanguageContext'
+import axiosApi from '../utils/axiosApi'
 
 const { Title, Paragraph, Link } = Typography
 
 const ContactUs = () => {
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
+    const [form] = Form.useForm()
 
     const onFinish = (values: any) => {
-        console.log('Success:', values)
+        axiosApi.post('/user/send-support-email', {
+            name: values.name,
+            email: values.email,
+            message: values.message,
+        })
+        message.success(
+            (langData as any).pages.contactus.success_message[language]
+        )
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
+        message.error((langData as any).pages.contactus.error_message[language])
+        form.resetFields()
     }
 
     return (
@@ -33,6 +44,7 @@ const ContactUs = () => {
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             layout="vertical"
+                            form={form}
                         >
                             <Form.Item
                                 label={

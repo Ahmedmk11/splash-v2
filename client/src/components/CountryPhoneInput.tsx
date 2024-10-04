@@ -22,7 +22,6 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange }) => {
 
     function getPhoneCode(iso: any) {
         let curr = countries.countries.all.find((c: any) => c.alpha3 === iso)
-        console.log('curr:', curr)
         return curr?.countryCallingCodes[0]
     }
 

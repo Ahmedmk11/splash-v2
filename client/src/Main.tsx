@@ -35,16 +35,14 @@ const rootElement = document.getElementById('root')
 
 if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <CurrUserProvider>
-                    <CategoriesProvider>
-                        <LanguageProvider>
-                            <App />
-                        </LanguageProvider>
-                    </CategoriesProvider>
-                </CurrUserProvider>
-            </BrowserRouter>
-        </React.StrictMode>
+        <BrowserRouter>
+            <CurrUserProvider>
+                <CategoriesProvider>
+                    <LanguageProvider>
+                        <App />
+                    </LanguageProvider>
+                </CategoriesProvider>
+            </CurrUserProvider>
+        </BrowserRouter>
     )
 }

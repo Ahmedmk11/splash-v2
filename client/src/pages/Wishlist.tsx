@@ -60,7 +60,6 @@ const Wishlist = () => {
             )
             fetchWishlistProducts()
         } catch (error) {
-            console.log('error', error)
             message.error(
                 (langData as any).pages.wishlist.product_removed_error[language]
             )

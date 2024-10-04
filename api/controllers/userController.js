@@ -1281,6 +1281,61 @@ async function getMarketingEmail(req, res) {
     }
 }
 
+async function sendSupportEmail(req, res) {
+    try {
+        const { name, email, message } = req.body
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD,
+            },
+        })
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: process.env.GMAIL_USER,
+            subject: `Support Request from ${name}`,
+            html: `
+                <div
+                    style="
+                        font-family: Arial, sans-serif;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #f9f9f9;
+                        border: 1px solid #dddddd;
+                        border-radius: 10px;
+                    "
+                >
+                    <h2 style="color: #333333; text-align: center; margin-bottom: 20px">
+                        Support Request from ${name}
+                    </h2>
+                    <p style="color: #555555; font-size: 16px; margin-bottom: 20px">
+                        <strong>Email:</strong> ${email}
+                    </p>
+                    <p style="color: #555555; font-size: 16px; margin-bottom: 20px">
+                        <strong>Message:</strong> ${message}
+                    </p>
+                </div>
+            `,
+        }
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error)
+            } else {
+                console.log('Support request email sent:', info.response)
+            }
+        })
+
+        res.status(200).json({ message: 'Support request sent successfully' })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 export {
     testGet,
     testPost,
@@ -1327,4 +1382,5 @@ export {
     getSettings,
     getMarketingEmail,
     sendMarketingEmail,
+    sendSupportEmail,
 }

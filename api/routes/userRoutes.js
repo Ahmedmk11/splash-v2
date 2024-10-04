@@ -46,6 +46,7 @@ import {
     getSettings,
     getMarketingEmail,
     sendMarketingEmail,
+    sendSupportEmail,
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -91,6 +92,7 @@ router.post('/create-order/:id', createOrder)
 router.post('/empty-cart/:id', emptyCart)
 router.post('/save-marketing-email', saveMarketingEmail)
 router.post('/send-marketing-email', sendMarketingEmail)
+router.post('/send-support-email', sendSupportEmail)
 router.delete('/delete-category/:id', deleteCategory)
 router.delete('/delete-product/:id', deleteProduct)
 router.delete('/delete-customer/:id', deleteCustomer)

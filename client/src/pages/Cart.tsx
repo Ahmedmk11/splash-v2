@@ -58,7 +58,6 @@ const Cart = () => {
             )
             fetchCartProducts()
         } catch (error) {
-            console.log('error', error)
             message.error((langData as any).pages.cart.error[language])
         }
     }
@@ -73,7 +72,6 @@ const Cart = () => {
             )
             fetchCartProducts()
         } catch (error) {
-            console.log('error', error)
             message.error(
                 (langData as any).pages.cart.product_removed_error[language]
             )
@@ -89,7 +87,6 @@ const Cart = () => {
                 (langData as any).pages.cart.added_wishlist[language]
             )
         } catch (error) {
-            console.log('error', error)
             message.error(
                 (langData as any).pages.cart.added_wishlist_error[language]
             )
@@ -107,7 +104,6 @@ const Cart = () => {
 
             fetchCartProducts()
         } catch (error) {
-            console.log('error', error)
             message.error((langData as any).pages.cart.error[language])
         }
     }
