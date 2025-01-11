@@ -79,7 +79,7 @@ async function login(req, res) {
 
         if (process.env.PRODUCTION === 'true') {
             res.cookie('token_splash', token, {
-                httpOnly: false,
+                httpOnly: true,
                 secure: true,
                 sameSite: 'None',
                 maxAge: 30 * 24 * 60 * 60 * 1000,
