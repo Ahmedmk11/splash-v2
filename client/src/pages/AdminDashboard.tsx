@@ -721,7 +721,7 @@ const AdminDashboard: React.FC = () => {
                             <Upload
                                 customRequest={customRequestCategory}
                                 listType="picture"
-                                maxCount={10}
+                                maxCount={1}
                                 onChange={({ file }) =>
                                     handleFileChange(file, 'category')
                                 }
@@ -1031,7 +1031,8 @@ const AdminDashboard: React.FC = () => {
                             <Upload
                                 customRequest={customRequestProduct}
                                 listType="picture"
-                                maxCount={1}
+                                maxCount={10}
+                                multiple
                                 onChange={({ fileList }) =>
                                     handleFileChangeProduct(fileList, 'product')
                                 }
@@ -1851,7 +1852,8 @@ const AdminDashboard: React.FC = () => {
                                 <Upload
                                     customRequest={customRequestProduct}
                                     listType="picture"
-                                    maxCount={1}
+                                    maxCount={10}
+                                    multiple
                                     onChange={({ fileList }) =>
                                         handleFileChangeProduct(
                                             fileList,
