@@ -176,27 +176,26 @@ const Header = () => {
                     width: 200,
                 }}
                 title={
+                    (langData as any).components.headercomponent.rooms[language]
+                }
+            >
+                {groupedCategories.inquiry.map((category: any) => (
+                    <Menu.Item style={{ fontSize: 16 }} key={category._id}>
+                        {language === 'en' ? category.name : category.name_ar}
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
+            <Menu.ItemGroup
+                style={{
+                    width: 200,
+                }}
+                title={
                     (langData as any).components.headercomponent.products[
                         language
                     ]
                 }
             >
                 {groupedCategories.main.map((category: any) => (
-                    <Menu.Item style={{ fontSize: 16 }} key={category._id}>
-                        {language === 'en' ? category.name : category.name_ar}
-                    </Menu.Item>
-                ))}
-            </Menu.ItemGroup>
-
-            <Menu.ItemGroup
-                style={{
-                    width: 200,
-                }}
-                title={
-                    (langData as any).components.headercomponent.rooms[language]
-                }
-            >
-                {groupedCategories.inquiry.map((category: any) => (
                     <Menu.Item style={{ fontSize: 16 }} key={category._id}>
                         {language === 'en' ? category.name : category.name_ar}
                     </Menu.Item>

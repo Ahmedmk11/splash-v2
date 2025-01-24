@@ -106,7 +106,6 @@ async function getCurrUser(req, res) {
         }
 
         const user = customer || admin
-        console.log(user)
         res.status(200).json({ user })
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -151,12 +150,11 @@ async function getOrders(req, res) {
 
 async function addNewCategory(req, res) {
     try {
-        console.log(req.body)
         const category = new CategoryModel({
             name: req.body.categoryName,
             name_ar: req.body.categoryNameAr,
             imageUrl: req.body.imageUrl,
-            type: req.body.type,
+            type: req.body.categoryType,
         })
         await category.save()
 
@@ -168,7 +166,8 @@ async function addNewCategory(req, res) {
 
 async function addNewProduct(req, res) {
     try {
-        console.log(req.body)
+        console.log('inside', req.body)
+
         const product = new ProductModel({
             pid: req.body.pid,
             name: req.body.name,
@@ -184,6 +183,7 @@ async function addNewProduct(req, res) {
 
         res.status(201).json({ message: 'Product added successfully' })
     } catch (error) {
+        console.error('Error adding product:', error)
         res.status(500).json({ message: error.message })
     }
 }
@@ -264,7 +264,6 @@ async function getCategoryProducts(req, res) {
 async function getCarouselProducts(req, res) {
     try {
         const products = await ProductModel.find({ carousel: true })
-        console.log('p', products)
         if (!products) {
             return res.status(404).json({ message: 'Products not found' })
         }
@@ -324,19 +323,21 @@ async function updateProduct(req, res) {
 
         const newImageUrl = req.body.imageUrls
         for (const img of product.imageUrls) {
-            if (newImageUrl.includes(img)) {
-                continue
-            } else {
-                const baseDir = path.resolve(__dirname, '..')
-                const fullPath = path.join(baseDir, img)
+            if (newImageUrl) {
+                if (newImageUrl.includes(img)) {
+                    continue
+                } else {
+                    const baseDir = path.resolve(__dirname, '..')
+                    const fullPath = path.join(baseDir, img)
 
-                fs.unlink(fullPath, (err) => {
-                    if (err) {
-                        console.error('Error deleting image:', err)
-                    } else {
-                        console.log('Image deleted successfully:', fullPath)
-                    }
-                })
+                    fs.unlink(fullPath, (err) => {
+                        if (err) {
+                            console.error('Error deleting image:', err)
+                        } else {
+                            console.log('Image deleted successfully:', fullPath)
+                        }
+                    })
+                }
             }
         }
 
@@ -349,7 +350,10 @@ async function updateProduct(req, res) {
         product.price = req.body.price
         product.stock = req.body.stock
         product.carousel = req.body.carousel
-        product.imageUrls = req.body.imageUrls
+
+        if (newImageUrl) {
+            product.imageUrls = req.body.imageUrls
+        }
 
         await product.save()
 

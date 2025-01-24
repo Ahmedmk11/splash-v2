@@ -75,8 +75,6 @@ async function login(req, res) {
             expiresIn: '365d',
         })
 
-        console.log(user)
-
         if (process.env.PRODUCTION === 'true') {
             res.cookie('token_splash', token, {
                 httpOnly: true,
@@ -218,7 +216,6 @@ async function resendEmail(req, res) {
 
 async function registerCustomer(req, res) {
     try {
-        console.log(req.body)
         const customer = await CustomerModel.findOne({
             email_address: req.body.email_address,
         })

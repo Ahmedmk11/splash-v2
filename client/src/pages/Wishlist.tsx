@@ -128,7 +128,7 @@ const Wishlist = () => {
                                         <div>
                                             <Image
                                                 src={`${baseURL.slice(0, -1)}${
-                                                    item?.imageUrl
+                                                    item?.imageUrls[0]
                                                 }`}
                                                 alt={
                                                     language === 'en'

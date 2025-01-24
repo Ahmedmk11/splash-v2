@@ -196,13 +196,7 @@ const Product = () => {
         <Layout>
             <div id="product-page" style={{ padding: '20px' }}>
                 <div id="product-container">
-                    <div
-                        id="product-image"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
+                    <div id="product-image">
                         {loading ? (
                             <Skeleton.Avatar size={500} shape="square" active />
                         ) : (
@@ -215,16 +209,28 @@ const Product = () => {
                                         ? product?.name
                                         : product?.name_ar
                                 }
-                                style={{
-                                    width: '100%',
-                                    maxWidth: '800px',
-                                    height: 'auto',
-                                    maxHeight: '500px',
-                                    objectFit: 'cover',
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                }}
+                                id="antd-product-image"
                             />
                         )}
+
+                        <div id="product-mini-images">
+                            {product?.imageUrls
+                                .slice(1)
+                                .map((image: any, index: any) => (
+                                    <Image
+                                        key={index}
+                                        src={baseURL.slice(0, -1) + image}
+                                        alt={`product-image-${index}`}
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                            objectFit: 'cover',
+                                            borderRadius: '5px',
+                                            cursor: 'pointer',
+                                        }}
+                                    />
+                                ))}
+                        </div>
                     </div>
                     <div id="product-info">
                         <Space

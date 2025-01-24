@@ -1,10 +1,19 @@
 import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
-
+import crypto from 'crypto'
 import { fileURLToPath } from 'url'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const randomFilename = (req, file, cb) => {
+    const randomString = crypto.randomBytes(16).toString('hex')
+    const extension = path.extname(file.originalname)
+    const filename = `${randomString}${extension}`
+
+    cb(null, filename)
+}
 
 const createStorage = (folder, filenameFunction) =>
     multer.diskStorage({
@@ -32,25 +41,9 @@ const checkFileType = (file, cb) => {
     }
 }
 
-const productFilename = (req, file, cb) => {
-    cb(null, file.originalname)
-}
-
-const categoryFilename = (req, file, cb) => {
-    cb(null, file.originalname)
-}
-
-const marketingFilename = (req, file, cb) => {
-    cb(null, file.originalname)
-}
-
-const logoFilename = (req, file, cb) => {
-    cb(null, file.originalname)
-}
-
 // Configuration for handling multiple images for product
 const uploadProduct = multer({
-    storage: createStorage('products', productFilename),
+    storage: createStorage('products', randomFilename),
     limits: { fileSize: 10000000 }, // Max file size 10MB
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
@@ -58,7 +51,7 @@ const uploadProduct = multer({
 }).array('images', 10) // <-- Handling multiple files (up to 10)
 
 const uploadCategory = multer({
-    storage: createStorage('categories', categoryFilename),
+    storage: createStorage('categories', randomFilename),
     limits: { fileSize: 10000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
@@ -66,7 +59,7 @@ const uploadCategory = multer({
 }).single('image')
 
 const uploadMarketing = multer({
-    storage: createStorage('marketing', marketingFilename),
+    storage: createStorage('marketing', randomFilename),
     limits: { fileSize: 10000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
@@ -74,7 +67,7 @@ const uploadMarketing = multer({
 }).single('image')
 
 const uploadLogo = multer({
-    storage: createStorage('logo', logoFilename),
+    storage: createStorage('logo', randomFilename),
     limits: { fileSize: 10000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)

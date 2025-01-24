@@ -170,7 +170,7 @@ const Cart = () => {
                                                     src={`${baseURL.slice(
                                                         0,
                                                         -1
-                                                    )}${item?.imageUrl}`}
+                                                    )}${item?.imageUrls[0]}`}
                                                     alt={
                                                         language === 'en'
                                                             ? item.name

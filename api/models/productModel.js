@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema(
         },
         category: {
             type: mongoose.Schema.Types.ObjectId,
-            required: [false, 'Product category is required'],
+            required: [true, 'Product category is required'],
         },
         price: {
             type: Number,
@@ -37,7 +37,6 @@ const productSchema = new mongoose.Schema(
         },
         imageUrls: {
             type: [String],
-            unique: true,
             required: [true, 'Product image is required'],
         },
         carousel: {
@@ -46,6 +45,7 @@ const productSchema = new mongoose.Schema(
             default: false,
         },
     },
+    { autoIndex: false },
     { timestamps: true },
     {
         toJSON: { virtuals: true },

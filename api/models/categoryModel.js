@@ -20,7 +20,7 @@ const categorySchema = new mongoose.Schema(
         type: {
             type: String,
             enum: ['inquiry', 'main', 'display'],
-            default: 'main',
+            required: [true, 'Category type is required'],
         },
     },
     { timestamps: true },

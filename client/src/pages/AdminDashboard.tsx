@@ -147,7 +147,7 @@ const AdminDashboard: React.FC = () => {
     const fetchProducts = async () => {
         try {
             const res = await axiosApi.get('/user/get-products')
-            setProducts(res.data.products)
+            setProducts(res.data?.products)
         } catch (err) {
             console.error('Error fetching products', err)
         }
@@ -386,6 +386,7 @@ const AdminDashboard: React.FC = () => {
             const formData = new FormData()
             let imageUrls = null
 
+            console.log('editProductUploadedImages', editProductUploadedImages)
             if (editProductUploadedImages) {
                 for (const image of editProductUploadedImages) {
                     formData.append('images', image)
@@ -427,19 +428,23 @@ const AdminDashboard: React.FC = () => {
 
     const onFinishCategory = async (values: any) => {
         const { categoryName, categoryNameAr } = values
+        console.log('categoryType1', categoryType)
 
         try {
             if (categoryImage) {
+                console.log('categoryTyp2', categoryType)
                 const formData = new FormData()
                 formData.append('image', categoryImage)
                 const res = await axiosApi.post('/upload/category', formData)
                 const imageUrl = res.data.filePath
+                console.log('categoryTyp3', categoryType)
                 await axiosApi.post('/user/add-category', {
                     categoryName,
                     categoryNameAr,
                     imageUrl,
                     categoryType,
                 })
+                console.log('categoryTyp4', categoryType)
             }
 
             message.success(
@@ -476,14 +481,17 @@ const AdminDashboard: React.FC = () => {
                 const formData = new FormData()
                 let imageUrls = null
 
-                if (editProductUploadedImages) {
-                    for (const image of editProductUploadedImages) {
-                        formData.append('images', image)
-                    }
-
-                    const res = await axiosApi.post('/upload/product', formData)
-                    imageUrls = res.data.filePaths
+                console.log(
+                    'editProductUploadedImages in',
+                    editProductUploadedImages
+                )
+                for (const image of productImages) {
+                    formData.append('images', image)
                 }
+
+                const res = await axiosApi.post('/upload/product', formData)
+                imageUrls = res.data.filePaths
+
                 await axiosApi.post('/user/add-product', {
                     pid,
                     name,
@@ -506,7 +514,7 @@ const AdminDashboard: React.FC = () => {
         } catch (err) {
             console.error('Error saving product', err)
             message.error(
-                (langData as any).pages.admindashboard.category_upload_error[
+                (langData as any).pages.admindashboard.product_upload_error[
                     language
                 ]
             )
@@ -573,6 +581,10 @@ const AdminDashboard: React.FC = () => {
             )
         }
     }
+
+    useEffect(() => {
+        console.log(categoryType)
+    }, [categoryType])
 
     const customRequestCategory = async ({ file, onSuccess }: any) => {
         onSuccess(file)
@@ -1434,10 +1446,10 @@ const AdminDashboard: React.FC = () => {
                             {selectedProduct && (
                                 <div
                                     style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
+                                        display: 'grid',
+                                        gridTemplateColumns:
+                                            'repeat(auto-fill, minmax(150px, 1fr))',
+                                        gap: '10px',
                                         backgroundColor: '#f0f0f0',
                                         padding: '10px',
                                         marginBottom: '40px',
@@ -1449,6 +1461,7 @@ const AdminDashboard: React.FC = () => {
                                             style={{
                                                 width: '100%',
                                                 height: 'auto',
+                                                borderRadius: '8px',
                                             }}
                                             src={`${baseURL.slice(
                                                 0,
@@ -1461,12 +1474,11 @@ const AdminDashboard: React.FC = () => {
                                             }
                                         />
                                     ))}
-
                                     <Divider />
                                     <h3
                                         style={{
                                             textAlign: 'center',
-                                            margin: 0,
+                                            margin: '10px 0',
                                         }}
                                     >
                                         {
