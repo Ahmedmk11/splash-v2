@@ -26,7 +26,6 @@ import config from '../../config'
 import CategoriesContext from '../contexts/CategoriesContext'
 import LanguageContext from '../contexts/LanguageContext'
 import LazyImage from '../components/LazyImage'
-import { send } from 'vite'
 
 const prod = config.PRODUCTION
 let baseURL
@@ -50,11 +49,12 @@ const AdminDashboard: React.FC = () => {
 
     const [marketingImage, setMarketingImage] = useState<File | null>(null)
     const [categoryImage, setCategoryImage] = useState<File | null>(null)
-    const [productImage, setProductImage] = useState<File | null>(null)
+    const [productImages, setProductImages] = useState<File[] | null>([])
     const [editCategoryUploadedImage, setEditCategoryUploadedImage] =
         useState<File | null>(null)
-    const [editProductUploadedImage, setEditProductUploadedImage] =
-        useState<File | null>(null)
+    const [editProductUploadedImages, setEditProductUploadedImages] = useState<
+        File[] | null
+    >([])
 
     const [logoImage, setLogoImage] = useState<File | null>(null)
 
@@ -72,7 +72,7 @@ const AdminDashboard: React.FC = () => {
     const [editProductName, setEditProductName] = useState<string>('')
     const [editProductNameAr, setEditProductNameAr] = useState<string>('')
 
-    const [editProductImage, setEditProductImage] = useState<string>('')
+    const [editProductImages, setEditProductImages] = useState<string[]>([])
     const [editProductPID, setEditProductPID] = useState<string>('')
 
     const [editProductDescription, setEditProductDescription] =
@@ -212,7 +212,7 @@ const AdminDashboard: React.FC = () => {
                 setEditProductStock(productData.stock)
                 setEditProductCarousel(productData.carousel)
                 setEditProductPrice(productData.price)
-                setEditProductImage(productData.imageUrl)
+                setEditProductImages(productData.imageUrls)
                 formEditProduct.setFieldsValue({
                     editProductPID: productData.pid,
                     editProductName: productData.name,
@@ -384,12 +384,15 @@ const AdminDashboard: React.FC = () => {
 
         try {
             const formData = new FormData()
-            let imageUrl = null
+            let imageUrls = null
 
-            if (editProductUploadedImage) {
-                formData.append('image', editProductUploadedImage)
+            if (editProductUploadedImages) {
+                for (const image of editProductUploadedImages) {
+                    formData.append('images', image)
+                }
+
                 const res = await axiosApi.post('/upload/product', formData)
-                imageUrl = res.data.filePath
+                imageUrls = res.data.filePaths
             }
 
             await axiosApi.put(`/user/update-product/${selectedProduct}`, {
@@ -402,7 +405,7 @@ const AdminDashboard: React.FC = () => {
                 price: editProductPrice,
                 stock: editProductStock,
                 carousel: editProductCarousel,
-                imageUrl,
+                imageUrls,
             })
 
             message.success(
@@ -469,11 +472,18 @@ const AdminDashboard: React.FC = () => {
         } = values
 
         try {
-            if (productImage) {
+            if (productImages) {
                 const formData = new FormData()
-                formData.append('image', productImage)
-                const res = await axiosApi.post('/upload/product', formData)
-                const imageUrl = res.data.filePath
+                let imageUrls = null
+
+                if (editProductUploadedImages) {
+                    for (const image of editProductUploadedImages) {
+                        formData.append('images', image)
+                    }
+
+                    const res = await axiosApi.post('/upload/product', formData)
+                    imageUrls = res.data.filePaths
+                }
                 await axiosApi.post('/user/add-product', {
                     pid,
                     name,
@@ -483,7 +493,7 @@ const AdminDashboard: React.FC = () => {
                     category,
                     price,
                     stock,
-                    imageUrl,
+                    imageUrls,
                 })
             }
             message.success(
@@ -510,7 +520,7 @@ const AdminDashboard: React.FC = () => {
 
     const onResetProduct = () => {
         formProduct.resetFields()
-        setProductImage(null)
+        setProductImages(null)
     }
 
     const onResetEditMarketingEmail = () => {
@@ -526,7 +536,7 @@ const AdminDashboard: React.FC = () => {
 
     const onResetEditProduct = () => {
         formEditProduct.resetFields()
-        setEditProductUploadedImage(null)
+        setEditProductUploadedImages(null)
         setSelectedProduct(null)
     }
 
@@ -536,26 +546,31 @@ const AdminDashboard: React.FC = () => {
 
     const handleFileChange = (
         file: any,
-        type:
-            | 'category'
-            | 'product'
-            | 'editCategory'
-            | 'editProduct'
-            | 'marketing'
-            | 'logo'
+        type: 'category' | 'editCategory' | 'marketing' | 'logo'
     ) => {
         if (type === 'category') {
             setCategoryImage(file.originFileObj)
-        } else if (type === 'product') {
-            setProductImage(file.originFileObj)
         } else if (type === 'editCategory') {
             setEditCategoryUploadedImage(file.originFileObj)
-        } else if (type === 'editProduct') {
-            setEditProductUploadedImage(file.originFileObj)
         } else if (type === 'marketing') {
             setMarketingImage(file.originFileObj)
         } else if (type === 'logo') {
             setLogoImage(file.originFileObj)
+        }
+    }
+
+    const handleFileChangeProduct = (
+        fileList: any,
+        type: 'product' | 'editProduct'
+    ) => {
+        if (type === 'product') {
+            setProductImages(
+                fileList.map((file: any) => file.originFileObj).filter(Boolean)
+            )
+        } else if (type === 'editProduct') {
+            setEditProductUploadedImages(
+                fileList.map((file: any) => file.originFileObj).filter(Boolean)
+            )
         }
     }
 
@@ -706,7 +721,7 @@ const AdminDashboard: React.FC = () => {
                             <Upload
                                 customRequest={customRequestCategory}
                                 listType="picture"
-                                maxCount={1}
+                                maxCount={10}
                                 onChange={({ file }) =>
                                     handleFileChange(file, 'category')
                                 }
@@ -1017,8 +1032,8 @@ const AdminDashboard: React.FC = () => {
                                 customRequest={customRequestProduct}
                                 listType="picture"
                                 maxCount={1}
-                                onChange={({ file }) =>
-                                    handleFileChange(file, 'product')
+                                onChange={({ fileList }) =>
+                                    handleFileChangeProduct(fileList, 'product')
                                 }
                             >
                                 <Button icon={<UploadOutlined />}>
@@ -1427,22 +1442,24 @@ const AdminDashboard: React.FC = () => {
                                         marginBottom: '40px',
                                     }}
                                 >
-                                    <img
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto',
-                                        }}
-                                        src={
-                                            baseURL.slice(0, -1) +
-                                            editProductImage
-                                        }
-                                        alt={
-                                            (langData as any).pages
-                                                .admindashboard.current_image[
-                                                language
-                                            ]
-                                        }
-                                    />
+                                    {editProductImages.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                            }}
+                                            src={`${baseURL.slice(
+                                                0,
+                                                -1
+                                            )}${image}`}
+                                            alt={
+                                                (langData as any).pages
+                                                    .admindashboard
+                                                    .current_image[language]
+                                            }
+                                        />
+                                    ))}
 
                                     <Divider />
                                     <h3
@@ -1835,8 +1852,11 @@ const AdminDashboard: React.FC = () => {
                                     customRequest={customRequestProduct}
                                     listType="picture"
                                     maxCount={1}
-                                    onChange={({ file }) =>
-                                        handleFileChange(file, 'editProduct')
+                                    onChange={({ fileList }) =>
+                                        handleFileChangeProduct(
+                                            fileList,
+                                            'editProduct'
+                                        )
                                     }
                                 >
                                     <Button

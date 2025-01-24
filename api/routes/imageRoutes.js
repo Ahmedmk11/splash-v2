@@ -8,18 +8,24 @@ import {
 
 const router = express.Router()
 
+// Product image upload (multiple files)
 router.post('/product', uploadProduct, (req, res) => {
-    if (req.file) {
+    if (req.files && req.files.length > 0) {
+        const filePaths = req.files.map(
+            (file) => `/images/products/${file.filename}`
+        )
+
         res.status(200).json({
             success: true,
-            message: 'Product image uploaded!',
-            filePath: `/images/products/${req.file.filename}`,
+            message: 'Product images uploaded!',
+            filePaths,
         })
     } else {
-        res.status(400).json({ success: false, message: 'No file selected!' })
+        res.status(400).json({ success: false, message: 'No files selected!' })
     }
 })
 
+// Category image upload (single file)
 router.post('/category', uploadCategory, (req, res) => {
     if (req.file) {
         res.status(200).json({
@@ -32,6 +38,7 @@ router.post('/category', uploadCategory, (req, res) => {
     }
 })
 
+// Marketing image upload (single file)
 router.post('/marketing', uploadMarketing, (req, res) => {
     if (req.file) {
         res.status(200).json({
@@ -44,6 +51,7 @@ router.post('/marketing', uploadMarketing, (req, res) => {
     }
 })
 
+// Logo upload (single file)
 router.post('/logo', uploadLogo, (req, res) => {
     if (req.file) {
         res.status(200).json({

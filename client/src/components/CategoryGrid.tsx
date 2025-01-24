@@ -93,7 +93,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                                 <img
                                                     src={
                                                         baseURL.slice(0, -1) +
-                                                        product.imageUrl
+                                                        product?.imageUrls[0]
                                                     }
                                                     alt={
                                                         language === 'en'

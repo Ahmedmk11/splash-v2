@@ -105,7 +105,8 @@ const Search = () => {
                                                                     0,
                                                                     -1
                                                                 ) +
-                                                                product.imageUrl
+                                                                product
+                                                                    ?.imageUrls[0]
                                                             }
                                                             alt={
                                                                 language ===

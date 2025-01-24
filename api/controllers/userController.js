@@ -178,7 +178,7 @@ async function addNewProduct(req, res) {
             category: req.body.category,
             price: req.body.price,
             stock: req.body.stock,
-            imageUrl: req.body.imageUrl,
+            imageUrls: req.body.imageUrls,
         })
         await product.save()
 
@@ -322,23 +322,13 @@ async function updateProduct(req, res) {
             return res.status(404).json({ message: 'Product not found' })
         }
 
-        const oldImageUrl = product.imageUrl
-        const newImageUrl = req.body.imageUrl
-
-        product.pid = req.body.pid
-        product.name = req.body.name
-        product.name_ar = req.body.nameAr
-        product.description = req.body.description
-        product.description_ar = req.body.descriptionAr
-        product.category = req.body.category
-        product.price = req.body.price
-        product.stock = req.body.stock
-        product.carousel = req.body.carousel
-        if (newImageUrl) {
-            product.imageUrl = newImageUrl
-            if (oldImageUrl && oldImageUrl !== newImageUrl) {
+        const newImageUrl = req.body.imageUrls
+        for (const img of product.imageUrls) {
+            if (newImageUrl.includes(img)) {
+                continue
+            } else {
                 const baseDir = path.resolve(__dirname, '..')
-                const fullPath = path.join(baseDir, oldImageUrl)
+                const fullPath = path.join(baseDir, img)
 
                 fs.unlink(fullPath, (err) => {
                     if (err) {
@@ -349,6 +339,18 @@ async function updateProduct(req, res) {
                 })
             }
         }
+
+        product.pid = req.body.pid
+        product.name = req.body.name
+        product.name_ar = req.body.nameAr
+        product.description = req.body.description
+        product.description_ar = req.body.descriptionAr
+        product.category = req.body.category
+        product.price = req.body.price
+        product.stock = req.body.stock
+        product.carousel = req.body.carousel
+        product.imageUrls = req.body.imageUrls
+
         await product.save()
 
         res.status(200).json({ product })
@@ -494,19 +496,22 @@ async function deleteProduct(req, res) {
         const { id } = req.params
         const product = await ProductModel.findByIdAndDelete(id)
 
-        const baseDir = path.resolve(__dirname, '..')
-        const fullPath = path.join(baseDir, product.imageUrl)
-
-        fs.unlink(fullPath, (err) => {
-            if (err) {
-                console.error('Error deleting image:', err)
-            } else {
-                console.log('Image deleted successfully:', fullPath)
-            }
-        })
-
         if (!product) {
             return res.status(404).json({ message: 'Product not found' })
+        }
+
+        const imageUrls = product.imageUrls
+        for (const img of imageUrls) {
+            const baseDir = path.resolve(__dirname, '..')
+            const fullPath = path.join(baseDir, img)
+
+            fs.unlink(fullPath, (err) => {
+                if (err) {
+                    console.error('Error deleting image:', err)
+                } else {
+                    console.log('Image deleted successfully:', fullPath)
+                }
+            })
         }
 
         res.status(200).json({ message: 'Product deleted successfully' })

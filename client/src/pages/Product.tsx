@@ -207,7 +207,9 @@ const Product = () => {
                             <Skeleton.Avatar size={500} shape="square" active />
                         ) : (
                             <Image
-                                src={baseURL.slice(0, -1) + product?.imageUrl}
+                                src={
+                                    baseURL.slice(0, -1) + product?.imageUrls[0]
+                                }
                                 alt={
                                     language === 'en'
                                         ? product?.name

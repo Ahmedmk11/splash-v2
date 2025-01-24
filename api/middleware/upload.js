@@ -48,13 +48,14 @@ const logoFilename = (req, file, cb) => {
     cb(null, file.originalname)
 }
 
+// Configuration for handling multiple images for product
 const uploadProduct = multer({
     storage: createStorage('products', productFilename),
-    limits: { fileSize: 10000000 },
+    limits: { fileSize: 10000000 }, // Max file size 10MB
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
     },
-}).single('image')
+}).array('images', 10) // <-- Handling multiple files (up to 10)
 
 const uploadCategory = multer({
     storage: createStorage('categories', categoryFilename),

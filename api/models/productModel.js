@@ -35,8 +35,8 @@ const productSchema = new mongoose.Schema(
             type: Number,
             required: [true, 'Product stock is required'],
         },
-        imageUrl: {
-            type: String,
+        imageUrls: {
+            type: [String],
             unique: true,
             required: [true, 'Product image is required'],
         },
