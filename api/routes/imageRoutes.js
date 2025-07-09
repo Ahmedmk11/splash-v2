@@ -23,7 +23,7 @@ router.post('/product', uploadProduct, async (req, res) => {
         try {
             for (const file of req.files) {
                 const localPath = file.path
-                const githubPath = `images/products/${file.filename}`
+                const githubPath = `api/images/products/${file.filename}`
 
                 await uploadImageToGitHub(
                     localPath,
@@ -57,7 +57,7 @@ router.post('/product', uploadProduct, async (req, res) => {
 router.post('/category', uploadCategory, async (req, res) => {
     if (req.file) {
         const localPath = req.file.path
-        const githubPath = `images/categories/${req.file.filename}`
+        const githubPath = `api/images/categories/${req.file.filename}`
 
         try {
             await uploadImageToGitHub(
@@ -89,7 +89,7 @@ router.post('/category', uploadCategory, async (req, res) => {
 router.post('/marketing', uploadMarketing, async (req, res) => {
     if (req.file) {
         const localPath = req.file.path
-        const githubPath = `images/marketing/${req.file.filename}`
+        const githubPath = `api/images/marketing/${req.file.filename}`
 
         try {
             await uploadImageToGitHub(
@@ -121,7 +121,7 @@ router.post('/marketing', uploadMarketing, async (req, res) => {
 router.post('/logo', uploadLogo, async (req, res) => {
     if (req.file) {
         const localPath = req.file.path
-        const githubPath = `images/logo/${req.file.filename}`
+        const githubPath = `api/images/logo/${req.file.filename}`
 
         try {
             await uploadImageToGitHub(
