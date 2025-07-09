@@ -1084,26 +1084,51 @@ async function getSearchResults(req, res) {
     try {
         const { query } = req.params
 
-        let products = await ProductModel.find({
-            $text: { $search: query },
-        }).populate({
-            path: 'category',
-            select: 'name name_ar',
-        })
-
-        if (!products.length) {
-            products = await ProductModel.find({
-                $or: [
-                    { name: { $regex: query, $options: 'i' } },
-                    { name_ar: { $regex: query, $options: 'i' } },
-                    { description: { $regex: query, $options: 'i' } },
-                    { description_ar: { $regex: query, $options: 'i' } },
-                ],
-            }).populate({
-                path: 'category',
-                select: 'name name_ar',
-            })
-        }
+        const products = await ProductModel.aggregate([
+            {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'category',
+                },
+            },
+            {
+                $unwind: '$category',
+            },
+            {
+                $match: {
+                    $or: [
+                        { name: { $regex: query, $options: 'i' } },
+                        { name_ar: { $regex: query, $options: 'i' } },
+                        { description: { $regex: query, $options: 'i' } },
+                        { description_ar: { $regex: query, $options: 'i' } },
+                        { 'category.name': { $regex: query, $options: 'i' } },
+                        {
+                            'category.name_ar': {
+                                $regex: query,
+                                $options: 'i',
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $project: {
+                    name: 1,
+                    name_ar: 1,
+                    description: 1,
+                    description_ar: 1,
+                    price: 1,
+                    images: 1,
+                    category: {
+                        _id: '$category._id',
+                        name: '$category.name',
+                        name_ar: '$category.name_ar',
+                    },
+                },
+            },
+        ])
 
         res.status(200).json({ products })
     } catch (error) {
