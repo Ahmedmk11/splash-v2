@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import fetch from 'node-fetch'
 
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
@@ -41,4 +42,12 @@ app.listen(port, () => {
 
 connectToDatabase().then(() => {
     console.log('=====================================================')
+
+    function keepAwake() {
+        fetch(process.env.SERVER_URL).catch(() => {})
+        const nextDelay = (Math.random() * 4 + 1) * 60 * 1000
+        setTimeout(keepAwake, nextDelay)
+    }
+
+    keepAwake()
 })
