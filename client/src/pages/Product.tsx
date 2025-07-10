@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
     Row,
     Col,
@@ -25,6 +25,10 @@ import axiosApi, { baseURL } from '../utils/axiosApi'
 import CurrUserContext from '../contexts/CurrUserContext'
 import LanguageContext from '../contexts/LanguageContext'
 
+import WhatsAppIcon from '../assets/icons/wa.svg'
+import FacebookIcon from '../assets/icons/fb.png'
+import InstagramIcon from '../assets/icons/ig.svg'
+
 const { Title, Text, Link, Paragraph } = Typography
 
 const Product = () => {
@@ -34,6 +38,7 @@ const Product = () => {
     const [product, setProduct] = useState<any>()
     const [category, setCategory] = useState<any>()
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
 
     const fetchCategory = async (productItem: any) => {
         try {
@@ -63,6 +68,11 @@ const Product = () => {
 
     const handleAddToCart = async () => {
         try {
+            if (!currUser?.user?._id) {
+                navigate('/login')
+                return
+            }
+
             await axiosApi.post(`/user/add-to-cart/${currUser.user._id}`, {
                 productId: productId,
                 quantity: 1,
@@ -80,6 +90,11 @@ const Product = () => {
 
     const handleAddToWishlist = async () => {
         try {
+            if (!currUser?.user?._id) {
+                navigate('/login')
+                return
+            }
+
             await axiosApi.post(
                 `/user/add-to-wishlist/${currUser?.user?._id}`,
                 {
@@ -225,19 +240,19 @@ const Product = () => {
                                             width: '100%',
                                             height: 'auto',
                                             objectFit: 'cover',
-                                            borderRadius: '5px',
                                             cursor: 'pointer',
                                         }}
                                     />
                                 ))}
                         </div>
                     </div>
-                    <div id="product-info">
+                    <div id="product-info" style={{ maxWidth: '500px' }}>
                         <Space
                             direction="vertical"
                             size="large"
-                            style={{ width: '100%', maxWidth: '500px' }}
+                            style={{ width: '100%', marginBottom: 10 }}
                         >
+                            {/* Title */}
                             {loading ? (
                                 <Skeleton.Input
                                     active
@@ -245,47 +260,56 @@ const Product = () => {
                                     style={{ width: '100%' }}
                                 />
                             ) : (
-                                <Title
-                                    level={2}
-                                    style={{ marginBottom: '10px' }}
-                                >
+                                <Title level={2} style={{ marginBottom: 4 }}>
                                     {language === 'en'
                                         ? product?.name
                                         : product?.name_ar}
                                 </Title>
                             )}
-                            {category?.type === 'main' ? (
-                                loading ? (
-                                    <Skeleton.Input
-                                        active
-                                        size="large"
-                                        style={{ width: '100%' }}
-                                    />
-                                ) : (
-                                    <Title
-                                        level={4}
-                                        style={{ margin: 0, fontSize: 20 }}
-                                    >
-                                        {language === 'en'
-                                            ? product?.price
-                                            : arabicNumerals(
-                                                  product?.price
-                                              )}{' '}
-                                        <span
-                                            style={{
-                                                fontWeight: '600',
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            {
-                                                (langData as any).pages.product
-                                                    .egp[language]
-                                            }
-                                        </span>
-                                    </Title>
-                                )
-                            ) : null}
 
+                            {/* Optional Highlights */}
+                            {!loading && (
+                                <ul
+                                    style={{
+                                        margin: 0,
+                                        paddingLeft: 18,
+                                        color: '#555',
+                                        fontSize: 14,
+                                    }}
+                                >
+                                    <li>
+                                        {
+                                            (langData as any).pages.product
+                                                .quality[language]
+                                        }
+                                    </li>
+                                    <li>
+                                        {
+                                            (langData as any).pages.product
+                                                .elegant[language]
+                                        }
+                                    </li>
+                                    <li>
+                                        {
+                                            (langData as any).pages.product
+                                                .long_lasting[language]
+                                        }
+                                    </li>
+                                </ul>
+                            )}
+
+                            {!loading && (
+                                <Text type="secondary" style={{ fontSize: 12 }}>
+                                    {
+                                        (langData as any).pages.product.sku[
+                                            language
+                                        ]
+                                    }{' '}
+                                    {product?._id}
+                                </Text>
+                            )}
+
+                            {/* Description */}
                             {loading ? (
                                 <Skeleton.Input
                                     active
@@ -293,58 +317,115 @@ const Product = () => {
                                     style={{ width: '100%' }}
                                 />
                             ) : (
-                                <Paragraph>
+                                <Paragraph style={{ margin: '12px 0' }}>
                                     {language === 'en'
                                         ? product?.description
                                         : product?.description_ar}
                                 </Paragraph>
                             )}
-                            {product?.stock <= 0 ? (
+
+                            <Space
+                                direction="horizontal"
+                                size="large"
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                {/* Tags / Category */}
+                                {!loading && (
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            gap: 8,
+                                        }}
+                                    >
+                                        {product?.tags?.map((tag: string) => (
+                                            <Text
+                                                key={tag}
+                                                style={{
+                                                    fontSize: 12,
+                                                    background: '#f0f0f0',
+                                                    padding: '4px 8px',
+                                                    borderRadius: 4,
+                                                    color: '#333',
+                                                }}
+                                            >
+                                                {tag}
+                                            </Text>
+                                        ))}
+                                        {category?.name && (
+                                            <Text
+                                                style={{
+                                                    fontSize: 12,
+                                                    background: '#f0f0f0',
+                                                    padding: '4px 8px',
+                                                    borderRadius: 4,
+                                                    color: '#333',
+                                                }}
+                                            >
+                                                {language === 'en'
+                                                    ? category?.name
+                                                    : category?.name_ar}
+                                            </Text>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Price */}
+                                {category?.type === 'main' ? (
+                                    loading ? (
+                                        <Skeleton.Input
+                                            active
+                                            size="large"
+                                            style={{ width: '100%' }}
+                                        />
+                                    ) : (
+                                        <Title
+                                            level={4}
+                                            style={{
+                                                margin: '8px 0',
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {language === 'en'
+                                                ? product?.price
+                                                : arabicNumerals(
+                                                      product?.price
+                                                  )}{' '}
+                                            <Text
+                                                type="secondary"
+                                                style={{ fontSize: 14 }}
+                                            >
+                                                {
+                                                    (langData as any).pages
+                                                        .product.egp[language]
+                                                }
+                                            </Text>
+                                        </Title>
+                                    )
+                                ) : null}
+                            </Space>
+
+                            {/* Stock */}
+                            {product?.stock <= 0 && (
                                 <Text
-                                    style={{
-                                        color: 'rgba(255, 0, 0, 1)',
-                                        fontSize: 16,
-                                    }}
+                                    style={{ color: '#ff4d4f', fontSize: 14 }}
                                 >
                                     {
                                         (langData as any).pages.product
                                             .out_of_stock[language]
                                     }
                                 </Text>
-                            ) : null}
+                            )}
                         </Space>
                         <Space
                             direction="vertical"
                             size="large"
                             style={{ width: '100%', gap: '10px' }}
                         >
-                            {currUser?.user?.wishlist?.some(
-                                (item: any) => item?._id === product?._id
-                            ) ? (
-                                <Button
-                                    icon={<DeleteOutlined />}
-                                    size="large"
-                                    onClick={handleRemoveFromWishlist}
-                                    block
-                                >
-                                    {
-                                        (langData as any).pages.product
-                                            .remove_wishlist_btn[language]
-                                    }
-                                </Button>
-                            ) : (
-                                <Button
-                                    icon={<HeartOutlined />}
-                                    size="large"
-                                    onClick={handleAddToWishlist}
-                                    block
-                                >
-                                    {
-                                        (langData as any).pages.product
-                                            .add_to_wishlist[language]
-                                    }
-                                </Button>
-                            )}
                             {category?.type === 'main' ? (
                                 <Button
                                     onClick={handleAddToCart}
@@ -375,7 +456,118 @@ const Product = () => {
                                     }
                                 </Button>
                             )}
+                            {currUser?.user?.wishlist?.some(
+                                (item: any) => item?._id === product?._id
+                            ) ? (
+                                <Button
+                                    icon={<DeleteOutlined />}
+                                    size="large"
+                                    onClick={handleRemoveFromWishlist}
+                                    block
+                                >
+                                    {
+                                        (langData as any).pages.product
+                                            .remove_wishlist_btn[language]
+                                    }
+                                </Button>
+                            ) : (
+                                <Button
+                                    icon={<HeartOutlined />}
+                                    size="large"
+                                    onClick={handleAddToWishlist}
+                                    block
+                                >
+                                    {
+                                        (langData as any).pages.product
+                                            .add_to_wishlist[language]
+                                    }
+                                </Button>
+                            )}
                         </Space>
+
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 12,
+                                marginTop: 16,
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    color: '#555',
+                                }}
+                            >
+                                {
+                                    (langData as any).pages.product
+                                        .share_product[language]
+                                }
+                            </Text>
+                            <a
+                                href={`https://wa.me/?text=${encodeURIComponent(
+                                    window.location.href
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Share on WhatsApp"
+                            >
+                                <img
+                                    src={WhatsAppIcon}
+                                    width={24}
+                                    height={24}
+                                    alt="WhatsApp"
+                                />
+                            </a>
+                            <a
+                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                    window.location.href
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Share on Facebook"
+                            >
+                                <img
+                                    src={FacebookIcon}
+                                    width={24}
+                                    height={24}
+                                    alt="Facebook"
+                                />
+                            </a>
+                            <a
+                                href={`https://www.instagram.com/sharer/sharer.php?u=${encodeURIComponent(
+                                    window.location.href
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Share on Instagram"
+                            >
+                                <img
+                                    src={InstagramIcon}
+                                    width={24}
+                                    height={24}
+                                    alt="Instagram"
+                                />
+                            </a>
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                marginTop: 12,
+                                fontSize: 12,
+                                color: '#888',
+                            }}
+                        >
+                            <div>
+                                {
+                                    (langData as any).pages.product.secure[
+                                        language
+                                    ]
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -834,6 +834,30 @@
             "inquire": {
                 "en": "Inquire",
                 "ar": "استفسر"
+            },
+            "quality": {
+                "en": "High-quality materials",
+                "ar": "مواد عالية الجودة"
+            },
+            "elegant": {
+                "en": "Modern and elegant design",
+                "ar": "تصميم عصري وأنيق"
+            },
+            "long_lasting": {
+                "en": "Built for long-lasting use",
+                "ar": "مصنوع للاستخدام طويل الأمد"
+            },
+            "sku": {
+                "en": "SKU: ",
+                "ar": "رمز المنتج: "
+            },
+            "share_product": {
+                "en": "Share Product:",
+                "ar": "مشاركة المنتج:"
+            },
+            "secure": {
+                "en": "🔒 Private & Secure Experience",
+                "ar": "🔒 تجربة خاصة وآمنة"
             }
         },
         "search": {
@@ -1411,6 +1435,10 @@
             "quantity": {
                 "en": "Quantity: ",
                 "ar": "الكمية: "
+            },
+            "total": {
+                "en": "Total: ",
+                "ar": "الإجمالي: "
             }
         }
     }

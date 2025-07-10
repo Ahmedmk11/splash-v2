@@ -55,7 +55,7 @@ const Account = () => {
 
     const fetchUserOrders = async () => {
         try {
-            if (currUser.user?._id) {
+            if (currUser?.user?._id) {
                 const res = await axiosApi.get(
                     `/user/get-orders/${currUser?.user?._id}`
                 )

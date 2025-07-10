@@ -252,6 +252,7 @@ const Header = () => {
                         overlay={menu}
                         placement="bottomRight"
                         open={dropdownVisible}
+                        overlayClassName="custom-dropdown-scroll"
                     >
                         <span
                             style={{ cursor: 'pointer' }}

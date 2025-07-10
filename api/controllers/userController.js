@@ -1120,7 +1120,7 @@ async function getSearchResults(req, res) {
                     description: 1,
                     description_ar: 1,
                     price: 1,
-                    images: 1,
+                    imageUrls: 1,
                     category: {
                         _id: '$category._id',
                         name: '$category.name',
