@@ -2,23 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout'
 import { useNavigate } from 'react-router-dom'
 import { Carousel, Divider } from 'antd'
-import axiosApi from '../utils/axiosApi'
-import config from '../../config'
+import axiosApi, { baseURL } from '../utils/axiosApi'
 import LazyImage from '../components/LazyImage'
 import CategoriesContext from '../contexts/CategoriesContext'
 import { LoadingOutlined } from '@ant-design/icons'
-import { Flex, Spin } from 'antd'
+import { Spin } from 'antd'
 import LanguageContext from '../contexts/LanguageContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-
-const prod = config.PRODUCTION
-let baseURL
-
-if (prod) {
-    baseURL = config.REACT_APP_API_URL_PROD
-} else {
-    baseURL = config.REACT_APP_API_URL_DEV
-}
 
 const Home = () => {
     const navigate = useNavigate()
