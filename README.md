@@ -2,9 +2,6 @@
 
 Splash is an e-commerce platform designed to offer a seamless online shopping experience for customers. The website allows users to browse a wide variety of furniture, view details about each product, and make secure purchases directly from the platform.
 
-![Landing1 Preview](images/Landing1.png)
-![Landing2 Preview](images/Landing2.png)
-
 ---
 
 ## Features
@@ -16,10 +13,6 @@ Splash is an e-commerce platform designed to offer a seamless online shopping ex
 - **Mobile Responsive**: Fully optimized for mobile and desktop devices.
 - **Wishlist**: Save products for future purchases.
 - **Multi-Language Support**: The website supports both **English and Arabic** for a more accessible user experience.
-
-![Categories Preview](images/Category.png)
-![Product Page](images/Product.png)
-![Arabic Language Support](images/Arabic.png)
 
 ---
 

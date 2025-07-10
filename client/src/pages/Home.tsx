@@ -9,6 +9,7 @@ import CategoriesContext from '../contexts/CategoriesContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Flex, Spin } from 'antd'
 import LanguageContext from '../contexts/LanguageContext'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const prod = config.PRODUCTION
 let baseURL
@@ -49,6 +50,32 @@ const Home = () => {
         setLoading(false)
     }, [])
 
+    const CustomPrevArrow = (props: any) => {
+        const { className, onClick, style } = props
+        return (
+            <div
+                className={className}
+                onClick={onClick}
+                style={{ ...style, zIndex: 5 }}
+            >
+                <ChevronLeft className="lucide-arrow-icon" />
+            </div>
+        )
+    }
+
+    const CustomNextArrow = (props: any) => {
+        const { className, onClick, style } = props
+        return (
+            <div
+                className={className}
+                onClick={onClick}
+                style={{ ...style, zIndex: 5 }}
+            >
+                <ChevronRight className="lucide-arrow-icon" />
+            </div>
+        )
+    }
+
     return (
         <Layout>
             <div id="home-page">
@@ -61,13 +88,15 @@ const Home = () => {
                                 arrows
                                 infinite
                                 id="home-carousel"
+                                prevArrow={<CustomPrevArrow />}
+                                nextArrow={<CustomNextArrow />}
                             >
                                 {carouselProducts.map((product: any) => (
                                     <img
                                         key={product.pid}
-                                        onClick={() => {
+                                        onClick={() =>
                                             navigate(`/product/${product._id}`)
-                                        }}
+                                        }
                                         src={
                                             baseURL.slice(0, -1) +
                                             product?.imageUrls[0]
@@ -81,6 +110,7 @@ const Home = () => {
                                 ))}
                             </Carousel>
                         )}
+
                         <div id="home-bottom">
                             <div id="home-categories">
                                 {categories
@@ -97,8 +127,13 @@ const Home = () => {
                                                     `/category/${category._id}`
                                                 )
                                             }}
+                                            style={{
+                                                position: 'relative',
+                                                cursor: 'pointer',
+                                            }}
                                         >
                                             <LazyImage
+                                                pointer={true}
                                                 imageUrl={category.imageUrl}
                                                 alt={
                                                     language === 'en'
@@ -108,11 +143,30 @@ const Home = () => {
                                                 width={'100%'}
                                                 height={'700px'}
                                             />
-                                            <h2>
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: 20,
+                                                    left: '50%',
+                                                    transform:
+                                                        'translateX(-50%)',
+                                                    backgroundColor:
+                                                        'rgba(255, 255, 255, 0.9)',
+                                                    color: '#111',
+                                                    padding: '10px 24px',
+                                                    borderRadius: 20,
+                                                    fontSize: 16,
+                                                    fontWeight: 600,
+                                                    textAlign: 'center',
+                                                    boxShadow:
+                                                        '0 8px 20px rgba(0, 0, 0, 0.15)',
+                                                    whiteSpace: 'nowrap',
+                                                }}
+                                            >
                                                 {language === 'en'
                                                     ? category.name
                                                     : category.name_ar}
-                                            </h2>
+                                            </div>
                                         </div>
                                     ))}
                             </div>
@@ -135,8 +189,13 @@ const Home = () => {
                                                 `/category/${category._id}`
                                             )
                                         }}
+                                        style={{
+                                            position: 'relative',
+                                            cursor: 'pointer',
+                                        }}
                                     >
                                         <LazyImage
+                                            pointer={true}
                                             imageUrl={category.imageUrl}
                                             alt={
                                                 language === 'en'
@@ -146,11 +205,29 @@ const Home = () => {
                                             width={'100%'}
                                             height={'700px'}
                                         />
-                                        <h2>
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                bottom: 20,
+                                                left: '50%',
+                                                transform: 'translateX(-50%)',
+                                                backgroundColor:
+                                                    'rgba(255, 255, 255, 0.9)',
+                                                color: '#111',
+                                                padding: '10px 24px',
+                                                borderRadius: 20,
+                                                fontSize: 16,
+                                                fontWeight: 600,
+                                                textAlign: 'center',
+                                                boxShadow:
+                                                    '0 8px 20px rgba(0, 0, 0, 0.15)',
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             {language === 'en'
                                                 ? category.name
                                                 : category.name_ar}
-                                        </h2>
+                                        </div>
                                     </div>
                                 ))}
                         </div>
@@ -173,8 +250,13 @@ const Home = () => {
                                                 `/category/${category._id}`
                                             )
                                         }}
+                                        style={{
+                                            position: 'relative',
+                                            cursor: 'pointer',
+                                        }}
                                     >
                                         <LazyImage
+                                            pointer={true}
                                             imageUrl={category.imageUrl}
                                             alt={
                                                 language === 'en'
@@ -184,11 +266,29 @@ const Home = () => {
                                             width={'100%'}
                                             height={'700px'}
                                         />
-                                        <h2>
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                bottom: 20,
+                                                left: '50%',
+                                                transform: 'translateX(-50%)',
+                                                backgroundColor:
+                                                    'rgba(255, 255, 255, 0.9)',
+                                                color: '#111',
+                                                padding: '10px 24px',
+                                                borderRadius: 20,
+                                                fontSize: 16,
+                                                fontWeight: 600,
+                                                textAlign: 'center',
+                                                boxShadow:
+                                                    '0 8px 20px rgba(0, 0, 0, 0.15)',
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             {language === 'en'
                                                 ? category.name
                                                 : category.name_ar}
-                                        </h2>
+                                        </div>
                                     </div>
                                 ))}
                         </div>
