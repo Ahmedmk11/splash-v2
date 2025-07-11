@@ -5,6 +5,10 @@
             "destination": "https://eight88-backend-service.onrender.com/seo/sitemap.xml"
         },
         {
+            "source": "/images/:path*",
+            "destination": "https://eight88-backend-service.onrender.com/images/:path*"
+        },
+        {
             "source": "/(.*)",
             "destination": "/"
         }
