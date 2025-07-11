@@ -9,6 +9,7 @@ import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import uploadRoutes from './routes/imageRoutes.js'
+import sitemapRoute from './routes/sitemapRoute.js'
 
 import { connectToDatabase } from './database.js'
 
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/images', express.static('images'))
 
+app.use('/', sitemapRoute)
 app.use('/upload', uploadRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
