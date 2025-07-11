@@ -1,3 +1,12 @@
 {
-    "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+    "rewrites": [
+        {
+            "source": "/sitemap.xml",
+            "destination": "https://eight88-backend-service.onrender.com/seo/sitemap.xml"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
 }
