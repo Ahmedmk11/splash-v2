@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/images', express.static('images'))
 
-app.use('/', sitemapRoute)
+app.use('/seo', sitemapRoute)
 app.use('/upload', uploadRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
