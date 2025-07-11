@@ -5,6 +5,8 @@ import {
     uploadMarketing,
     uploadLogo,
 } from '../middleware/upload.js'
+
+import { isRestricted } from '../middleware/authMiddleware.js'
 import { uploadImageToGitHub } from '../utils/githubUploader.js'
 import path from 'path'
 import fs from 'fs'
@@ -14,6 +16,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const router = express.Router()
+
+router.use(isRestricted)
 
 // Product image upload (multiple files)
 router.post('/product', uploadProduct, async (req, res) => {

@@ -11,6 +11,7 @@ import {
     forgotPasswordEmail,
     loginWithToken,
 } from '../controllers/authController.js'
+import { isRestricted } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
@@ -21,7 +22,7 @@ router.post('/resend-email', resendEmail)
 router.post('/login', login)
 router.post('/logout', logout)
 router.post('/register-customer', registerCustomer)
-router.post('/register-admin', registerAdmin)
+router.post('/register-admin', isRestricted, registerAdmin)
 router.post('/forgot-password-email', forgotPasswordEmail)
 
 export default router
