@@ -29,7 +29,6 @@ body {
     display: flex;
     place-items: center;
     min-width: 320px;
-    height: 100%;
 }
 
 body.en {
@@ -69,4 +68,10 @@ a {
 
 .ant-form-item-explain-error {
     margin-bottom: 10px !important;
+}
+
+button {
+    box-shadow: none !important;
+
+    cursor: pointer;
 }

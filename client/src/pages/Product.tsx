@@ -114,75 +114,111 @@ const Product = () => {
     }
 
     const handleInquire = async () => {
+        const contactItems = [
+            {
+                icon: (
+                    <MailOutlined style={{ fontSize: 20, color: '#1677ff' }} />
+                ),
+                label: (langData as any).pages.product.email[language],
+                link: 'mailto:amgadkamalsplash@gmail.com',
+                text: 'amgadkamalsplash@gmail.com',
+            },
+            {
+                icon: (
+                    <WhatsAppOutlined
+                        style={{ fontSize: 20, color: '#25d366' }}
+                    />
+                ),
+                label: (langData as any).pages.product.whatsapp[language],
+                link: 'https://wa.me/+201221045135',
+                text: (langData as any).pages.product.chat[language],
+            },
+            {
+                icon: (
+                    <PhoneOutlined style={{ fontSize: 20, color: '#52c41a' }} />
+                ),
+                label: (langData as any).pages.product.phone1[language],
+                link: 'tel:+201023223921',
+                text: '+201023223921',
+            },
+            {
+                icon: (
+                    <PhoneOutlined style={{ fontSize: 20, color: '#52c41a' }} />
+                ),
+                label: (langData as any).pages.product.phone2[language],
+                link: 'tel:+201061499915',
+                text: '+201061499915',
+            },
+            {
+                icon: (
+                    <PhoneOutlined style={{ fontSize: 20, color: '#52c41a' }} />
+                ),
+                label: (langData as any).pages.product.phone3[language],
+                link: 'tel:0223519255',
+                text: '0223519255',
+            },
+        ]
+
         Modal.info({
             title: (langData as any).pages.product.contactus[language],
+            width: window.innerWidth < 500 ? '90%' : 520,
+            icon: null,
             content: (
-                <Space direction="vertical">
-                    <Text
-                        style={{
-                            display: 'flex',
-                            gap: '5px',
-                        }}
+                <div
+                    style={{
+                        marginTop: 20,
+                        marginBottom: 20,
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Space
+                        direction="vertical"
+                        size="middle"
+                        style={{ width: '100%', maxWidth: 400 }}
                     >
-                        <MailOutlined />
-                        {(langData as any).pages.product.email[language]}
-                        <Link href="mailto:amgadkamalsplash@gmail.com">
-                            amgadkamalsplash@gmail.com
-                        </Link>
-                    </Text>
-                    <Text
-                        style={{
-                            display: 'flex',
-                            gap: '5px',
-                        }}
-                    >
-                        <WhatsAppOutlined />
-                        {(langData as any).pages.product.whatsapp[language]}
-                        <Link
-                            href="https://wa.me/+201221045135"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {(langData as any).pages.product.chat[language]}
-                        </Link>
-                    </Text>
-                    <Text
-                        style={{
-                            display: 'flex',
-                            gap: '5px',
-                        }}
-                    >
-                        <PhoneOutlined />
-                        {(langData as any).pages.product.phone1[language]}
-                        <Link target="_blank" href="tel:+201023223921">
-                            +201023223921
-                        </Link>
-                    </Text>
-                    <Text
-                        style={{
-                            display: 'flex',
-                            gap: '5px',
-                        }}
-                    >
-                        <PhoneOutlined />
-                        {(langData as any).pages.product.phone2[language]}
-                        <Link target="_blank" href="tel:+201061499915">
-                            +201061499915
-                        </Link>
-                    </Text>
-                    <Text
-                        style={{
-                            display: 'flex',
-                            gap: '5px',
-                        }}
-                    >
-                        <PhoneOutlined />
-                        {(langData as any).pages.product.phone3[language]}
-                        <Link target="_blank" href="tel:0223519255">
-                            0223519255
-                        </Link>
-                    </Text>
-                </Space>
+                        {contactItems.map(({ icon, label, link, text }, i) => (
+                            <div
+                                key={i}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '12px',
+                                    padding: '12px 16px',
+                                    borderRadius: '10px',
+                                    backgroundColor: '#f5f5f5',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                                }}
+                            >
+                                <div style={{ marginTop: 4 }}>{icon}</div>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
+                                    <Text
+                                        type="secondary"
+                                        style={{
+                                            fontSize: 13,
+                                            lineHeight: 1.2,
+                                        }}
+                                    >
+                                        {label}
+                                    </Text>
+                                    <Link
+                                        href={link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {text}
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </Space>
+                </div>
             ),
             onOk() {},
         })
@@ -229,9 +265,8 @@ const Product = () => {
                         )}
 
                         <div id="product-mini-images">
-                            {product?.imageUrls
-                                .slice(1)
-                                .map((image: any, index: any) => (
+                            {product?.imageUrls.map(
+                                (image: any, index: any) => (
                                     <Image
                                         key={index}
                                         src={baseURL.slice(0, -1) + image}
@@ -243,10 +278,11 @@ const Product = () => {
                                             cursor: 'pointer',
                                         }}
                                     />
-                                ))}
+                                )
+                            )}
                         </div>
                     </div>
-                    <div id="product-info" style={{ maxWidth: '500px' }}>
+                    <div id="product-info">
                         <Space
                             direction="vertical"
                             size="large"
@@ -421,10 +457,13 @@ const Product = () => {
                                 </Text>
                             )}
                         </Space>
-                        <Space
-                            direction="vertical"
-                            size="large"
-                            style={{ width: '100%', gap: '10px' }}
+                        <div
+                            style={{
+                                width: '100%',
+                                gap: '2px',
+                                display: 'flex',
+                                flexDirection: 'row',
+                            }}
                         >
                             {category?.type === 'main' ? (
                                 <Button
@@ -434,6 +473,9 @@ const Product = () => {
                                     block
                                     icon={<ShoppingCartOutlined />}
                                     disabled={product?.stock === 0}
+                                    style={{
+                                        width: '100%',
+                                    }}
                                 >
                                     {
                                         (langData as any).pages.product
@@ -448,6 +490,9 @@ const Product = () => {
                                     block
                                     icon={<InfoCircleOutlined />}
                                     disabled={product?.stock === 0}
+                                    style={{
+                                        width: '100%',
+                                    }}
                                 >
                                     {
                                         (langData as any).pages.product.inquire[
@@ -464,26 +509,30 @@ const Product = () => {
                                     size="large"
                                     onClick={handleRemoveFromWishlist}
                                     block
-                                >
-                                    {
-                                        (langData as any).pages.product
-                                            .remove_wishlist_btn[language]
-                                    }
-                                </Button>
+                                    style={{
+                                        width: 'fit-content',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        padding: '0 16px',
+                                    }}
+                                ></Button>
                             ) : (
                                 <Button
                                     icon={<HeartOutlined />}
                                     size="large"
                                     onClick={handleAddToWishlist}
+                                    style={{
+                                        width: 'fit-content',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        padding: '0 16px',
+                                    }}
                                     block
-                                >
-                                    {
-                                        (langData as any).pages.product
-                                            .add_to_wishlist[language]
-                                    }
-                                </Button>
+                                ></Button>
                             )}
-                        </Space>
+                        </div>
 
                         <div
                             style={{

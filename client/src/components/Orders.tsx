@@ -111,6 +111,7 @@ const Orders = ({ orders, loading }: { orders: any; loading: boolean }) => {
                     <div
                         style={{
                             display: 'flex',
+                            flexWrap: 'wrap',
                             justifyContent: 'space-between',
                             alignItems: 'center',
                             marginBottom: 8,

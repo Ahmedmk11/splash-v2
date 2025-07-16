@@ -72,33 +72,42 @@ const Home = () => {
                 {!loading ? (
                     <>
                         {carouselProducts.length > 0 && (
-                            <Carousel
-                                autoplaySpeed={2000}
-                                autoplay
-                                arrows
-                                infinite
-                                id="home-carousel"
-                                prevArrow={<CustomPrevArrow />}
-                                nextArrow={<CustomNextArrow />}
-                            >
-                                {carouselProducts.map((product: any) => (
-                                    <img
-                                        key={product.pid}
-                                        onClick={() =>
-                                            navigate(`/product/${product._id}`)
-                                        }
-                                        src={
-                                            baseURL.slice(0, -1) +
-                                            product?.imageUrls[0]
-                                        }
-                                        alt={
-                                            language === 'en'
-                                                ? product.name
-                                                : product.name_ar
-                                        }
-                                    />
-                                ))}
-                            </Carousel>
+                            <div className="carousel-wrapper">
+                                <Carousel
+                                    arrows
+                                    infinite
+                                    autoplay
+                                    autoplaySpeed={4000}
+                                    prevArrow={<CustomPrevArrow />}
+                                    nextArrow={<CustomNextArrow />}
+                                >
+                                    {carouselProducts.map((product: any) => (
+                                        <div
+                                            className="carousel-slide"
+                                            key={product.pid}
+                                        >
+                                            <div className="image-container">
+                                                <img
+                                                    src={
+                                                        baseURL.slice(0, -1) +
+                                                        product?.imageUrls[0]
+                                                    }
+                                                    alt={
+                                                        language === 'en'
+                                                            ? product.name
+                                                            : product.name_ar
+                                                    }
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/product/${product._id}`
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </Carousel>
+                            </div>
                         )}
 
                         <div id="home-bottom">

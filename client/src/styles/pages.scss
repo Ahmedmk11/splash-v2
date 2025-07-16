@@ -9,20 +9,34 @@
     max-width: 1300px;
 }
 
-#home-carousel {
-    cursor: pointer;
+.carousel-wrapper {
+    position: relative;
     width: 100%;
+}
+
+.carousel-slide {
+    width: 100%;
+}
+
+.image-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+
     img {
         width: 100%;
-        height: 650px;
+        height: 100%;
         object-fit: cover;
+        object-position: center;
+        display: block;
+        cursor: pointer;
     }
 }
 
-/* Arrows */
-#home-carousel .slick-prev,
-#home-carousel .slick-next {
-    z-index: 5;
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+    z-index: 10;
     width: 48px;
     height: 48px;
     background: rgba(255, 255, 255, 0.75);
@@ -32,22 +46,17 @@
     align-items: center;
     top: 50%;
     transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-}
-
-.slick-arrow.slick-prev::after,
-.slick-arrow.slick-next::after {
-    display: none;
 }
 
 .lucide-arrow-icon {
     width: 30px;
     height: 30px;
     color: black;
-    font-weight: 900;
+}
+
+.slick-arrow.slick-prev::after,
+.slick-arrow.slick-next::after {
+    display: none;
 }
 
 #home-bottom {
@@ -309,25 +318,30 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
-    height: 100%;
     width: 100%;
     box-sizing: border-box;
+
+    .ant-image-mask {
+        border-radius: 6px;
+    }
 
     #product-image {
         display: flex;
         justify-content: flex-start;
         flex-direction: column;
         align-items: flex-start;
-        width: 50%;
-        max-width: 500px;
+        flex: 1;
 
         #antd-product-image {
             width: 100%;
             height: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
             img {
-                height: 500px;
-                max-height: 500px;
+                height: auto;
+                max-height: 70vh;
+
+                border-radius: 6px;
 
                 object-fit: cover;
             }
@@ -342,7 +356,19 @@
             margin-top: 10px;
 
             .ant-image {
-                height: fit-content;
+                height: 100px; // force a fixed height
+                width: 100%;
+                overflow: hidden;
+                border-radius: 6px;
+
+                // force the internal image to fill the box
+                img {
+                    height: 100% !important;
+                    width: 100% !important;
+                    object-fit: cover;
+                    object-position: center;
+                    display: block;
+                }
             }
         }
     }
@@ -351,8 +377,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 50%;
-        height: 500px;
+        width: min(50%, 800px);
     }
 }
 
@@ -366,6 +391,16 @@
     #product-mini-images {
         grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         gap: 8px;
+
+        .ant-image {
+            height: 80px;
+
+            img {
+                height: 100% !important;
+                width: 100% !important;
+                object-fit: cover;
+            }
+        }
     }
 }
 
@@ -459,7 +494,26 @@
         width: 100%;
         justify-content: space-between;
     }
+}
 
+.custom-dropdown-scroll {
+    max-height: 300px;
+    overflow: hidden !important;
+    border: 1px solid #d9d9d9;
+}
+
+.custom-dropdown-scroll .ant-dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+}
+
+.custom-dropdown-scroll .ant-dropdown-menu::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+@media (max-width: 1000px) {
     #product-container {
         display: flex;
         flex-direction: column;
@@ -480,21 +534,4 @@
             max-width: 100% !important;
         }
     }
-}
-
-.custom-dropdown-scroll {
-    max-height: 300px;
-    overflow: hidden !important;
-    border: 1px solid #d9d9d9;
-}
-
-.custom-dropdown-scroll .ant-dropdown-menu {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: none; /* Firefox */
-}
-
-.custom-dropdown-scroll .ant-dropdown-menu::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
 }

@@ -222,7 +222,7 @@ const Header = () => {
     )
 
     const drawerContent = (
-        <>
+        <div style={{ width: '100%' }}>
             <div className="drawer-item">
                 <Input
                     placeholder={
@@ -317,7 +317,7 @@ const Header = () => {
                     </Menu.Item>
                 )}
             </Menu>
-        </>
+        </div>
     )
 
     return (
