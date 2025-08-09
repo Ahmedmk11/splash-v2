@@ -457,16 +457,20 @@ const Product = () => {
                             </Space>
 
                             {/* Stock */}
-                            {product?.stock <= 0 && (
-                                <Text
-                                    style={{ color: '#ff4d4f', fontSize: 14 }}
-                                >
-                                    {
-                                        (langData as any).pages.product
-                                            .out_of_stock[language]
-                                    }
-                                </Text>
-                            )}
+                            {product?.stock <= 0 &&
+                                category?.type === 'main' && (
+                                    <Text
+                                        style={{
+                                            color: '#ff4d4f',
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        {
+                                            (langData as any).pages.product
+                                                .out_of_stock[language]
+                                        }
+                                    </Text>
+                                )}
                         </Space>
                         <div
                             style={{
@@ -500,7 +504,6 @@ const Product = () => {
                                     size="large"
                                     block
                                     icon={<InfoCircleOutlined />}
-                                    disabled={product?.stock === 0}
                                     style={{
                                         width: '100%',
                                     }}
