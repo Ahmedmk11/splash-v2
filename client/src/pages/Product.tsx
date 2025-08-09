@@ -516,6 +516,7 @@ const Product = () => {
                                     }
                                 </Button>
                             )}
+
                             {currUser?.user?.wishlist?.some(
                                 (item: any) => item?._id === product?._id
                             ) ? (
