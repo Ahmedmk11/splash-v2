@@ -99,7 +99,7 @@ const Home = () => {
                                                     }
                                                     onClick={() =>
                                                         navigate(
-                                                            `/product/${product._id}`
+                                                            `/product/${product.pid}`
                                                         )
                                                     }
                                                 />

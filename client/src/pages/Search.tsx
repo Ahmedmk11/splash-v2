@@ -120,7 +120,7 @@ const Search = () => {
                                                             }}
                                                             onClick={() => {
                                                                 navigate(
-                                                                    `/product/${product._id}`
+                                                                    `/product/${product.pid}`
                                                                 )
                                                             }}
                                                         />

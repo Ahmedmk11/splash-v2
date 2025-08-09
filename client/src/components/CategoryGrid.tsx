@@ -106,7 +106,7 @@ const CategoryGrid = ({ categoryId }: { categoryId: any }) => {
                                                     }}
                                                     onClick={() => {
                                                         navigate(
-                                                            `/product/${product._id}`
+                                                            `/product/${product.pid}`
                                                         )
                                                     }}
                                                 />

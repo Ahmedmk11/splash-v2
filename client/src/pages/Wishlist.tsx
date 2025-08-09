@@ -196,7 +196,7 @@ const Wishlist = () => {
                                                             }
                                                             onClick={() => {
                                                                 navigate(
-                                                                    `/product/${item?._id}`
+                                                                    `/product/${item?.pid}`
                                                                 )
                                                             }}
                                                         >

@@ -85,7 +85,7 @@ router.get('/sitemap.xml', async (req, res) => {
         const lastmod = prod.updatedAt ? prod.updatedAt.toISOString() : today
         xml += `
     <url>
-        <loc>${baseUrl}/product/${prod._id}</loc>
+        <loc>${baseUrl}/product/${prod.pid}</loc>
         <lastmod>${lastmod}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>`
