@@ -47,6 +47,7 @@ import {
     getMarketingEmail,
     sendMarketingEmail,
     sendSupportEmail,
+    getProductBySku,
 } from '../controllers/userController.js'
 
 import { isRestricted } from '../middleware/authMiddleware.js'
