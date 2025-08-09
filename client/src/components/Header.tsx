@@ -206,7 +206,7 @@ const Header = () => {
                 style={{
                     width: 200,
                 }}
-                title-={
+                title={
                     (langData as any).components.headercomponent.design[
                         language
                     ]
