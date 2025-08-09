@@ -1522,7 +1522,7 @@ const AdminDashboard: React.FC = () => {
                                         key={product._id}
                                         value={product._id}
                                     >
-                                        {product.pid}
+                                        {product.name}
                                     </Select.Option>
                                 ))}
                             </Select>

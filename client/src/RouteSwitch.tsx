@@ -36,7 +36,7 @@ const RouteSwitch = () => {
         <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/category/:categoryId" element={<Category />} />
-            <Route path="/product/:productId" element={<Product />} />
+            <Route path="/product/:sku" element={<Product />} />
             <Route path="/search/:searchTerm" element={<Search />} />
 
             <Route path="/about" element={<AboutUs />} />

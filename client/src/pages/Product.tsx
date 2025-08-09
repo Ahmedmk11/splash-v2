@@ -32,13 +32,24 @@ import InstagramIcon from '../assets/icons/ig.svg'
 const { Title, Text, Link, Paragraph } = Typography
 
 const Product = () => {
-    const { productId } = useParams<{ productId: string }>()
+    const { sku } = useParams<{ sku: string }>()
+    const [productId, setProductId] = useState<any>()
     const { currUser, fetchUser } = useContext(CurrUserContext)
     const { language, langData, arabicNumerals } = useContext(LanguageContext)
     const [product, setProduct] = useState<any>()
     const [category, setCategory] = useState<any>()
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchId = async () => {
+            const res = await axiosApi.get(`/user/get-product-by-sku/${sku}`)
+            setProductId(res.data.productId)
+            setLoading(false)
+        }
+
+        fetchId()
+    }, [])
 
     const fetchCategory = async (productItem: any) => {
         try {

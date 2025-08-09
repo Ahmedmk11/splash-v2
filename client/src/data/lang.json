@@ -384,11 +384,11 @@
                 "ar": "إضافة منتج جديد"
             },
             "productID": {
-                "en": "Product ID",
+                "en": "SKU",
                 "ar": "رقم المنتج"
             },
             "productID_message": {
-                "en": "Product ID is required",
+                "en": "SKU is required",
                 "ar": "رقم المنتج مطلوب"
             },
             "productname": {
