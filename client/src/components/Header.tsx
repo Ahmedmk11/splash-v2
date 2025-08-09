@@ -173,7 +173,7 @@ const Header = () => {
         <Menu className="header-menu" onClick={handleMenuClick}>
             <Menu.ItemGroup
                 style={{
-                    width: 200,
+                    width: 250,
                 }}
                 title={
                     (langData as any).components.headercomponent.rooms[language]
@@ -187,7 +187,7 @@ const Header = () => {
             </Menu.ItemGroup>
             <Menu.ItemGroup
                 style={{
-                    width: 200,
+                    width: 250,
                 }}
                 title={
                     (langData as any).components.headercomponent.products[
@@ -204,7 +204,7 @@ const Header = () => {
 
             <Menu.ItemGroup
                 style={{
-                    width: 200,
+                    width: 250,
                 }}
                 title={
                     (langData as any).components.headercomponent.design[
