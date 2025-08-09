@@ -421,8 +421,8 @@ const Product = () => {
                                     </div>
                                 )}
 
-                                {/* Price */}
-                                {category?.type === 'main' ? (
+                                {/* Price: TODO CHANGE HERE IF NEEDED */}
+                                {category?.type === 'jjjj' ? (
                                     loading ? (
                                         <Skeleton.Input
                                             active
@@ -456,9 +456,9 @@ const Product = () => {
                                 ) : null}
                             </Space>
 
-                            {/* Stock */}
+                            {/* Stock: TODO CHANGE HERE IF NEEDED */}
                             {product?.stock <= 0 &&
-                                category?.type === 'main' && (
+                                category?.type === 'jjjj' && (
                                     <Text
                                         style={{
                                             color: '#ff4d4f',
@@ -480,7 +480,8 @@ const Product = () => {
                                 flexDirection: 'row',
                             }}
                         >
-                            {category?.type === 'main' ? (
+                            {/* TODO: CHANGE THIS IF NEEDED */}
+                            {category?.type === 'jjjj' ? (
                                 <Button
                                     onClick={handleAddToCart}
                                     type="primary"
