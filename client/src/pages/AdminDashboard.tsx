@@ -509,7 +509,9 @@ const AdminDashboard: React.FC = () => {
                     language
                 ]
             )
-            onResetProduct()
+            // onResetProduct()
+            setProductImages(null)
+
             fetchProducts()
         } catch (err) {
             console.error('Error saving product', err)
