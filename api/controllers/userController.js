@@ -249,15 +249,13 @@ async function getProduct(req, res) {
 async function getProductBySku(req, res) {
     try {
         const { sku } = req.params
-        const product = await ProductModel.findOne({ pid: sku }).populate(
-            'category'
-        )
+        const product = await ProductModel.findOne({ pid: sku }, '_id')
 
         if (!product) {
             return res.status(404).json({ message: 'Product not found' })
         }
 
-        res.status(200).json({ product })
+        res.status(200).json({ product_id: product._id })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

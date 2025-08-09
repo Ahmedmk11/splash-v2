@@ -44,7 +44,7 @@ const Product = () => {
     useEffect(() => {
         const fetchId = async () => {
             const res = await axiosApi.get(`/user/get-product-by-sku/${sku}`)
-            setProductId(res.data.productId)
+            setProductId(res.data.product_id)
             setLoading(false)
         }
 
