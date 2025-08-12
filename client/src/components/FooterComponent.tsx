@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom'
 import LanguageContext from '../contexts/LanguageContext'
 import axiosApi from '../utils/axiosApi'
 import LazyImage from './LazyImage'
-import LazyLoad from 'react-lazyload'
 
 const FooterComponent = () => {
     const currYear = new Date().getFullYear()
@@ -73,8 +72,16 @@ const FooterComponent = () => {
             />
 
             <div className="footer-top">
-                <div className="footer-col">
-                    {/* <h1>Splash</h1> */}
+                <div
+                    className="footer-col"
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0 20px',
+                    }}
+                >
                     <h1 className="logo-h1">
                         <LazyImage
                             alt={
@@ -82,7 +89,7 @@ const FooterComponent = () => {
                                     .logo[language]
                             }
                             imageUrl={logoImage}
-                            width={'75%'}
+                            width={'90%'}
                             height={'auto'}
                             onclick={() => {
                                 navigate('/')
@@ -99,7 +106,11 @@ const FooterComponent = () => {
                                     .policiescol[language]
                             }
                         </h2>
-                        <Divider />
+                        <Divider
+                            style={{
+                                backgroundColor: '#e8ede7',
+                            }}
+                        />
                         <p>
                             <a href="/privacy-policy">
                                 {
@@ -123,7 +134,11 @@ const FooterComponent = () => {
                                     .contactcol[language]
                             }
                         </h2>
-                        <Divider />
+                        <Divider
+                            style={{
+                                backgroundColor: '#e8ede7',
+                            }}
+                        />
                         <p>
                             <a href="/about">
                                 {
@@ -147,7 +162,11 @@ const FooterComponent = () => {
                                     .followuscol[language]
                             }
                         </h2>
-                        <Divider />
+                        <Divider
+                            style={{
+                                backgroundColor: '#e8ede7',
+                            }}
+                        />
                         <div className="social-icons">
                             <FacebookOutlined
                                 className="social-icon"

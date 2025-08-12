@@ -329,6 +329,7 @@ const Header = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        backgroundColor: '#12354b',
                     }}
                     className="header-item all-screens"
                     onClick={() => {
@@ -350,7 +351,7 @@ const Header = () => {
                             }
                             src={baseURL.slice(0, -1) + logoImage}
                             width={'auto'}
-                            height={'40px'}
+                            height={'30px'}
                         />
                     </h1>
                 </div>
@@ -374,11 +375,14 @@ const Header = () => {
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                borderRadius: 0,
                                 border: 'none',
                                 fontSize: 16,
                                 cursor: 'text',
                                 outline: 'none',
+
+                                backgroundColor: '#f0f0f0',
+                                borderRadius: '4px',
+                                padding: '4px 8px',
                             }}
                             onPressEnter={search}
                             allowClear
@@ -395,7 +399,12 @@ const Header = () => {
                             }}
                         >
                             <span className="underline-hover">
-                                <AppstoreOutlined className="icon" />
+                                <AppstoreOutlined
+                                    className="icon"
+                                    style={{
+                                        color: '#f0f0f0',
+                                    }}
+                                />
                                 <h4>
                                     {
                                         (langData as any).components
@@ -407,6 +416,17 @@ const Header = () => {
                             </span>
                         </Dropdown>
                     </div>
+                    <span
+                        className="separator"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '100%',
+                        }}
+                    >
+                        |
+                    </span>
                     {!currUser?.user?.type ? (
                         <>
                             <div className="header-item big-screens">
@@ -416,7 +436,12 @@ const Header = () => {
                                         navigate('/wishlist')
                                     }}
                                 >
-                                    <HeartOutlined className="icon" />
+                                    <HeartOutlined
+                                        style={{
+                                            color: '#f0f0f0',
+                                        }}
+                                        className="icon"
+                                    />
                                     <h4>
                                         {
                                             (langData as any).components
@@ -427,6 +452,17 @@ const Header = () => {
                                     </h4>
                                 </span>
                             </div>
+                            <span
+                                className="separator"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                }}
+                            >
+                                |
+                            </span>
                             <div className="header-item big-screens">
                                 <span
                                     className="underline-hover"
@@ -434,7 +470,12 @@ const Header = () => {
                                         navigate('/cart')
                                     }}
                                 >
-                                    <ShoppingCartOutlined className="icon" />
+                                    <ShoppingCartOutlined
+                                        style={{
+                                            color: '#f0f0f0',
+                                        }}
+                                        className="icon"
+                                    />
                                     <h4>
                                         {
                                             (langData as any).components
@@ -453,7 +494,12 @@ const Header = () => {
                                         await axiosApi.post('/user/test-get')
                                     }}
                                 >
-                                    <CodeOutlined className="icon" />
+                                    <CodeOutlined
+                                        style={{
+                                            color: '#f0f0f0',
+                                        }}
+                                        className="icon"
+                                    />
                                     <h4>
                                         {
                                             (langData as any).components
@@ -464,6 +510,17 @@ const Header = () => {
                                     </h4>
                                 </span>
                             </div>
+                            <span
+                                className="separator"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                }}
+                            >
+                                |
+                            </span>
                             <div className="header-item big-screens">
                                 <span
                                     className="underline-hover"
@@ -471,7 +528,12 @@ const Header = () => {
                                         await axiosApi.post('/user/test-post')
                                     }}
                                 >
-                                    <CodeOutlined className="icon" />
+                                    <CodeOutlined
+                                        style={{
+                                            color: '#f0f0f0',
+                                        }}
+                                        className="icon"
+                                    />
                                     <h4>
                                         {' '}
                                         {
@@ -490,6 +552,17 @@ const Header = () => {
                             <div className="header-item big-screens">-----</div>
                         </>
                     )}
+                    <span
+                        className="separator"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '100%',
+                        }}
+                    >
+                        |
+                    </span>
                     <div className="header-item big-screens">
                         {currUser ? (
                             <Dropdown
@@ -501,7 +574,12 @@ const Header = () => {
                             >
                                 <span className="underline-hover">
                                     <Space>
-                                        <UserOutlined className="icon" />
+                                        <UserOutlined
+                                            style={{
+                                                color: '#f0f0f0',
+                                            }}
+                                            className="icon"
+                                        />
                                     </Space>
                                     <h4>{currUser?.user?.first_name}</h4>
                                 </span>
@@ -514,7 +592,12 @@ const Header = () => {
                                 }}
                             >
                                 <Space>
-                                    <UserOutlined className="icon" />
+                                    <UserOutlined
+                                        style={{
+                                            color: '#f0f0f0',
+                                        }}
+                                        className="icon"
+                                    />
                                 </Space>
                                 <h4>
                                     {
