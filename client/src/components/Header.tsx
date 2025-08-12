@@ -417,7 +417,7 @@ const Header = () => {
                         </Dropdown>
                     </div>
                     <span
-                        className="separator"
+                        className="separator small-screens"
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -453,7 +453,7 @@ const Header = () => {
                                 </span>
                             </div>
                             <span
-                                className="separator"
+                                className="separator small-screens"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -511,7 +511,7 @@ const Header = () => {
                                 </span>
                             </div>
                             <span
-                                className="separator"
+                                className="separator small-screens"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -553,7 +553,7 @@ const Header = () => {
                         </>
                     )}
                     <span
-                        className="separator"
+                        className="separator small-screens"
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -621,6 +621,7 @@ const Header = () => {
                             <MenuOutlined
                                 style={{
                                     fontSize: 20,
+                                    color: '#f0f0f0',
                                 }}
                                 className="icon"
                             />

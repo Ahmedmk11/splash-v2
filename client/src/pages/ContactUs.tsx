@@ -126,7 +126,7 @@ const ContactUs = () => {
                             (langData as any).pages.contactus.findusat[language]
                         }
                     >
-                        <iframe
+                        {/* <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d928.3980224242471!2d31.35023753591257!3d30.067931390829408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583e0b0fc3d643%3A0x8d5a05fcf35f394e!2sTawfik%20Ahmed%20El-Bakry%2C%20Al%20Manteqah%20as%20Sadesah%2C%20Nasr%20City%2C%20Cairo%20Governorate%204450473!5e0!3m2!1sen!2seg!4v1678397177975!5m2!1sen!2seg"
                             style={{
                                 border: 0,
@@ -137,7 +137,7 @@ const ContactUs = () => {
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
                             id="map"
-                        ></iframe>
+                        ></iframe> */}
                         <Title level={3} style={{ marginTop: '24px' }}>
                             {
                                 (langData as any).pages.contactus.contact_info[

@@ -620,8 +620,8 @@
                 "ar": "حدث خطأ ما"
             },
             "title": {
-                "en": "Contact Us",
-                "ar": "اتصل بنا"
+                "en": "Share Your Feedback",
+                "ar": "شاركنا ملاحظاتك"
             },
             "name": {
                 "en": "Name",
@@ -656,8 +656,8 @@
                 "ar": "إرسال"
             },
             "findusat": {
-                "en": "Find Us At",
-                "ar": "موقعنا"
+                "en": "For Inquiries",
+                "ar": "للاستفسار"
             },
             "contact_info": {
                 "en": "Contact Information: ",
