@@ -10,6 +10,8 @@ import { Spin } from 'antd'
 import LanguageContext from '../contexts/LanguageContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+import Overlay from '../components/Overlay'
+
 const Home = () => {
     const navigate = useNavigate()
     const { categories, setCategories } = useContext(CategoriesContext)
@@ -68,6 +70,7 @@ const Home = () => {
 
     return (
         <Layout>
+            <Overlay />
             <div id="home-page">
                 {!loading ? (
                     <>

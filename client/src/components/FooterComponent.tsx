@@ -64,6 +64,7 @@ const FooterComponent = () => {
             }}
         >
             <FloatButton
+                type="primary"
                 icon={<WhatsAppOutlined />}
                 className="social-icon"
                 onClick={() => {

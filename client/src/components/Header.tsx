@@ -343,6 +343,7 @@ const Header = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
+                        id="logo-img"
                     >
                         <img
                             alt={
@@ -417,7 +418,7 @@ const Header = () => {
                         </Dropdown>
                     </div>
                     <span
-                        className="separator small-screens"
+                        className="separator"
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -453,7 +454,7 @@ const Header = () => {
                                 </span>
                             </div>
                             <span
-                                className="separator small-screens"
+                                className="separator"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -511,7 +512,7 @@ const Header = () => {
                                 </span>
                             </div>
                             <span
-                                className="separator small-screens"
+                                className="separator"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -553,7 +554,7 @@ const Header = () => {
                         </>
                     )}
                     <span
-                        className="separator small-screens"
+                        className="separator"
                         style={{
                             display: 'flex',
                             alignItems: 'center',
